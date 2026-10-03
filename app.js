@@ -92,6 +92,7 @@ const restoreGame = () => {
     state.role = saved.role || null;
     state.world = { ...state.world, ...(saved.world || {}) };
     goTo(state.screen);
+    renderWorld();
   } catch {
     localStorage.removeItem(SAVE_KEY);
   }
