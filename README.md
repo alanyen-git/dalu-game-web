@@ -69,3 +69,21 @@
 
 
 - 美術與介面採單一視覺設定，不使用拼湊式元件。
+
+
+## Android debug build
+
+
+GitHub Actions builds an installable debug APK with the game files bundled for offline startup. Download the latest successful “Android Debug APK” artifact from Actions and sideload app-debug.apk on an Android device. The artifact is retained for 30 days. This debug-signed APK is for device QA, not a Google Play release.
+
+For a local build, install Node.js 22, Java 21, and the Android SDK. Run:
+
+```sh
+npm install
+npm run test:pwa
+npm run prepare:android
+npm run test:android-bundle
+npx cap add android
+npx cap sync android
+cd android && ./gradlew assembleDebug
+```
