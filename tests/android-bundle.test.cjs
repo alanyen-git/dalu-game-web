@@ -19,7 +19,7 @@ assert.ok(html.endsWith("</body></html>\n"), "Android app shell must be complete
 assert.equal(manifest.display, "standalone");
 assert.equal(version.pwa_manifest, true);
 for (const icon of manifest.icons) assert.ok(worker.includes(icon.src), icon.src + " must be cached offline");
-for (const script of ["./profession.js?v=0.4.15", "./formation.js?v=0.4.15", "./battle-ui.js?v=0.4.15", "./character-creation.js?v=0.4.15", "./qunlu-character-data.js?v=0.4.15"]) {
+for (const script of ["./profession.js?v=0.4.16", "./formation.js?v=0.4.16", "./battle-ui.js?v=0.4.16", "./character-creation.js?v=0.4.16", "./qunlu-character-data.js?v=0.4.16"]) {
   assert.ok(html.includes(script), script + " must load in the app shell");
   assert.ok(worker.includes(script), script + " must be cached for offline play");
 }
