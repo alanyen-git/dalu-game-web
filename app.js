@@ -1,122 +1,56 @@
-const SAVE_KEY = "dalu-travel-log-save-v2";
+const SAVE_KEY = "dalu-travel-log-save-v3";
 const ROLE_LABELS = { hero: "主線英雄", hermit: "隱士", wanderer: "大陸旅人" };
 const NPC_HEROES = ["米拉・風泉", "伊瑟・鐘守", "洛塔・灰帆"];
-const state = {
-  screen: "journal",
-  eventOpen: false,
-  choices: 0,
-  role: null,
-  world: { day: 3, season: "春潮", threat: 18, npcHero: null, turns: 0 },
+const LOCATIONS = {
+  "wind-spring": { name: "風泉村", type: "聚落", settlement: "wind-spring", faction: "wind-spring-council", event: "bell", copy: "旅店、雜貨店、村政廳。地方狀態會隨世界日變化。" },
+  "mist-harbor": { name: "霧港村", type: "聚落", settlement: "mist-harbor", faction: "salt-road-guild", event: "harbor", copy: "鹽路商會交換情報，晚到的船總有一個不願說出口的理由。" },
+  "bell-hill": { name: "北坡鐘丘", type: "野外", settlement: "wind-spring", faction: "bell-temple", event: "bell", copy: "古老鐘丘，午夜後才會留下真正的腳印。" },
+  "salt-marsh": { name: "鹽潮荒野", type: "野外", settlement: "mist-harbor", faction: "salt-road-guild", event: "marsh", copy: "退潮後露出的白色鹽脊，拾荒者說荒野正在呼吸。" },
+  "sand-ruins": { name: "沉砂遺跡", type: "地城", settlement: "wind-spring", faction: "bell-temple", event: null, copy: "沉在沙下的舊城，通往鐘守 Boss 入口。" }
 };
-
-const toast = (message) => {
-  const node = document.querySelector(".toast");
-  node.textContent = message;
-  node.classList.add("show");
-  window.clearTimeout(toast.timer);
-  toast.timer = window.setTimeout(() => node.classList.remove("show"), 2200);
+const EVENTS = {
+  bell: { eyebrow: "自由事件・風泉村", title: "失落鐘聲", description: "北坡的鐘聲在午夜響起。村政廳希望你調查，神殿守門人則勸你不要靠近。", choices: [
+    { id: "village", label: "接受村政廳的委託", note: "風泉村繁榮 +8／信任 +5", result: "村民把沉砂遺跡的舊地圖交給你。", effect: { prosperity: { "wind-spring": 8 }, faction: { "wind-spring-council": 5 }, unlock: "sand-ruins" } },
+    { id: "temple", label: "先拜訪神殿守門人", note: "鐘守信任 +6／威脅 -3", result: "守門人標記了進入遺跡的安全路線。", effect: { threat: -3, faction: { "bell-temple": 6 }, unlock: "sand-ruins" } },
+    { id: "wait", label: "在旅店等待午夜", note: "取得線索／威脅 +2", result: "你聽見鐘聲裡混著潮汐，卻錯過第一個時機。", effect: { threat: 2 } }
+  ] },
+  harbor: { eyebrow: "自由事件・霧港村", title: "霧港的失約船", description: "商路上的船晚了一日，鹽路商會想知道是哪一方改了航線。", choices: [
+    { id: "guild", label: "替鹽路商會查航線", note: "商會信任 +7／霧港繁榮 +5", result: "商會將鹽潮荒野的安全路線交給你。", effect: { prosperity: { "mist-harbor": 5 }, faction: { "salt-road-guild": 7 } } },
+    { id: "villagers", label: "先把消息告訴等船的人", note: "霧港繁榮 +7／威脅 -1", result: "霧港的夜市重新亮起燈火。", effect: { prosperity: { "mist-harbor": 7 }, threat: -1 } }
+  ] },
+  marsh: { eyebrow: "自由事件・鹽潮荒野", title: "鹽脊下的呼吸", description: "鹽脊裂縫傳出規律回音，和沉砂遺跡的鐘聲很像。", choices: [
+    { id: "listen", label: "貼近裂縫聽完整段回音", note: "取得遺跡線索／威脅 -2", result: "你記下回音節拍，鐘守封印似乎少了一道。", effect: { threat: -2 } },
+    { id: "mark", label: "在鹽脊上留下警戒標記", note: "商會信任 +3／荒野安全", result: "鹽路商會開始把你視為可靠的探路人。", effect: { faction: { "salt-road-guild": 3 } } }
+  ] }
 };
-
-const goTo = (screen) => {
-  state.screen = screen;
-  document.querySelectorAll("[data-screen]").forEach((node) => node.classList.toggle("active", node.dataset.screen === screen));
-  document.querySelectorAll("[data-nav]").forEach((node) => node.classList.toggle("active", node.dataset.nav === screen));
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-const openEvent = () => {
-  const sheet = document.querySelector(".event-sheet");
-  sheet.classList.add("open");
-  sheet.setAttribute("aria-hidden", "false");
-};
-
-const closeEvent = () => {
-  const sheet = document.querySelector(".event-sheet");
-  sheet.classList.remove("open");
-  sheet.setAttribute("aria-hidden", "true");
-};
-
-const saveGame = () => {
-  localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 2, savedAt: new Date().toISOString(), screen: state.screen, choices: state.choices, role: state.role, world: state.world }));
-  toast("旅途已儲存至本機");
-};
-
-const renderWorld = () => {
-  const { world } = state;
-  const roleStatus = document.querySelector("#role-status");
-  const heroTitle = document.querySelector("#world-hero-title");
-  const heroCopy = document.querySelector("#world-hero-copy");
-  if (!roleStatus || !heroTitle || !heroCopy) return;
-  roleStatus.textContent = state.role ? ROLE_LABELS[state.role] : "尚未選擇";
-  document.querySelectorAll("[data-role]").forEach((node) => node.classList.toggle("selected", node.dataset.role === state.role));
-  document.querySelector("#world-day").textContent = String(world.day).padStart(2, "0");
-  document.querySelector("#world-threat").textContent = `${world.threat}%`;
-  document.querySelector("#world-season").textContent = world.season;
-  if (state.role === "hero") {
-    heroTitle.textContent = "你已承接天命";
-    heroCopy.textContent = "主線事件會主動向你靠攏，但世界仍會在你看不見的地方繼續運轉。";
-  } else if (world.npcHero) {
-    heroTitle.textContent = `${world.npcHero} 承接了天命`;
-    heroCopy.textContent = "你沒有成為英雄。新的英雄已經出現，主線將在另一條道路上前進。";
-  } else {
-    heroTitle.textContent = "天命尚未被承接";
-    heroCopy.textContent = "推進世界時鐘，觀察村落、勢力與候選英雄的變化。";
-  }
-};
-
-const chooseRole = (role) => {
-  state.role = role;
-  if (role === "hero") state.world.npcHero = null;
-  renderWorld();
-  saveGame();
-  toast(`人生路線已選擇：${ROLE_LABELS[role]}`);
-};
-
-const advanceWorld = () => {
-  state.world.day += 1;
-  state.world.turns += 1;
-  state.world.threat = Math.min(99, state.world.threat + (state.role === "hermit" ? 2 : 3));
-  if (!state.role && state.world.turns >= 2) state.world.npcHero = NPC_HEROES[(state.world.day + state.world.turns) % NPC_HEROES.length];
-  if (state.role && state.role !== "hero" && state.world.turns >= 2 && !state.world.npcHero) state.world.npcHero = NPC_HEROES[(state.world.day + state.world.turns) % NPC_HEROES.length];
-  renderWorld();
-  saveGame();
-  toast(state.world.npcHero ? `${state.world.npcHero} 已承接天命，世界進入新篇章` : `世界推進至第 ${state.world.day} 日`);
-};
-
-const restoreGame = () => {
-  try {
-    const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
-    if (!saved) return;
-    state.screen = saved.screen || "journal";
-    state.choices = Number(saved.choices || 0);
-    state.role = saved.role || null;
-    state.world = { ...state.world, ...(saved.world || {}) };
-    goTo(state.screen);
-    renderWorld();
-  } catch {
-    localStorage.removeItem(SAVE_KEY);
-  }
-};
-
-document.addEventListener("click", (event) => {
-  const nav = event.target.closest("[data-nav]");
-  if (nav) return goTo(nav.dataset.nav);
-  const action = event.target.closest("[data-action]");
-  if (action?.dataset.action === "open-event") return openEvent();
-  if (action?.dataset.action === "close-event") return closeEvent();
-  if (action?.dataset.action === "save") return saveGame();
-  if (action?.dataset.action === "advance-world") return advanceWorld();
-  const role = event.target.closest("[data-role]");
-  if (role) return chooseRole(role.dataset.role);
-  const choice = event.target.closest("[data-choice]");
-  if (choice) {
-    state.choices += 1;
-    closeEvent();
-    toast(`已記錄選擇：${choice.dataset.choice === "village" ? "接受村政廳的委託" : choice.dataset.choice === "temple" ? "拜訪神殿守門人" : "等待午夜鐘聲"}`);
-  }
-});
-
-renderWorld();
-restoreGame();
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js?v=0.2.0").catch(() => {}));
+const initialWorld = () => ({ day: 3, season: "春潮", threat: 18, turns: 0, npcHero: null, activeLocation: "wind-spring", settlements: { "wind-spring": 52, "mist-harbor": 38 }, factions: { "wind-spring-council": 12, "bell-temple": 0, "salt-road-guild": 0 }, unlocked: ["wind-spring", "mist-harbor", "bell-hill", "salt-marsh"], boss: false });
+const state = { screen: "journal", role: null, choices: 0, world: initialWorld() };
+const q = (s) => document.querySelector(s);
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const toast = (m) => { const n = q(".toast"); n.textContent = m; n.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => n.classList.remove("show"), 2400); };
+const save = (quiet) => { localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 3, state })); if (!quiet) toast("旅途已儲存至本機"); };
+function inject() {
+  const style = document.createElement("style"); style.textContent = ".world-status-card{display:grid;gap:12px;margin-top:12px;padding:17px;border:1px solid rgba(16,44,54,.1);border-radius:21px;background:#fffdf8}.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.status-grid div{padding:10px;border-radius:12px;background:#edf3ef}.status-grid small,.status-grid strong{display:block}.status-grid small{font-size:10px;color:#35545d}.status-grid strong{margin-top:4px;color:#225966;font-size:19px}.map-context{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding:17px;border-radius:19px;background:#102c36;color:#fff}.map-context h3{margin:0 0 5px}.map-context p{margin:0;color:rgba(255,255,255,.72);font-size:12px;line-height:1.6}.map-context button{color:#fff;border:1px solid rgba(255,255,255,.35);background:transparent;padding:9px 13px;border-radius:12px;font-weight:700}.map-node.active,.location-row.selected{outline:2px solid #3c8290}.map-node.locked{opacity:.45}.node-harbor{left:8%;top:17%}.node-marsh{left:14%;bottom:11%}"; document.head.appendChild(style);
+  const wc = q(".world-card"); if (!q(".world-status-card")) wc.insertAdjacentHTML("afterend", "<div class=\"world-status-card\"><div><p class=\"eyebrow\">地方化狀態</p><h3 id=\"region-status\">春潮海岸・風泉村</h3></div><div class=\"status-grid\"><div><small>聚落繁榮</small><strong id=\"settlement-prosperity\">52</strong></div><div><small>勢力信任</small><strong id=\"faction-reputation\">+12</strong></div><div><small>已解鎖</small><strong id=\"unlock-count\">4 / 5</strong></div></div><p id=\"world-status-copy\" class=\"status-copy\">事件結果會回寫聚落、勢力、地圖與 Boss 入口。</p></div>");
+  const map = q("[data-screen=map]"); const head = map.querySelector(".page-heading").outerHTML; map.innerHTML = head + "<div class=\"map-card\"><div class=\"map-sky\"></div><div class=\"map-route route-one\"></div><div class=\"map-route route-two\"></div><button class=\"map-node node-village\" data-action=\"location\" data-location=\"wind-spring\"><span>風泉村</span><small>聚落</small></button><button class=\"map-node node-harbor\" data-action=\"location\" data-location=\"mist-harbor\"><span>霧港村</span><small>聚落</small></button><button class=\"map-node node-hill\" data-action=\"location\" data-location=\"bell-hill\"><span>北坡鐘丘</span><small>野外</small></button><button class=\"map-node node-marsh\" data-action=\"location\" data-location=\"salt-marsh\"><span>鹽潮荒野</span><small>野外</small></button><button class=\"map-node node-ruin locked\" data-action=\"location\" data-location=\"sand-ruins\"><span>沉砂遺跡</span><small>地城・Boss</small></button></div><div class=\"map-context\"><div><p class=\"eyebrow\">目前目的地</p><h3 id=\"map-context-title\">風泉村</h3><p id=\"map-context-copy\"></p></div><button data-action=\"event\">查看事件</button></div><div class=\"location-list\"></div>";
+  const sheet = q(".sheet-panel"); sheet.innerHTML = "<button class=\"sheet-close\" data-action=\"close\" aria-label=\"關閉\">×</button><p class=\"eyebrow\" id=\"event-eyebrow\"></p><h2 id=\"event-title\"></h2><p id=\"event-description\"></p><div class=\"choice-list\" id=\"event-choices\"></div>";
+}
+function render() {
+  const w = state.world; const loc = LOCATIONS[w.activeLocation]; const faction = w.factions[loc.faction] || 0;
+  document.querySelectorAll("[data-role]").forEach((n) => n.classList.toggle("selected", n.dataset.role === state.role));
+  q("#role-status").textContent = state.role ? ROLE_LABELS[state.role] : "尚未選擇"; q("#world-day").textContent = String(w.day).padStart(2,"0"); q("#world-threat").textContent = w.threat + "%"; q("#world-season").textContent = w.season;
+  const meta = document.querySelectorAll(".hero-meta span"); if (meta[0]) meta[0].textContent = "第 " + w.day + " 日"; if (meta[1]) meta[1].textContent = loc.name + "・" + loc.type; if (meta[2]) meta[2].textContent = "回合 " + String(w.turns + 1).padStart(2,"0");
+  q("#world-hero-title").textContent = state.role === "hero" ? "你已承接天命" : w.npcHero ? w.npcHero + " 承接了天命" : "天命尚未被承接"; q("#world-hero-copy").textContent = state.role === "hero" ? "主線事件會主動向你靠攏，但世界仍會在你看不見的地方繼續運轉。" : w.npcHero ? "你沒有成為英雄。新的英雄已經出現，主線將在另一條道路上前進。" : "推進世界時鐘，觀察村落、勢力與候選英雄的變化。";
+  q("#region-status").textContent = "春潮海岸・" + loc.name; q("#settlement-prosperity").textContent = w.settlements[loc.settlement] || 0; q("#faction-reputation").textContent = (faction > 0 ? "+" : "") + faction; q("#unlock-count").textContent = w.unlocked.length + " / 5"; q("#world-status-copy").textContent = w.lastResult || "事件結果會回寫聚落、勢力、地圖與 Boss 入口。";
+  document.querySelectorAll("[data-location]").forEach((n) => { const ok = w.unlocked.indexOf(n.dataset.location) >= 0; n.classList.toggle("locked", !ok); n.classList.toggle("active", n.dataset.location === w.activeLocation); n.setAttribute("aria-disabled", String(!ok)); });
+  q("#map-context-title").textContent = loc.name; q("#map-context-copy").textContent = loc.copy; q(".map-context button").dataset.event = loc.event || ""; q(".map-context button").disabled = !loc.event; q(".map-context button").textContent = loc.event ? "查看事件" : (w.boss ? "鐘守已現身" : "尚未開放");
+  q(".location-list").innerHTML = Object.keys(LOCATIONS).map((id) => { const x = LOCATIONS[id]; const ok = w.unlocked.indexOf(id) >= 0; return "<button class=\"location-row " + (id === w.activeLocation ? "selected " : "") + (!ok ? "locked" : "") + "\" data-action=\"location\" data-location=\"" + id + "\"><span class=\"location-symbol\">◇</span><span><strong>" + x.name + "</strong><small>" + x.type + "・" + x.copy + "</small></span><span>" + (ok ? "›" : "鎖") + "</span></button>"; }).join("");
+}
+function openEvent(id) { const e = EVENTS[id]; if (!e) return toast("這個地點目前沒有事件"); q("#event-eyebrow").textContent = e.eyebrow; q("#event-title").textContent = e.title; q("#event-description").textContent = e.description; q("#event-choices").innerHTML = e.choices.map((c) => "<button class=\"choice-button\" data-action=\"choice\" data-event=\"" + id + "\" data-choice=\"" + c.id + "\"><strong>" + c.label + "</strong><span>" + c.note + "</span></button>").join(""); q(".event-sheet").classList.add("open"); q(".event-sheet").setAttribute("aria-hidden","false"); }
+function choice(id, cid) { const c = EVENTS[id].choices.find((x) => x.id === cid); if (!c) return; const e = c.effect || {}; state.world.threat = clamp(state.world.threat + (e.threat || 0),0,99); Object.keys(e.prosperity || {}).forEach((k) => state.world.settlements[k] = clamp(state.world.settlements[k] + e.prosperity[k],0,100)); Object.keys(e.faction || {}).forEach((k) => state.world.factions[k] = clamp(state.world.factions[k] + e.faction[k],-99,99)); if (e.unlock && state.world.unlocked.indexOf(e.unlock) < 0) state.world.unlocked.push(e.unlock); state.world.lastResult = c.result; state.choices++; q(".event-sheet").classList.remove("open"); render(); save(true); toast(c.result); }
+function advance() { const w = state.world; w.day++; w.turns++; w.threat = clamp(w.threat + (state.role === "hermit" ? 2 : 3),0,99); w.season = w.day >= 8 ? "盛夏" : "春潮"; w.settlements["wind-spring"] = clamp(w.settlements["wind-spring"] + (w.threat > 45 ? -1 : 1),0,100); if (!state.role || state.role !== "hero") if (w.turns >= 2 && !w.npcHero) w.npcHero = NPC_HEROES[(w.day + w.turns) % NPC_HEROES.length]; if (w.unlocked.indexOf("sand-ruins") >= 0 && w.day >= 6) w.boss = true; render(); save(); toast(w.npcHero ? w.npcHero + " 已承接天命" : "世界推進至第 " + w.day + " 日"); }
+function load() { try { const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || localStorage.getItem("dalu-travel-log-save-v2") || "null"); if (!raw) return; const old = raw.state || raw; state.role = old.role || null; state.choices = old.choices || 0; state.screen = old.screen || "journal"; state.world = Object.assign(initialWorld(), old.world || {}); } catch (e) { localStorage.removeItem(SAVE_KEY); } }
+document.addEventListener("click", (ev) => { const n = ev.target.closest("[data-nav]"); if (n) { state.screen = n.dataset.nav; document.querySelectorAll("[data-screen]").forEach((x) => x.classList.toggle("active", x.dataset.screen === state.screen)); document.querySelectorAll("[data-nav]").forEach((x) => x.classList.toggle("active", x.dataset.nav === state.screen)); return; } const a = ev.target.closest("[data-action]"); if (!a) return; if (a.dataset.action === "role") { state.role = a.dataset.role; if (state.role === "hero") state.world.npcHero = null; render(); save(); return; } if (a.dataset.action === "advance-world") return advance(); if (a.dataset.action === "open-event") return openEvent(a.dataset.event || "bell"); if (a.dataset.action === "event") return openEvent(a.dataset.event); if (a.dataset.action === "choice") return choice(a.dataset.event,a.dataset.choice); if (a.dataset.action === "close") { q(".event-sheet").classList.remove("open"); return; } if (a.dataset.action === "location") { if (state.world.unlocked.indexOf(a.dataset.location) < 0) return toast("這個地點尚未解鎖"); state.world.activeLocation = a.dataset.location; render(); save(true); toast("目的地已切換：" + LOCATIONS[a.dataset.location].name); } });
+document.querySelectorAll("[data-role]").forEach((n) => n.dataset.action = "role");
+inject(); load(); render();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js?v=0.3.0").catch(() => {});
