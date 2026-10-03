@@ -1,4 +1,4 @@
-const CACHE = "dalu-travel-log-v0.1.0";
+const CACHE = "dalu-travel-log-v0.2.0";
 const ASSETS = ["./", "./index.html", "./styles.css", "./app.js", "./app.webmanifest"];
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS))));
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
