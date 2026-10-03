@@ -6,7 +6,7 @@ const web = path.join(root, "www");
 const required = [
   "index.html", "styles.css", "map-navigation.css", "art-direction.css",
   "event-system.js", "app.js", "map-navigation.js", "battle.js",
-  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "service-worker.js", "app.webmanifest", "version.json",
+  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "qunlu-character-data.js", "service-worker.js", "app.webmanifest", "version.json",
   "assets/art/app-icon-192.png", "assets/art/app-icon-512.png"
 ];
 for (const file of required) assert.ok(fs.existsSync(path.join(web, file)), "Android bundle is missing " + file);
@@ -19,7 +19,7 @@ assert.ok(html.endsWith("</body></html>\n"), "Android app shell must be complete
 assert.equal(manifest.display, "standalone");
 assert.equal(version.pwa_manifest, true);
 for (const icon of manifest.icons) assert.ok(worker.includes(icon.src), icon.src + " must be cached offline");
-for (const script of ["./profession.js?v=0.4.15", "./formation.js?v=0.4.15", "./battle-ui.js?v=0.4.15", "./character-creation.js?v=0.4.15"]) {
+for (const script of ["./profession.js?v=0.4.15", "./formation.js?v=0.4.15", "./battle-ui.js?v=0.4.15", "./character-creation.js?v=0.4.15", "./qunlu-character-data.js?v=0.4.15"]) {
   assert.ok(html.includes(script), script + " must load in the app shell");
   assert.ok(worker.includes(script), script + " must be cached for offline play");
 }
