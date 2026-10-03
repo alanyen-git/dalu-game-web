@@ -118,4 +118,4 @@ document.addEventListener("click", (event) => {
 renderWorld();
 restoreGame();
 
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js?v=0.2.0").catch(() => {}));
