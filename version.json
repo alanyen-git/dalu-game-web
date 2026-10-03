@@ -1,8 +1,8 @@
 {
   "game": "大陸旅誌",
   "slug": "dalu-game-web",
-  "version": "0.4.15",
-  "build": "dalu-0.4.15",
+  "version": "0.4.16",
+  "build": "dalu-0.4.16",
   "channel": "new-project",
   "free_event_ratio_target": 0.6,
   "offline_save": true,
