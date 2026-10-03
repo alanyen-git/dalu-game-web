@@ -1,8 +1,8 @@
 {
   "game": "大陸旅誌",
   "slug": "dalu-game-web",
-  "version": "0.4.17",
-  "build": "dalu-0.4.17",
+  "version": "0.4.18",
+  "build": "dalu-0.4.18",
   "channel": "new-project",
   "free_event_ratio_target": 0.6,
   "offline_save": true,
@@ -28,5 +28,8 @@
   "main_story_opt_in": true,
   "battle_command_menu": ["attack", "skill", "defend", "item", "formation", "auto"],
   "orientation": "landscape",
-  "source_database": {"repository": "alanyen-git/qunlu-game-web", "revision": "0025a0783dbaf0358ed17dbfb831ecfe8609aa15", "read_only": true}
+  "source_database": {"repository": "alanyen-git/qunlu-game-web", "revision": "0025a0783dbaf0358ed17dbfb831ecfe8609aa15", "read_only": true},
+  "save_schema_version": 4,
+  "save_migration_sources": ["v2", "v3"],
+  "save_backup_recovery": true
 }

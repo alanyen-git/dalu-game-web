@@ -6,7 +6,7 @@ const web = path.join(root, "www");
 const required = [
   "index.html", "styles.css", "map-navigation.css", "art-direction.css",
   "event-system.js", "app.js", "map-navigation.js", "battle.js",
-  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "qunlu-character-data.js", "service-worker.js", "app.webmanifest", "version.json",
+  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "qunlu-character-data.js", "save-system.js", "service-worker.js", "app.webmanifest", "version.json",
   "assets/art/app-icon-192.png", "assets/art/app-icon-512.png"
 ];
 for (const file of required) assert.ok(fs.existsSync(path.join(web, file)), "Android bundle is missing " + file);
@@ -18,8 +18,10 @@ const worker = fs.readFileSync(path.join(web, "service-worker.js"), "utf8");
 assert.ok(html.endsWith("</body></html>\n"), "Android app shell must be complete");
 assert.equal(manifest.display, "standalone");
 assert.equal(version.pwa_manifest, true);
+assert.equal(version.save_schema_version, 4);
+assert.ok(html.includes('data-action="restore-save"'), "Save restore must be reachable in settings");
 for (const icon of manifest.icons) assert.ok(worker.includes(icon.src), icon.src + " must be cached offline");
-for (const script of ["./profession.js?v=0.4.17", "./formation.js?v=0.4.17", "./battle-ui.js?v=0.4.17", "./character-creation.js?v=0.4.17", "./qunlu-character-data.js?v=0.4.17"]) {
+for (const script of ["./profession.js?v=0.4.18", "./formation.js?v=0.4.18", "./battle-ui.js?v=0.4.18", "./character-creation.js?v=0.4.18", "./qunlu-character-data.js?v=0.4.18", "./save-system.js?v=0.4.18"]) {
   assert.ok(html.includes(script), script + " must load in the app shell");
   assert.ok(worker.includes(script), script + " must be cached for offline play");
 }
