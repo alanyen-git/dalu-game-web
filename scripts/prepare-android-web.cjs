@@ -6,7 +6,7 @@ const webDir = path.join(root, "www");
 const files = [
   "index.html", "styles.css", "map-navigation.css", "art-direction.css",
   "event-system.js", "app.js", "map-navigation.js", "battle.js",
-  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "service-worker.js", "app.webmanifest", "version.json"
+  "profession.js", "formation.js", "battle-ui.js", "character-creation.js", "qunlu-character-data.js", "service-worker.js", "app.webmanifest", "version.json"
 ];
 
 async function main() {
