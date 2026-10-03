@@ -9,7 +9,7 @@
   "display": "standalone",
   "background_color": "#f5f1e8",
   "theme_color": "#102c36",
-  "orientation": "portrait",
+  "orientation": "landscape",
   "prefer_related_applications": false,
   "icons": [
     { "src": "./assets/art/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
