@@ -1,0 +1,11 @@
+{
+  "name": "大陸旅誌",
+  "short_name": "大陸旅誌",
+  "description": "手機優先的原創回合制 RPG",
+  "lang": "zh-Hant-TW",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#102c36",
+  "orientation": "portrait"
+}
