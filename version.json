@@ -1,8 +1,8 @@
 {
   "game": "大陸旅誌",
   "slug": "dalu-game-web",
-  "version": "0.3.0",
-  "build": "dalu-0.3.0",
+  "version": "0.4.0",
+  "build": "dalu-0.4.0",
   "channel": "new-project",
   "free_event_ratio_target": 0.6,
   "offline_save": true,
@@ -10,5 +10,8 @@
   "localized_event_graph": true,
   "vertical_slice_locations": 5,
   "boss_entry": "bell-warden",
+  "combat_vertical_slice": true,
+  "combat_features": ["timeline", "front_back_rows", "target_shapes", "guard", "healing"],
   "source_repo": "alanyen-git/dalu-game-web"
 }
+
