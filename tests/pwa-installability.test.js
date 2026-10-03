@@ -34,8 +34,14 @@ assert.ok(html.endsWith("</body></html>\n"), "homepage must have closing documen
 assert.equal((html.match(/data-screen=/g) || []).length, 4, "homepage must contain all four app screens");
 assert.equal((html.match(/data-nav=/g) || []).length, 4, "homepage must contain all four navigation destinations");
 assert.match(html, /app\.webmanifest/);
-assert.match(app, /service-worker\.js\?v=0\.4\.13/);
-assert.equal(version.version, "0.4.13");
+assert.match(app, /service-worker\.js\?v=0\.4\.15/);
+assert.equal(version.version, "0.4.15");
+assert.equal(manifest.orientation, "landscape");
+assert.match(html, /character-creation\.js/);
+assert.match(html, /battle-ui\.js/);
+assert.match(html, /qunlu-game-web/);
+assert.match(worker, /character-creation\.js/);
+assert.match(worker, /battle-ui\.js/);
 assert.equal(version.pwa_manifest, true);
 
 console.log("PWA manifest, icons, offline precache, and complete app shell verified.");
