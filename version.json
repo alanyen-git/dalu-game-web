@@ -1,8 +1,8 @@
 {
   "game": "大陸旅誌",
   "slug": "dalu-game-web",
-  "version": "0.4.8",
-  "build": "dalu-0.4.8",
+  "version": "0.4.9",
+  "build": "dalu-0.4.9",
   "channel": "new-project",
   "free_event_ratio_target": 0.6,
   "offline_save": true,
@@ -22,6 +22,8 @@
   ],
   "source_repo": "alanyen-git/dalu-game-web",
   "three_layer_map": true,
+  "art_direction": "潮痕行旅 v1.0",
+  "art_assets": ["tidebook-shoreline.svg", "dalu-emblem.svg"],
   "travel_modes": [
     "foot",
     "carriage",
