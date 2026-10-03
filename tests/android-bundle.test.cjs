@@ -11,11 +11,12 @@ const required = [
 ];
 for (const file of required) assert.ok(fs.existsSync(path.join(web, file)), "Android bundle is missing " + file);
 
+
 const html = fs.readFileSync(path.join(web, "index.html"), "utf8");
 const manifest = JSON.parse(fs.readFileSync(path.join(web, "app.webmanifest"), "utf8"));
 const version = JSON.parse(fs.readFileSync(path.join(web, "version.json"), "utf8"));
 const worker = fs.readFileSync(path.join(web, "service-worker.js"), "utf8");
-assert.ok(html.endsWith("</body></html>\n"), "Android app shell must be complete");
+assert.ok(html.trimEnd().endsWith("</body></html>"), "Android app shell must be complete");
 assert.equal(manifest.display, "standalone");
 assert.equal(version.pwa_manifest, true);
 assert.equal(version.save_schema_version, 4);
@@ -28,3 +29,4 @@ for (const script of ["./profession.js?v=0.4.18", "./formation.js?v=0.4.18", "./
 const cachedAssets = worker.split("\"").filter((value) => value.startsWith("./assets/"));
 for (const file of cachedAssets) assert.ok(fs.existsSync(path.join(web, file.replace(/^\.\//, ""))), "Offline cache asset is missing " + file);
 console.log("Android web bundle contains the complete app shell and all precached assets.");
+
