@@ -34,8 +34,8 @@ assert.ok(html.endsWith("</body></html>\n"), "homepage must have closing documen
 assert.equal((html.match(/data-screen=/g) || []).length, 4, "homepage must contain all four app screens");
 assert.equal((html.match(/data-nav=/g) || []).length, 4, "homepage must contain all four navigation destinations");
 assert.match(html, /app\.webmanifest/);
-assert.match(app, /service-worker\.js\?v=0\.4\.12/);
-assert.equal(version.version, "0.4.12");
+assert.match(app, /service-worker\.js\?v=0\.4\.13/);
+assert.equal(version.version, "0.4.13");
 assert.equal(version.pwa_manifest, true);
 
 console.log("PWA manifest, icons, offline precache, and complete app shell verified.");
