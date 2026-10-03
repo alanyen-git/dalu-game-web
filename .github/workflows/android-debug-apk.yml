@@ -7,6 +7,8 @@ on:
       - "index.html"
       - "app.js"
       - "battle.js"
+      - "battle-ui.js"
+      - "character-creation.js"
       - "event-system.js"
       - "map-navigation.js"
       - "styles.css"
@@ -43,6 +45,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Verify PWA and prepare Android bundle
         run: |
+          node scripts/import-qunlu-catalog.cjs
           npm run test:pwa
           npm run prepare:android
           npm run test:android-bundle
