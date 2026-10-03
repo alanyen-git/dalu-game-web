@@ -39,7 +39,7 @@ assert.equal(version.version, "0.4.15");
 assert.equal(manifest.orientation, "landscape");
 assert.match(html, /character-creation\.js/);
 assert.match(html, /battle-ui\.js/);
-assert.match(html, /qunlu-game-web/);
+assert.match(html, /qunlu-character-data\.js/);
 assert.match(worker, /character-creation\.js/);
 assert.match(worker, /battle-ui\.js/);
 assert.equal(version.pwa_manifest, true);
