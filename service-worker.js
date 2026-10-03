@@ -1,5 +1,5 @@
-const CACHE = "dalu-travel-log-v0.4.4";
-const ASSETS = ["./", "./index.html?v=0.4.4", "./styles.css?v=0.4.4", "./app.js?v=0.4.4", "./battle.js?v=0.4.4", "./app.webmanifest", "./version.json"];
+const CACHE = "dalu-travel-log-v0.4.5";
+const ASSETS = ["./", "./index.html?v=0.4.5", "./styles.css?v=0.4.5", "./app.js?v=0.4.5", "./battle.js?v=0.4.5", "./app.webmanifest", "./version.json"];
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS))));
 self.addEventListener("activate", (event) => event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith("dalu-travel-log-") && key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener("fetch", (event) => {
