@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -8,6 +9,9 @@ const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const worker = fs.readFileSync(path.join(root, "service-worker.js"), "utf8");
 const version = JSON.parse(fs.readFileSync(path.join(root, "version.json"), "utf8"));
+
+const syntax = spawnSync(process.execPath, ["--check", path.join(root, "app.js")], { encoding: "utf8" });
+assert.equal(syntax.status, 0, `app.js must parse: ${syntax.stderr}`);
 
 assert.equal(manifest.name, "大陸旅誌");
 assert.equal(manifest.short_name, "大陸旅誌");
