@@ -1,8 +1,8 @@
 {
   "game": "大陸旅誌",
   "slug": "dalu-game-web",
-  "version": "0.4.13",
-  "build": "dalu-0.4.13",
+  "version": "0.4.15",
+  "build": "dalu-0.4.15",
   "channel": "new-project",
   "free_event_ratio_target": 0.6,
   "offline_save": true,
@@ -11,16 +11,72 @@
   "vertical_slice_locations": 5,
   "boss_entry": "bell-warden",
   "combat_vertical_slice": true,
-  "combat_features": ["timeline", "front_back_rows", "target_shapes", "guard", "healing", "formation_switch", "fixed_seed_regression"],
+  "combat_features": [
+    "timeline",
+    "front_back_rows",
+    "target_shapes",
+    "guard",
+    "healing",
+    "formation_switch",
+    "fixed_seed_regression"
+  ],
   "source_repo": "alanyen-git/dalu-game-web",
   "three_layer_map": true,
   "art_direction": "潮痕行旅 v1.1",
-  "art_assets": ["tidebook-shoreline.svg", "dalu-emblem.svg", "portraits/loen.svg", "portraits/idda.svg", "portraits/warden.svg", "portraits/salt-hound.svg", "app-icon.svg", "app-icon-192.png", "app-icon-512.png"],
-  "travel_modes": ["foot", "carriage", "ferry"],
+  "art_assets": [
+    "tidebook-shoreline.svg",
+    "dalu-emblem.svg",
+    "portraits/loen.svg",
+    "portraits/idda.svg",
+    "portraits/warden.svg",
+    "portraits/salt-hound.svg",
+    "app-icon.svg",
+    "app-icon-192.png",
+    "app-icon-512.png"
+  ],
+  "travel_modes": [
+    "foot",
+    "carriage",
+    "ferry"
+  ],
   "local_event_pool_entries": 16,
-  "event_result_writeback": ["map", "npc", "shop", "commission", "prosperity", "faction", "threat", "flags"],
+  "event_result_writeback": [
+    "map",
+    "npc",
+    "shop",
+    "commission",
+    "prosperity",
+    "faction",
+    "threat",
+    "flags"
+  ],
   "event_outcome_history": true,
   "event_outcome_deduplication": true,
   "pwa_manifest": true,
-  "pwa_install_icons": ["192x192", "512x512"]
+  "pwa_install_icons": [
+    "192x192",
+    "512x512"
+  ],
+  "character_creation": "Qunlu legacy character database",
+  "character_fields": [
+    "race",
+    "origin",
+    "combat_class",
+    "talents"
+  ],
+  "main_story_opt_in": true,
+  "battle_command_menu": [
+    "attack",
+    "skill",
+    "defend",
+    "item",
+    "formation",
+    "auto"
+  ],
+  "orientation": "landscape",
+  "source_database": {
+    "repository": "alanyen-git/qunlu-game-web",
+    "revision": "0025a0783dbaf0358ed17dbfb831ecfe8609aa15",
+    "read_only": true
+  }
 }
