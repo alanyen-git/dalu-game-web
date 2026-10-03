@@ -8,3 +8,14 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .role-card.selected,.map-place-card.selected,.travel-mode.selected{border-color:var(--dalu-tide);box-shadow:0 0 0 2px rgba(60,130,144,.18)}
 @media(max-width:480px){.hero-card{min-height:300px;background-position:center,right center}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Original portraits for the party and combat cards. */
+.portrait{width:68px;height:82px;background-position:center 17%;background-size:cover;color:transparent;overflow:hidden}
+.portrait-a{background-image:url("./assets/art/portraits/loen.svg")}
+.portrait-b{background-image:url("./assets/art/portraits/idda.svg")}
+.combat-unit .unit-avatar{width:42px;height:48px;background-position:center 16%;background-size:cover;color:transparent}
+.combat-unit.ally-a .unit-avatar{background-image:url("./assets/art/portraits/loen.svg")}
+.combat-unit.ally-b .unit-avatar{background-image:url("./assets/art/portraits/idda.svg")}
+.combat-unit.enemy-beast .unit-avatar{background-image:url("./assets/art/portraits/salt-hound.svg")}
+.combat-unit.enemy-boss .unit-avatar{background-image:url("./assets/art/portraits/warden.svg")}
