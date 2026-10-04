@@ -356,3 +356,24 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 
 /* REGIONAL-NPC-SPEAKER-1.0 */
 .art-dialogue-speaker{display:block;max-width:100%;overflow-wrap:anywhere;white-space:normal}
+
+/* XUANYUAN-GEAR-DETAIL-1.0 */
+.xu-gear-detail{margin:8px 0 14px;padding:12px;border:1px solid #96774b;border-radius:12px;background:linear-gradient(145deg,#0e1d27ed,#09131bed)}
+.xu-gear-detail-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;color:#f0d9a6}
+.xu-gear-slot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.xu-gear-slot{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:2px 7px;min-width:0;padding:8px;border:1px solid #b18d5155;border-radius:9px;background:#13232bcc}
+.xu-gear-slot.empty{opacity:.66}
+.xu-gear-icon{grid-row:span 3;width:30px;height:30px;display:grid;place-items:center;border-radius:7px;background:#273443}
+.xu-gear-icon svg{width:24px;height:24px}
+.xu-gear-slot>b,.xu-gear-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#f0d9a6;font-size:.82rem}
+.xu-gear-slot .small{font-size:.7rem;color:#b9c4cb}
+.xu-gear-bar{grid-column:2;height:5px;overflow:hidden;border-radius:9px;background:#34434b}
+.xu-gear-bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#4da984,#d1ad62)}
+.xu-gear-slot[data-condition="worn"] .xu-gear-bar i{background:#d08b49}
+.xu-gear-slot[data-condition="broken"] .xu-gear-bar i{background:#b85348}
+.xu-gear-bonus-panel{margin-top:10px;padding-top:9px;border-top:1px solid #b18d5155}
+.xu-gear-bonus-panel>b{display:block;color:#f0d9a6}
+.xu-gear-bonus-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:8px}
+.xu-gear-bonus{display:flex;justify-content:space-between;gap:5px;padding:6px;border-radius:6px;background:#15232b;color:#d4d9d9;font-size:.76rem}
+.xu-gear-bonus b{color:#a9d9b9;white-space:nowrap}
+@media(max-width:560px){.xu-gear-detail{padding:9px}.xu-gear-slot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.xu-gear-slot{padding:6px;grid-template-columns:26px minmax(0,1fr);gap:2px 5px}.xu-gear-icon{width:24px;height:24px}.xu-gear-icon svg{width:20px;height:20px}.xu-gear-bonus-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.xu-gear-bonus{font-size:.7rem;padding:5px}}

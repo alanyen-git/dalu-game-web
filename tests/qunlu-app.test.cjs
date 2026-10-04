@@ -6,7 +6,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -43,6 +43,7 @@ assert.ok(html.includes('src/town-home-ui.js'), "town home module must load");
 assert.ok(html.includes('src/event-portrait-ui.js'), "event portraits must load");
 assert.ok(html.includes('src/npc-speaker.js'), "regional dialogue speaker resolver must load");
 assert.ok(html.includes('src/inventory-art-ui.js'), "inventory and skill icons must load");
+assert.ok(html.includes('src/equipment-detail-ui.js'),"equipment detail module must load after runtime");
 assert.ok(fs.readFileSync(path.join(app,"src/inventory-art-ui.js"),"utf8").includes("item-skill-icons.svg#"), "inventory art uses original SVG icons");
 assert.ok(fs.readFileSync(path.join(app,"assets/art/maps/stone-vault.svg"),"utf8").includes("connected chamber rooms"), "dungeon artwork must include rooms and corridors");
 assert.equal(html.includes('data-nav="adventure"'), false, "legacy adventure-home nav must be gone");
@@ -60,7 +61,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v28"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v29"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -72,18 +73,21 @@ assert.ok(mapSource.includes('?"mountain":') && mapSource.includes('?"river":'),
 require("./qunlu-apk-update.test.cjs");
 require("./map-controls.test.cjs");
 require("./npc-speaker.test.cjs");
+require("./equipment-detail-ui.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
 
 const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v28"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v29"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.8");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
 assert.ok(dungeonMap.includes("function dungeonIndex(l)")&&dungeonMap.includes("G.explorationIntel"),"dungeon map must reflect saved exploration records");
 assert.ok(sw.includes("npc-speaker.js"),"regional speaker resolver must be available offline");
+assert.ok(sw.includes("equipment-detail-ui.js"),"equipment detail module must be available offline");
+assert.equal(version.character_equipment_revision,"EQUIPMENT-DETAIL-1.0");
 assert.ok(dungeonMap.includes("encounter_profile")&&dungeonMap.includes("xu-dungeon-index"),"dungeon scenes and indexes must use existing dungeon data");
 assert.ok(mapTheme.includes("XUANYUAN-DUNGEON-INDEX-1.0"),"dungeon discovery index must use responsive original styling");
 assert.equal(version.dungeon_index_revision,"DUNGEON-INDEX-1.0");
