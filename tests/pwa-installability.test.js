@@ -8,12 +8,17 @@ const root = path.join(__dirname, "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "app.webmanifest"), "utf8"));
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
+const battle = fs.readFileSync(path.join(root, "battle.js"), "utf8");
+const update = fs.readFileSync(path.join(root, "app-update.js"), "utf8");
 const worker = fs.readFileSync(path.join(root, "service-worker.js"), "utf8");
 const version = JSON.parse(fs.readFileSync(path.join(root, "version.json"), "utf8"));
+const packageInfo = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 
 
-const syntax = spawnSync(process.execPath, ["--check", path.join(root, "app.js")], { encoding: "utf8" });
-assert.equal(syntax.status, 0, `app.js must parse: ${syntax.stderr}`);
+for (const file of ["region-content.js", "app.js", "battle.js", "battle-ui.js", "app-update.js", "character-creation.js", "character-data.js", "character-growth.js", "profession.js", "story-progression.js", "service-worker.js"]) {
+  const syntax = spawnSync(process.execPath, ["--check", path.join(root, file)], { encoding: "utf8" });
+  assert.equal(syntax.status, 0, `${file} must parse: ${syntax.stderr}`);
+}
 
 
 assert.equal(manifest.name, "大陸旅誌");
@@ -39,3 +44,19 @@ assert.ok(html.trimEnd().endsWith("</body></html>"), "homepage must have closing
 assert.equal((html.match(/data-screen=/g) || []).length, 4, "homepage must contain all four app screens");
 assert.equal((html.match(/data-nav=/g) || []).length, 4, "homepage must contain all four navigation destinations");
 assert.match(html, /app\.webmanifest/);
+assert.ok(html.includes("app-update.js?v=" + packageInfo.version));
+assert.ok(html.indexOf("character-growth.js?v=" + packageInfo.version) < html.indexOf("app.js?v=" + packageInfo.version), "growth must initialize before the game state");
+assert.ok(html.includes("character-data.js?v=" + packageInfo.version), "character creation uses the local Dalu catalog");
+assert.ok(worker.includes("./character-growth.js?v=" + packageInfo.version), "growth module must be cached for offline startup");
+assert.ok(worker.includes("./character-data.js?v=" + packageInfo.version), "Dalu character catalog must be cached for offline startup");
+assert.ok(worker.includes("./region-content.js?v=" + packageInfo.version), "regional content must be cached for offline startup");
+assert.ok(!html.includes("qunlu-character-data") && !worker.includes("qunlu-character-data"), "Dalu must remain independent of the other project");
+assert.equal(version.version, packageInfo.version, "public build version must match the Android package version");
+assert.equal((app + battle).includes("serviceWorker.register"), false, "game screens must not register duplicate service workers");
+assert.equal((update.match(/serviceWorker\.register/g) || []).length, 1, "the app updater must register the service worker once");
+assert.match(update, /updateViaCache: "none"/);
+assert.match(update, /getDiagnostics/);
+assert.match(worker, /SKIP_WAITING/);
+assert.match(worker, /caches\.delete\(CACHE\)/);
+assert.ok(worker.includes("./app-update.js?v=" + packageInfo.version), "update manager must be precached for offline startup");
+assert.ok(worker.includes("dalu-travel-log-v" + packageInfo.version), "service worker cache must match the app version");
