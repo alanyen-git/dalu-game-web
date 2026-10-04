@@ -1,11 +1,13 @@
 {
-  "version": "CURRENT-1.71.0",
-  "previous_version": "CURRENT-1.70.0",
+  "version": "CURRENT-1.72.0",
+  "previous_version": "CURRENT-1.71.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "城鎮地圖成為旅人首頁；整合可用行動、旅人狀態、旅誌及角色／背包／委託入口，移除獨立城鎮設施行動。",
+  "summary": "加入柳橋鎮原創俯視場景與森林、石窟地城底圖；首頁設施與旅途路線維持可互動，並更新離線美術快取。",
   "changelog": [
+    "新增柳橋鎮街廓、城門、河道與建築屋頂原創地圖底圖，並加入森林野外與石窟地城場景；保留設施、路線與地點入口互動。",
+    "新增 3 款原創 SVG 場景美術並納入 PWA 離線快取；世界資料、戰鬥規則與存檔格式維持相容。",
     "以城鎮地圖取代原冒險首頁，整合可用行動、旅人狀態、旅誌與角色資料入口。",
     "移除「城鎮設施」行動按鍵，改由公會、商鋪、酒館、旅館及教會等城鎮地標直接互動。",
     "建立《軒轅劍三》體驗 60% 美術與內容覆蓋路線圖，涵蓋地圖、場景、角色、戰鬥、對話及介面。",
@@ -35,8 +37,9 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.2",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.3",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v15",
-  "home_ui_revision": "TOWN-MAP-HOME-1.0"
+  "pwa_cache_revision": "v16",
+  "home_ui_revision": "TOWN-MAP-HOME-1.0",
+  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.0"
 }
