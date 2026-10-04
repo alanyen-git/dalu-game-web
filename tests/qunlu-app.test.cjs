@@ -10,6 +10,8 @@ for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
+const version = JSON.parse(fs.readFileSync(path.join(app, "version.json"), "utf8"));
+assert.ok(html.includes(version.version), "app title must match the published version");
 assert.ok(html.includes('src/game-data.js'));
 assert.ok(html.includes('src/runtime.js'));
 assert.ok(html.includes('assets/css/app-theme.css'));
