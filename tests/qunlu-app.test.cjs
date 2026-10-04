@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const vm = require("node:vm");
 const fs = require("node:fs");
 const path = require("node:path");
 const root = path.join(__dirname, "..");
@@ -50,6 +51,14 @@ const itemSkillIcons=fs.readFileSync(path.join(app,"assets/art/item-skill-icons.
 for(const icon of ["heal","shield","poison","lightning","summon","status"])assert.ok(itemSkillIcons.includes(`symbol id="${icon}"`),"skill effect art must exist for "+icon);
 assert.ok(inventoryArt.includes("const skillRules=")&&inventoryArt.includes("add(el,el.textContent||\"\",true)"),"skills must select effect-specific icons");
 assert.equal(version.item_skill_icon_revision,"ITEM-SKILL-ICONS-2.0");
+const iconSandbox={window:{},document:{querySelector:()=>null},MutationObserver:class{},requestAnimationFrame:fn=>fn()};
+vm.runInNewContext(inventoryArt.replace("function iconFor","window.iconFor=iconFor; function iconFor"),iconSandbox);
+assert.equal(iconSandbox.window.iconFor("治療術",true),"heal");
+assert.equal(iconSandbox.window.iconFor("盾牆",true),"shield");
+assert.equal(iconSandbox.window.iconFor("連鎖閃電",true),"lightning");
+assert.equal(iconSandbox.window.iconFor("召喚靈獸",true),"summon");
+assert.equal(iconSandbox.window.iconFor("生命藥劑",false),"potion");
+assert.equal(iconSandbox.window.iconFor("鐵盾",false),"armor");
 assert.ok(fs.readFileSync(path.join(app,"assets/art/maps/stone-vault.svg"),"utf8").includes("connected chamber rooms"), "dungeon artwork must include rooms and corridors");
 assert.equal(html.includes('data-nav="adventure"'), false, "legacy adventure-home nav must be gone");
 assert.ok(html.includes('data-nav="home"'), "town map is the home nav");
