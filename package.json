@@ -5,6 +5,7 @@
   "description": "大陸旅誌 Android debug package builder",
   "scripts": {
     "test": "npm run test:update && npm run test:save && npm run test:combat && npm run test:story && npm run test:character-growth && npm run test:pwa && node tests/audit-free-events.test.js && node tests/map-navigation.test.js && npm run test:region-content && node tests/build-safety.test.cjs",
+    "import:qunlu": "node scripts/import-qunlu-character-catalog.cjs",
     "test:pwa": "node tests/pwa-installability.test.js",
     "prepare:android": "node scripts/prepare-android-web.cjs",
     "test:android-bundle": "node tests/android-bundle.test.cjs",
