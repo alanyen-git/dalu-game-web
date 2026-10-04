@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.81.0",
-  "previous_version": "CURRENT-1.80.0",
+  "version": "CURRENT-1.82.0",
+  "previous_version": "CURRENT-1.81.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "對話立繪優先連動既有說話者職務並顯示職務標籤。",
+  "summary": "場景對話依地區設施連動角色原型，首次遇見時用文化命名並保存姓名。",
   "changelog": [
+    "場景對話連動目前地區及設施的既有NPC原型，依文化命名規則首次產生姓名，並存入相容的世界存檔；顯示個人姓名、職務及原創肖像。",
     "對話立繪優先依既有說話者職務選用原創肖像，並顯示無姓名推定的職務標籤；不為通用對話編造具名角色。",
     "18 處既有地下城顯示各自的五項探索索引、資料權重及旅誌記錄狀態，並依地城類型套用原創場景；不虛構房間座標。",
     "世界、政體、行省、當地及城鎮地圖加入觸控拖曳、放大／縮小與重設，並保留節點原有互動。",
@@ -58,9 +59,10 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.8",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v25",
+  "pwa_cache_revision": "v26",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
-  "dialogue_portrait_revision": "DIALOGUE-PORTRAIT-1.0"
+  "dialogue_portrait_revision": "DIALOGUE-PORTRAIT-1.0",
+  "named_dialogue_npc_revision": "REGIONAL-NPC-SPEAKER-1.0"
 }

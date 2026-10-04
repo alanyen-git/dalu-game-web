@@ -353,3 +353,6 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 
 /* XUANYUAN-DIALOGUE-SPEAKER-1.0 */
 .art-dialogue-portrait{height:166px;grid-template-rows:minmax(0,1fr) auto;align-items:end;padding:4px 4px 6px;box-sizing:border-box}.art-dialogue-portrait svg{min-height:0}.art-dialogue-speaker{display:block;max-width:100%;padding:2px 4px;color:#f2d99f;font-size:.62rem;line-height:1.25;text-align:center;overflow-wrap:anywhere}
+
+/* REGIONAL-NPC-SPEAKER-1.0 */
+.art-dialogue-speaker{display:block;max-width:100%;overflow-wrap:anywhere;white-space:normal}

@@ -41,6 +41,7 @@ assert.ok(!html.includes("dalu-game-web"));
 assert.ok(fs.statSync(path.join(app, "src/game-data.js")).size > 3000000);
 assert.ok(html.includes('src/town-home-ui.js'), "town home module must load");
 assert.ok(html.includes('src/event-portrait-ui.js'), "event portraits must load");
+assert.ok(html.includes('src/npc-speaker.js'), "regional dialogue speaker resolver must load");
 assert.ok(html.includes('src/inventory-art-ui.js'), "inventory and skill icons must load");
 assert.ok(fs.readFileSync(path.join(app,"src/inventory-art-ui.js"),"utf8").includes("item-skill-icons.svg#"), "inventory art uses original SVG icons");
 assert.ok(fs.readFileSync(path.join(app,"assets/art/maps/stone-vault.svg"),"utf8").includes("connected chamber rooms"), "dungeon artwork must include rooms and corridors");
@@ -59,7 +60,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v25"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v26"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -70,17 +71,19 @@ assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.5");
 assert.ok(mapSource.includes('?"mountain":') && mapSource.includes('?"river":'), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 require("./map-controls.test.cjs");
+require("./npc-speaker.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
 
-const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
+const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js","src/npc-speaker.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v25"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v26"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.8");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
 assert.ok(dungeonMap.includes("function dungeonIndex(l)")&&dungeonMap.includes("G.explorationIntel"),"dungeon map must reflect saved exploration records");
+assert.ok(sw.includes("npc-speaker.js"),"regional speaker resolver must be available offline");
 assert.ok(dungeonMap.includes("encounter_profile")&&dungeonMap.includes("xu-dungeon-index"),"dungeon scenes and indexes must use existing dungeon data");
 assert.ok(mapTheme.includes("XUANYUAN-DUNGEON-INDEX-1.0"),"dungeon discovery index must use responsive original styling");
 assert.equal(version.dungeon_index_revision,"DUNGEON-INDEX-1.0");
@@ -92,6 +95,13 @@ for(const dungeon of dungeons){assert.ok(Array.isArray(dungeon.explore)&&dungeon
 
 const portraitSource=fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8");
 assert.ok(portraitSource.includes('body.querySelector(".card b")')&&portraitSource.includes("speakerPortraits"),"dialogue portraits must prefer the source speaker role");
-assert.ok(portraitSource.includes("art-dialogue-speaker")&&portraitSource.includes("speaker+\"人物立繪\""),"speaker role must be visible and accessible");
+assert.ok(portraitSource.includes("art-dialogue-speaker")&&portraitSource.includes('identity.name+"，"+identity.role'),"speaker name and source role must be visible and accessible");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-SPEAKER-1.0"),"speaker role captions must use responsive original styling");
 assert.equal(version.dialogue_portrait_revision,"DIALOGUE-PORTRAIT-1.0");
+
+const npcSpeakerSource=fs.readFileSync(path.join(app,"src/npc-speaker.js"),"utf8");
+assert.ok(npcSpeakerSource.includes("DB.regional_npc_archetypes")&&npcSpeakerSource.includes("generateWorldName"),"dialogue identities must use source archetypes and the existing naming AI");
+assert.ok(npcSpeakerSource.includes("namedDialogueNpcNames"),"generated identities must persist as a backward-compatible optional save extension");
+assert.equal(version.named_dialogue_npc_revision,"REGIONAL-NPC-SPEAKER-1.0");
+
+assert.ok(css.includes("REGIONAL-NPC-SPEAKER-1.0"),"regional speaker labels must stay readable on mobile");
