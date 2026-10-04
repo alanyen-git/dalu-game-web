@@ -1,11 +1,14 @@
 {
-  "version": "CURRENT-1.70.0",
-  "previous_version": "CURRENT-1.69.0",
+  "version": "CURRENT-1.71.0",
+  "previous_version": "CURRENT-1.70.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "完成世界、王國、行省、當地區域、城鎮五層地圖；加入區域道路、探索地點示意與互動街廓。",
+  "summary": "城鎮地圖成為旅人首頁；整合可用行動、旅人狀態、旅誌及角色／背包／委託入口，移除獨立城鎮設施行動。",
   "changelog": [
+    "以城鎮地圖取代原冒險首頁，整合可用行動、旅人狀態、旅誌與角色資料入口。",
+    "移除「城鎮設施」行動按鍵，改由公會、商鋪、酒館、旅館及教會等城鎮地標直接互動。",
+    "建立《軒轅劍三》體驗 60% 美術與內容覆蓋路線圖，涵蓋地圖、場景、角色、戰鬥、對話及介面。",
     "行省地圖改以既有當地區域分層，接通道路、城鎮、野外與地下城，形成世界至城鎮五層導覽。",
     "新增野外／地下城原創區域示意與正確地點資料入口；沿用現有位置與道路，不新增房間或任務。",
     "城鎮街廓接上當地區域麵包屑，外出路線開啟正確地點資訊。",
@@ -34,5 +37,6 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.2",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v14"
+  "pwa_cache_revision": "v15",
+  "home_ui_revision": "TOWN-MAP-HOME-1.0"
 }
