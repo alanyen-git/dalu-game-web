@@ -1,4 +1,4 @@
-name: Deploy Dalu Travel Log
+name: Deploy Qunlu-derived Mobile App
 
 on:
   push:
@@ -30,8 +30,9 @@ jobs:
         run: |
           npm run import:qunlu
           npm test
-          npm run prepare:android
-          npm run test:android-bundle
+          npm run test:qunlu-app
+          npm run prepare:qunlu
+          npm run test:qunlu-bundle
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
@@ -44,4 +45,4 @@ jobs:
       - name: Verify public version and source commit
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
-        run: node scripts/verify-pages.cjs
+        run: node scripts/verify-qunlu-pages.cjs
