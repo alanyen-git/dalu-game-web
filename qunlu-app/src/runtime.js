@@ -5258,7 +5258,7 @@ function compareGameVersion(a,b){
  for(let i=0;i<3;i++){if(A[i]!==B[i])return A[i]-B[i]}
  return 0
 }
-function localGameVersion(){return DB?.meta?.current_version||"CURRENT-0.0.0"}
+function localGameVersion(){const packaged=document.querySelector('meta[name="app-version"]')?.content;return packaged||DB?.meta?.current_version||"CURRENT-0.0.0"}
 function updateBannerHtml(info){
  const el=document.querySelector("#gameUpdateBanner");if(!el)return;
  if(!info){el.classList.add("hide");el.innerHTML="";return}
