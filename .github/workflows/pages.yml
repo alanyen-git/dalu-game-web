@@ -28,6 +28,7 @@ jobs:
           node-version: 22
       - name: Run project regression suite
         run: |
+          npm run import:qunlu
           npm test
           npm run prepare:android
           npm run test:android-bundle
