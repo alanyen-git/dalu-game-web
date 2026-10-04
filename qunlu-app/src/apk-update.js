@@ -150,7 +150,7 @@
       }finally{checking=false;}
     }
     root.addEventListener("load",()=>{check();},{once:true});
-    root.addEventListener("online",()=>{check();});
+    root.addEventListener("online",()=>check());
     root.addEventListener("focus",()=>{if(Date.now()-lastCheckAt>60000)check();});
     root.document.addEventListener("visibilitychange",()=>{
       if(root.document.visibilityState==="visible"&&Date.now()-lastCheckAt>60000)check();
