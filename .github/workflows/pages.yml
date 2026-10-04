@@ -1,4 +1,4 @@
-name: Deploy Qunlu-derived Mobile App
+name: Deploy 異界旅人 Mobile App
 
 on:
   push:
