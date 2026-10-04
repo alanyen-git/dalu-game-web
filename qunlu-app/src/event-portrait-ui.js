@@ -1,29 +1,8 @@
 (()=>{"use strict";
-const portraits=[
- {id:"guild",keys:/公會|委託|任務|冒險者/},
- {id:"merchant",keys:/商鋪|商店|交易|材料|背包|道具/},
- {id:"ranger",keys:/野外|森林|採集|奇遇|探索|地城/},
- {id:"artisan",keys:/鐵匠|鍛造|製作|裝備|工坊/},
- {id:"scholar",keys:/教會|信仰|歷史|情報|研究/},
- {id:"traveler",keys:/人物|對話|角色|旅人|NPC/}
-];
-const modal=document.querySelector("#modalBack"),body=document.querySelector("#modalBody");
-if(!modal||!body)return;
-function update(){
- const title=document.querySelector("#modalTitle")?.textContent||"";
- const text=(title+" "+body.textContent).slice(0,2500);
- const target=portraits.find(x=>x.keys.test(text));
- let frame=body.querySelector(":scope > .art-dialogue-portrait");
- if(!target){if(frame)frame.remove();return}
- if(frame?.dataset.portrait===target.id)return;
- if(frame)frame.remove();
- frame=document.createElement("div");frame.className="art-dialogue-portrait";frame.dataset.portrait=target.id;
- frame.setAttribute("role","img");frame.setAttribute("aria-label",title+"人物插畫");
- const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 120 144");svg.setAttribute("focusable","false");
- const use=document.createElementNS("http://www.w3.org/2000/svg","use");use.setAttribute("href","./assets/art/npc-portrait-sprites.svg#"+target.id);svg.appendChild(use);frame.appendChild(svg);
- body.insertBefore(frame,body.firstChild);
-}
-new MutationObserver(()=>requestAnimationFrame(update)).observe(body,{childList:true,subtree:true,characterData:true});
-new MutationObserver(()=>requestAnimationFrame(update)).observe(document.querySelector("#modalTitle"),{childList:true,subtree:true,characterData:true});
-update();
+const portraits=[{id:"guild",keys:/公會|委託|任務|冒險者/},{id:"merchant",keys:/商鋪|商店|交易|材料|背包|道具/},{id:"ranger",keys:/野外|森林|採集|奇遇|探索|地城/},{id:"artisan",keys:/鐵匠|鍛造|製作|裝備|工坊/},{id:"scholar",keys:/教會|信仰|歷史|情報|研究/},{id:"traveler",keys:/人物|對話|角色|旅人|NPC/}];
+const modal=document.querySelector("#modalBack"),body=document.querySelector("#modalBody");if(!modal||!body)return;
+function sceneFor(title){if(!/委託|奇遇|事件|遭遇|對話|劇情|契約|信仰|旅途見聞/.test(title))return null;const l=typeof G!=="undefined"&&G.character&&typeof loc==="function"?loc(G.character.locationId):null;if(/委託|公會|任務/.test(title))return"guild";if(/教會|信仰|祈禱|神殿|契約/.test(title))return"shrine";if(l&&l.kind==="dungeon")return"dungeon";if(l&&l.kind==="wild")return/遭遇|戰鬥/.test(title)?"encounter":"camp";return"village"}
+function update(){const title=document.querySelector("#modalTitle")?.textContent||"",text=(title+" "+body.textContent).slice(0,2500),art=sceneFor(title);let scene=body.querySelector(":scope > .art-event-scene");if(!art){if(scene)scene.remove()}else if(scene?.dataset.scene!==art){if(scene)scene.remove();scene=document.createElement("div");scene.className="art-event-scene";scene.dataset.scene=art;scene.setAttribute("role","img");scene.setAttribute("aria-label","異界旅人原創劇情場景");const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 800 300");svg.setAttribute("focusable","false");const use=document.createElementNS("http://www.w3.org/2000/svg","use");use.setAttribute("href","./assets/art/event-scenes.svg#"+art);svg.appendChild(use);scene.appendChild(svg);body.insertBefore(scene,body.firstChild)}
+const target=portraits.find(x=>x.keys.test(text));let frame=body.querySelector(":scope > .art-dialogue-portrait");if(!target){if(frame)frame.remove();return}if(frame?.dataset.portrait===target.id)return;if(frame)frame.remove();frame=document.createElement("div");frame.className="art-dialogue-portrait";frame.dataset.portrait=target.id;frame.setAttribute("role","img");frame.setAttribute("aria-label",title+"人物插畫");const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 120 144");svg.setAttribute("focusable","false");const use=document.createElementNS("http://www.w3.org/2000/svg","use");use.setAttribute("href","./assets/art/npc-portrait-sprites.svg#"+target.id);svg.appendChild(use);frame.appendChild(svg);body.insertBefore(frame,body.firstChild)}
+new MutationObserver(()=>requestAnimationFrame(update)).observe(body,{childList:true,subtree:true,characterData:true});new MutationObserver(()=>requestAnimationFrame(update)).observe(document.querySelector("#modalTitle"),{childList:true,subtree:true,characterData:true});update();
 })();
