@@ -69,6 +69,7 @@ assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles m
 assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.5");
 assert.ok(mapSource.includes('?"mountain":') && mapSource.includes('?"river":'), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
+require("./map-controls.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
 
 const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
