@@ -1,11 +1,13 @@
 {
-  "version": "CURRENT-1.86.0",
-  "previous_version": "CURRENT-1.85.0",
+  "version": "CURRENT-1.87.0",
+  "previous_version": "CURRENT-1.86.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "具名對話角色依資料庫文化分類呈現原創服飾飾紋，串接現有職務肖像。",
+  "summary": "政體、行省與當地地圖依區域資料切換原創地景；技能依效果呈現專屬圖示。",
   "changelog": [
+    "五層導覽中的政體、行省及當地地圖依既有區域名稱套用八種原創地景，保留原行政區、道路、地標與探索狀態。",
+    "治療、防護、中毒、雷電、召喚及異常技能改用專屬原創圖示；物品仍依實際類別配圖，避免技能名稱誤顯藥劑或盾甲。",
     "具名對話角色依既有文化命名分類加入七組原創服飾色彩與飾紋，仍按原型職務選擇肖像；未新增文化設定或人物資料。",
     "裝備頁依存檔中的穿戴欄位顯示物品、耐久狀態及實際生效的裝備屬性加成；保留原裝卸流程，窄螢幕改用雙欄呈現。",
     "人物卡新增最近五則實際對話摘要、設施與地點；同一視窗重繪不重複保存，舊存檔相容，所有顯示文字經跳脫處理。",
@@ -61,14 +63,16 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.8",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.9",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v30",
+  "pwa_cache_revision": "v31",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
-  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5",
+  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.6",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
   "dialogue_portrait_revision": "DIALOGUE-PORTRAIT-1.0",
   "named_dialogue_npc_revision": "REGIONAL-NPC-JOURNAL-1.2",
   "character_equipment_revision": "EQUIPMENT-DETAIL-1.0",
-  "regional_portrait_revision": "REGIONAL-PORTRAIT-1.0"
+  "regional_portrait_revision": "REGIONAL-PORTRAIT-1.0",
+  "regional_map_revision": "REGIONAL-MAP-SCENES-1.0",
+  "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0"
 }
