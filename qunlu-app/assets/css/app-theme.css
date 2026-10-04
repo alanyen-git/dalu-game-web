@@ -246,3 +246,28 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 #townHomeJournal .log{max-height:190px;margin-top:9px}
 @media(max-width:700px){.town-home-layout{grid-template-columns:1fr}.town-home-side{grid-template-columns:1fr 1fr}.town-home-character{grid-row:span 2}.town-map-canvas{min-height:570px}.town-map-buildings{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(70px,1fr));inset:14% 8% 13%;gap:8px}.town-map-building{min-height:68px}.town-map-building b{font-size:10px}#townHomeActions .actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){.town-home-header{padding:11px;grid-template-columns:1fr}.town-home-controls{justify-content:flex-start}.town-home-status .hud-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.town-home-side{grid-template-columns:1fr}.town-home-character{grid-row:auto}.town-map-canvas{min-height:590px}.town-map-border{inset:11px;border-width:10px}.town-map-buildings{inset:13% 7% 14%;gap:7px}.town-map-building{min-height:65px}.town-map-routes{bottom:8px}.town-home-actions,.town-home-character,.town-home-note,.town-home-journal{padding:10px}}
+\n
+/* XUANYUAN-ARTKIT-0.1：原創城鎮、野外與地城地圖底圖 */
+.town-map-canvas.is-town{background:#677657 url("../art/maps/willow-town.svg") center/100% 100% no-repeat}
+.town-map-canvas.is-wild{background:#405a40 url("../art/maps/old-forest.svg") center/100% 100% no-repeat}
+.town-map-canvas.is-dungeon{background:#282b2b url("../art/maps/stone-vault.svg") center/100% 100% no-repeat}
+.town-map-canvas:before{opacity:0}
+.town-map-canvas.is-town .town-map-border{inset:8px;border:0;border-radius:0;box-shadow:none}
+.town-map-canvas.is-town .town-map-water,.town-map-canvas.is-town .town-map-wall,.town-map-canvas.is-town .town-map-roads{display:none}
+.town-map-canvas.is-town .town-map-district-label{top:3%;left:50%;padding:5px 12px;border-color:#ead49a;background:#20302be8;color:#fff0c5}
+.town-map-canvas.is-wild .town-map-border,.town-map-canvas.is-dungeon .town-map-border{inset:8px;border:0;border-radius:0;box-shadow:none}
+.town-map-canvas.is-wild .town-map-water,.town-map-canvas.is-wild .town-map-wall,.town-map-canvas.is-wild .town-map-roads,.town-map-canvas.is-wild .town-map-district-label,.town-map-canvas.is-dungeon .town-map-water,.town-map-canvas.is-dungeon .town-map-wall,.town-map-canvas.is-dungeon .town-map-roads,.town-map-canvas.is-dungeon .town-map-district-label{display:none}
+.town-map-canvas.is-wild .town-current-site,.town-map-canvas.is-dungeon .town-current-site{top:36%;left:12%;right:12%;padding:17px;background:#17251fe8;backdrop-filter:blur(3px)}
+.town-map-canvas.is-dungeon .town-current-site{background:#201d20ed;border-color:#ccb081}
+.town-map-canvas.is-wild .town-route-pin,.town-map-canvas.is-dungeon .town-route-pin{background:#1d2d27ed}
+.town-map-canvas.is-town .town-map-building{border-color:#f2d596;background:linear-gradient(145deg,#ead5a0f2,#986f43f2);box-shadow:0 5px 0 #30291fbd,0 9px 14px #14221dcc,inset 0 1px #fff9}
+.town-map-canvas.is-town .town-map-building:before{border-color:#655139aa}
+.town-map-canvas.is-town .town-map-building.tavern{background:linear-gradient(145deg,#e1bd87f5,#9d593df5)}
+.town-map-canvas.is-town .town-map-building.inn{background:linear-gradient(145deg,#e0d6bdf5,#80765ff5)}
+.town-map-canvas.is-town .town-map-building.church{background:linear-gradient(145deg,#f1e4b7f5,#b69b5bf5)}
+.town-map-canvas.is-town .town-map-building.guild{background:linear-gradient(145deg,#dfcfa5f5,#8c7049f5)}
+.town-map-canvas.is-town .town-map-buildings{inset:15% 12% 17%;padding:16px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(65px,1fr));gap:14px 18px}
+.town-map-canvas.is-town .town-map-building{min-height:62px}
+.town-map-canvas.is-town .town-map-routes{bottom:10px}
+@media(max-width:700px){.town-map-canvas.is-town .town-map-buildings{inset:16% 8% 17%;gap:12px 10px;padding:12px}.town-map-canvas.is-town .town-map-building{min-height:58px}}
+@media(max-width:430px){.town-map-canvas.is-town .town-map-buildings{inset:15% 7% 17%;gap:10px 8px;padding:10px}.town-map-canvas.is-town .town-map-building{min-height:55px}.town-map-canvas.is-town .town-map-routes{bottom:8px}}
