@@ -42,8 +42,10 @@ function local(id){
 function locationMap(id){
  const l=getLoc(id);if(!l)return world();if(l.kind==="town")return town(id);const s=areaOf(id),d=l.kind==="dungeon";
  const links=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call("xuLocation",t.id),t.kind):""}).join("");
+ const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" ");
+ const terrain=/山|峰|嶺|峽|雪/.test(terrainText)?"mountain-site":/河|湖|溪|海|港/.test(terrainText)?"river-site":"forest-site";
  const content='<div class="xu-site-card"><span class="xu-site-kicker">'+(d?"地下城・入口示意":"野外・探索示意")+'</span><h4>'+esc(l.name)+'</h4><p>'+esc(l.description||l.summary||"依既有地點資料探索周邊環境。")+'</p><button type="button" class="xu-site-action" onclick="'+esc(call("openMapLocationDetail",l.id))+'">開啟地點資料／探索</button></div><div class="xu-node-grid xu-site-routes">'+links+'</div><div class="xu-map-footer">示意沿用已登錄地點和道路，不新增房間、任務或事件。</div>';
- showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?"dungeon-site":"wild-site",content)),s?call("xuLocal",s.id):call("xuWorld",""));
+ showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?"dungeon-site":("wild-site "+terrain),content)),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function town(id){
  const l=getLoc(id);if(!l)return world();const s=areaOf(id),p=s&&typeof provinceRegion==="function"?provinceRegion(s.parent_province_region_id):null,r=p&&typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
