@@ -40,7 +40,7 @@ function local(id){
  showModal(s.name+"・當地區域",frame(s.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+crumb("當地區域",call("xuLocal",s.id)),board("local",content)),p?call("xuProvince",p.id):call("xuWorld",""));
 }
 function locationMap(id){
- const l=getLoc(id);if(!l)return world();const s=areaOf(id),d=l.kind==="dungeon";
+ const l=getLoc(id);if(!l)return world();if(l.kind==="town")return town(id);const s=areaOf(id),d=l.kind==="dungeon";
  const links=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call("xuLocation",t.id),t.kind):""}).join("");
  const content='<div class="xu-site-card"><span class="xu-site-kicker">'+(d?"地下城・入口示意":"野外・探索示意")+'</span><h4>'+esc(l.name)+'</h4><p>'+esc(l.description||l.summary||"依既有地點資料探索周邊環境。")+'</p><button type="button" class="xu-site-action" onclick="'+esc(call("openMapLocationDetail",l.id))+'">開啟地點資料／探索</button></div><div class="xu-node-grid xu-site-routes">'+links+'</div><div class="xu-map-footer">示意沿用已登錄地點和道路，不新增房間、任務或事件。</div>';
  showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?"dungeon-site":"wild-site",content)),s?call("xuLocal",s.id):call("xuWorld",""));
@@ -50,7 +50,7 @@ function town(id){
  const icons={guild:"⚔",general:"◆",blacksmith:"⚒",tavern:"♨",inn:"⌂",church:"✦"};
  const labels={guild:"冒險者公會",general:"商鋪",blacksmith:"鐵匠鋪",tavern:"酒館",inn:"旅館",church:"教會"};
  const fac=(l.facilities||[]).map(fid=>{const f=DB.facilities&&DB.facilities[fid];return f?'<button type="button" class="xu-facility '+fid+'" onclick="'+esc(call("xuFacility",fid))+'"><span class="xu-facility-icon">'+(icons[fid]||"◆")+'</span><b>'+esc(labels[fid]||f.name||fid)+'</b><small>交易／對話／情報</small></button>':""}).join("");
- const routes=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call("xuLocation",t.id),"route"):""}).join("");
+ const routes=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call(t.kind==="town"?"xuTown":"xuLocation",t.id),"route"):""}).join("");
  const content='<div class="xu-town-board"><div class="xu-town-title"><b>'+esc(l.name)+'</b><small>'+esc(l.size||"聚落")+'</small></div><div class="xu-town-street street-a"></div><div class="xu-town-street street-b"></div><div class="xu-town-center"></div><div class="xu-facility-grid">'+fac+'</div><div class="xu-town-routes">'+routes+'</div><div class="xu-map-footer">點選公會、商鋪、酒館、旅館或教會開啟互動。</div></div>';
  showModal(l.name+"・城鎮地圖",frame(l.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb("城鎮",call("xuTown",l.id)),content),s?call("xuLocal",s.id):call("xuWorld",""));
 }
