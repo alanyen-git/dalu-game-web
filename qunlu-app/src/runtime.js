@@ -719,7 +719,7 @@ function renderActions(){
  if(!G.character.alive){if(rev?.remaining>0)add(`復活（剩餘 ${rev.remaining} 次）`,`reviveAtChurch()`,`good`);else box.insertAdjacentHTML("beforeend",`<button type="button" disabled>復活次數已用盡</button>`);return}
  if(G.pendingAdventureEvent)add("處理目前奇遇","openPendingAdventureEvent()","warn");if(G.pendingPartyOpportunity)add("處理隊友奇遇","openPendingPartyOpportunity()","warn");if(G.pendingPetOpportunity)add("處理寵物機緣","resolvePetOpportunity(false)","warn");
  if(l.kind==="town"){
-   add("探索所在地","actExplore()","good");add("城鎮設施","openFacilities()");add("自主訓練","openTraining()");add("料理","openCooking()");add("移動","openMap()")
+   add("探索所在地","actExplore()","good");add("自主訓練","openTraining()");add("料理","openCooking()");add("移動","openMap()")
  }else{
    add("探索","actExplore()","good");add("採集","actGather()");add("打獵","actHunt()");add("野外休息","openRestChoice()");add("料理","openCooking()");add("自主訓練","openTraining()");add("移動","openMap()")
  }
