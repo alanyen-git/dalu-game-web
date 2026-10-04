@@ -19,11 +19,14 @@
     var choices = formations.map(function (formation) {
       return '<button class="popup-choice formation-choice ' + (formation.selected ? "selected" : "") + '" data-ui-formation="' + formation.id + '" aria-pressed="' + formation.selected + '"><strong>' + formation.name + (formation.selected ? "・使用中" : "") + '</strong><small>' + formation.description + '</small></button>';
     }).join("");
+    var strategies = (window.DaluCombat && window.DaluCombat.getSummonStrategies ? window.DaluCombat.getSummonStrategies() : []).map(function (strategy) {
+      return '<button class="popup-choice formation-choice ' + (strategy.selected ? "selected" : "") + '" data-ui-summon-strategy="' + strategy.id + '" aria-pressed="' + strategy.selected + '"><strong>' + strategy.name + (strategy.selected ? "・使用中" : "") + '</strong><small>' + strategy.description + '</small></button>';
+    }).join("");
     var rows = Array.from(document.querySelectorAll("#combat-party .combat-unit")).map(function (unit) {
       var id = unit.dataset.combatTarget, text = unit.querySelector(".unit-copy small").textContent;
       return '<button class="popup-choice" data-ui-row="' + id + '"><strong>' + unit.querySelector(".unit-copy strong").textContent + '</strong><small>目前' + (text.indexOf("前排") >= 0 ? "前排" : "後排") + '・切換位置</small></button>';
     }).join("");
-    open("陣形與隊列", '<div class="formation-choices">' + choices + '</div><div class="classic-command-heading">隊員位置</div>' + rows);
+    open("陣形與隊列", '<div class="formation-choices">' + choices + '</div><div class="classic-command-heading">召喚獸策略</div><div class="formation-choices summon-strategies">' + strategies + '</div><div class="classic-command-heading">隊員位置</div>' + rows);
   }
   function setup() {
     var screen = q('[data-screen="battle"]'), zone = q(".combat-zone", screen), panel = q(".skill-panel", screen);
@@ -49,6 +52,8 @@
       }
       var formation = event.target.closest("[data-ui-formation]");
       if (formation) { if (window.DaluCombat) window.DaluCombat.setFormation(formation.dataset.uiFormation); close(); return; }
+      var summonStrategy = event.target.closest("[data-ui-summon-strategy]");
+      if (summonStrategy) { if (window.DaluCombat) window.DaluCombat.setSummonStrategy(summonStrategy.dataset.uiSummonStrategy); close(); return; }
       var skill = event.target.closest("[data-ui-skill]");
       if (skill) { clickSkill(skill.dataset.uiSkill); close(); return; }
       var row = event.target.closest("[data-ui-row]");
@@ -62,10 +67,11 @@
       if (on) timer = setInterval(function () {
         var round = q("#combat-round");
         if (!q('[data-screen="battle"].active') || !round || round.textContent.indexOf("勝利") >= 0 || round.textContent.indexOf("失敗") >= 0) { clearInterval(timer); timer = null; auto.setAttribute("aria-pressed", "false"); auto.textContent = "Auto：關"; auto.classList.remove("active"); return; }
-        var low = Array.from(document.querySelectorAll("#combat-party .combat-unit:not(.fallen) .hp-bar i")).some(function (bar) { return parseFloat(bar.style.width) < 35; });
-        if (low) { clickSkill("mend"); return; }
-        var target = weakestEnemy();
-        if (target) { clickSkill(livingEnemies().length > 1 ? "flare" : "slash"); var chosen = q("#combat-enemies .combat-unit.targetable"); if (chosen) chosen.click(); }
+        if (window.DaluCombat && window.DaluCombat.autoTurn) window.DaluCombat.autoTurn();
+        else {
+          var target = weakestEnemy();
+          if (target) { clickSkill(livingEnemies().length > 1 ? "flare" : "slash"); var chosen = q("#combat-enemies .combat-unit.targetable"); if (chosen) chosen.click(); }
+        }
       }, 1100);
     });
     var engine = document.createElement("div"); engine.className = "combat-engine-skills"; engine.style.display = "none"; panel.appendChild(engine);
