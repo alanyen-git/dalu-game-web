@@ -345,7 +345,7 @@
 
   function patchMoreMenu(){
     if(globalThis.__NPC_DEPTH_MENU_PATCHED||typeof globalThis.openMoreMenu!=="function")return;const original=globalThis.openMoreMenu;
-    globalThis.openMoreMenu=function(){const result=original.apply(this,arguments);setTimeout(()=>{const grid=typeof document!=="undefined"?document.querySelector("#modalBody .more-grid"):null;if(grid&&!grid.querySelector("[data-npc-depth]")){const b=document.createElement("button");b.className="more-card";b.dataset.npcDepth="1";b.innerHTML='<span class="more-icon">♙</span><span>人物誌</span>';b.addEventListener("click",openNpcJournal);grid.appendChild(b)}},0);return result};globalThis.__NPC_DEPTH_MENU_PATCHED=true;
+    globalThis.openMoreMenu=function(){const result=original.apply(this,arguments);setTimeout(()=>{const grid=typeof document!=="undefined"?document.querySelector("#modalBody .more-grid"):null;if(grid&&!grid.querySelector("[data-npc-depth]")){const b=document.createElement("button");b.className="more-card";b.dataset.npcDepth="1";b.innerHTML='<span class="more-icon">♙</span><span>人物誌</span>';b.addEventListener("click",()=>globalThis.openNpcJournal?.());grid.appendChild(b)}},0);return result};globalThis.__NPC_DEPTH_MENU_PATCHED=true;
   }
 
   function initialize(){
