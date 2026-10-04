@@ -1,11 +1,13 @@
 {
-  "version": "CURRENT-1.63.0",
-  "previous_version": "CURRENT-1.62.0",
+  "version": "CURRENT-1.64.0",
+  "previous_version": "CURRENT-1.63.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
   "summary": "新增軒轅劍三系列節點式分層地圖與城鎮設施互動。",
   "changelog": [
+    "修正分層地圖 UI 的 JavaScript 語法錯誤，恢復地圖開啟與節點互動。",
+    "更新 PWA 離線快取版本並納入手機地圖與軒轅式地圖模組。",
     "新增世界地圖、王國／政體級、行省級、當地／城鎮地圖的節點式導覽。",
     "城鎮地圖直接顯示冒險者公會、商鋪、酒館、旅館、教會及既有設施資料。",
     "設施點選後提供交易／服務、對話、情報三分頁視窗；交易入口沿用既有服務流程。",
