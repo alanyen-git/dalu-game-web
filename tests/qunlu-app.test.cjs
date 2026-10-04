@@ -6,7 +6,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -21,6 +21,7 @@ assert.ok(runtimeSource.includes('meta[name="app-version"]'), "web updater must 
 const mapSource = fs.readFileSync(path.join(app, "src/xuanyuan-map-ui.js"), "utf8");
 const battleTheme = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
+assert.ok(mapSource.includes("region-atlas.svg#"), "map layers must render the new illustrated terrain atlas");
 assert.ok(mapSource.includes("openMapLocationDetail"), "wild and dungeon map nodes must retain location details");
 assert.ok(mapTheme.includes("XUANYUAN-MAP-UI-1.2"), "five-layer map art and exploration layout must be present");
 assert.ok(mapSource.includes("function local(id)"), "province map must open the local-area layer");
@@ -49,15 +50,17 @@ assert.ok(townHome.includes("townHomeActions"), "actions must appear inside the 
 assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on the town-map page");
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
+assert.ok(mapTheme.includes("XUANYUAN-REGION-ATLAS-1.0"), "new regional map art styles must be present");
+assert.ok(fs.readFileSync(path.join(app,"src/runtime.js"),"utf8").includes("facility-interiors.svg#${fid}"), "facility entries must render a matching original indoor scene");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v20"'), "new illustrated scene assets must be deployed with a fresh offline cache");
-for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v21"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-ART-1.0"), "event and character artwork styling must be present");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
-assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.3");
+assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.4");
 assert.ok(mapSource.includes("mountain-site") && mapSource.includes("river-site"), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
