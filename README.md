@@ -18,6 +18,7 @@
 - 目標平台：Android App、手機瀏覽器與可離線遊玩的 PWA
 - 事件設計：自由事件與分支事件至少占可玩事件 60%
 - 原創原則：世界、角色、美術、介面、劇情與數值皆獨立設計，不複製其他作品的角色、名稱、素材或劇情表達
+- 種族、出身、職業及天賦由本專案內的角色目錄提供，不在建置時讀取其他專案
 
 
 
@@ -80,6 +81,7 @@ For a local build, install Node.js 22, Java 21, and the Android SDK. Run:
 
 ```sh
 npm install
+npm test
 npm run test:pwa
 npm run prepare:android
 npm run test:android-bundle
