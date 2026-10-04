@@ -271,3 +271,10 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-map-canvas.is-town .town-map-routes{bottom:10px}
 @media(max-width:700px){.town-map-canvas.is-town .town-map-buildings{inset:16% 8% 17%;gap:12px 10px;padding:12px}.town-map-canvas.is-town .town-map-building{min-height:58px}}
 @media(max-width:430px){.town-map-canvas.is-town .town-map-buildings{inset:15% 7% 17%;gap:10px 8px;padding:10px}.town-map-canvas.is-town .town-map-building{min-height:55px}.town-map-canvas.is-town .town-map-routes{bottom:8px}}
+
+/* Reuse the original region illustrations in the five-layer map detail sheets. */
+.xu-board.wild-site{background-image:url("../art/maps/old-forest.svg");background-size:cover;background-position:center}
+.xu-board.dungeon-site{background-image:url("../art/maps/stone-vault.svg");background-size:cover;background-position:center}
+.xu-board.wild-site:before,.xu-board.dungeon-site:before{inset:0;z-index:0;background-image:linear-gradient(#14211b44,#14211b44)}
+.xu-site-card{background:#16281feF;backdrop-filter:blur(2px);box-shadow:0 10px 26px #000a,inset 0 1px #fff3}
+.xu-board.dungeon-site .xu-site-card{background:#211e1bef;border-color:#d4bd90}
