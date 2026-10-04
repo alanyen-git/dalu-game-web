@@ -25,6 +25,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Verify PWA and prepare Android bundle
         run: |
+          npm run import:qunlu
           npm test
           npm run prepare:android
           npm run test:android-bundle
