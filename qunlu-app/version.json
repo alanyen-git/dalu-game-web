@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.67.0",
-  "previous_version": "CURRENT-1.66.0",
+  "version": "CURRENT-1.68.0",
+  "previous_version": "CURRENT-1.67.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "App 正式更名為異界旅人，並完成網頁、PWA 與 Android 顯示名稱同步。",
+  "summary": "新增 Android APK 啟動更新檢查、下載入口、錯誤診斷與連線恢復重試。",
   "changelog": [
+    "Android APK 啟動時檢查公開版本；新版提供 GitHub Actions APK 下載入口，檢查失敗保留 App／存檔並於恢復連線後重試。",
     "統一 App、PWA 安裝提示與 Android 套件的顯示名稱為「異界旅人」，避免與來源遊戲混淆。",
     "同步更新遊戲頁面標題與公開版本號，並讓部署驗證檢查兩者一致。",
     "戰鬥介面改為軒轅式原創戰場編排，保留回合制與戰鬥指令。",
@@ -28,5 +29,5 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.0",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v10"
+  "pwa_cache_revision": "v11"
 }

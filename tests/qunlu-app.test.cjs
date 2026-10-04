@@ -23,4 +23,5 @@ assert.ok(html.includes('src/mobile-map-ui.js'));
 assert.ok(html.includes('src/battle-ui-theme.js'));
 assert.ok(!html.includes("dalu-game-web"));
 assert.ok(fs.statSync(path.join(app, "src/game-data.js")).size > 3000000);
+require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
