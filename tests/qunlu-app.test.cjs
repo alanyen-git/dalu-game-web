@@ -19,6 +19,7 @@ assert.equal(packagedVersion[1], version.version, "packaged version must match v
 const runtimeSource = fs.readFileSync(path.join(app, "src/runtime.js"), "utf8");
 assert.ok(runtimeSource.includes('meta[name="app-version"]'), "web updater must compare against packaged app version");
 const mapSource = fs.readFileSync(path.join(app, "src/xuanyuan-map-ui.js"), "utf8");
+const battleTheme = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
 assert.ok(mapSource.includes("openMapLocationDetail"), "wild and dungeon map nodes must retain location details");
 assert.ok(mapTheme.includes("XUANYUAN-MAP-UI-1.2"), "five-layer map art and exploration layout must be present");
@@ -46,8 +47,11 @@ assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v18"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v19"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+assert.ok(battleTheme.includes("data-scene"), "battle background art must follow the current game region");
+assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
+assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-ART-1.0"), "event and character artwork styling must be present");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
 assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.1");
