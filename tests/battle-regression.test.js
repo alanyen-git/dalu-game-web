@@ -4,7 +4,14 @@ const path = require("node:path");
 const vm = require("node:vm");
 const document = { querySelector: () => null, querySelectorAll: () => [], createElement: () => ({ dataset: {}, classList: { add() {}, remove() {}, toggle() {} }, insertAdjacentElement() {} }), addEventListener() {} };
 const localStorage = { data: {}, getItem(key) { return this.data[key] || null; }, setItem(key, value) { this.data[key] = value; } };
-const window = { __DALU_TEST__: true, localStorage, navigator: { serviceWorker: { register() { return { catch() {} }; } } } };
+const growthHooks = { skillUses: [], experience: [], trials: [] };
+const window = { __DALU_TEST__: true, localStorage, navigator: { serviceWorker: { register() { return { catch() {} }; } } }, DaluGrowthBridge: {
+  syncMastery() {},
+  recordSkillUse(id) { growthHooks.skillUses.push(id); },
+  recordExperience(source, amount) { growthHooks.experience.push([source, amount]); },
+  getTrial() { return { available: true, nextRank: "E", title: "見習考核" }; },
+  completeTrial(rank, won) { growthHooks.trials.push([rank, won]); return { ok: true, rank: won ? rank : "F" }; }
+} };
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../battle.js"), "utf8"), { window, document, JSON, Math });
 const api = window.__DALU_BATTLE_TEST_API__;
 function run(name, check) { check(); process.stdout.write("PASS " + name + "\n"); }
@@ -57,4 +64,53 @@ run("legacy battle saves keep combat progress and receive default mastery and fo
   assert.equal(state.formation, "balanced");
   assert.equal(state.mastery.slash, 0);
   assert.deepEqual(Array.from(state.learnedSkills), []);
+});
+run("summon guardian strategy strengthens the front-line shield", () => {
+  api.reset();
+  assert.equal(api.setSummonStrategy("guardian"), true);
+  api.getState().enemies = [];
+  api.act("guard");
+  assert.equal(api.getState().party.find(unit => unit.id === "loen").guard, 20);
+});
+run("summon healer strategy improves the two-target healing effect", () => {
+  api.reset();
+  assert.equal(api.setSummonStrategy("healer"), true);
+  const state = api.getState();
+  state.enemies = [];
+  state.party.forEach((unit, i) => { unit.hp = [40, 50, 30][i]; });
+  const before = state.party.map(unit => unit.hp);
+  api.act("mend");
+  const healed = state.party.map((unit, i) => unit.hp - before[i]).filter(value => value > 0);
+  assert.equal(healed.length, 2);
+  assert.ok(healed.every(value => value === 26));
+});
+run("automatic tactical plan clears the complete encounter with the summon alive", () => {
+  api.reset();
+  let turns = 0;
+  while (!api.getState().winner && turns < 20) {
+    assert.equal(api.autoTurn(), true);
+    turns += 1;
+  }
+  const state = api.getState();
+  assert.equal(state.winner, "victory");
+  assert.ok(state.party.find(unit => unit.id === "tide").hp > 0);
+  assert.equal(state.enemies.every(unit => unit.hp === 0), true);
+  assert.equal(state.formation, "bulwark");
+});
+run("valid combat actions update the saved character skill record", () => {
+  api.reset();
+  const before = growthHooks.skillUses.length;
+  api.act("slash"); api.act("slash", "hound-a");
+  assert.deepEqual(growthHooks.skillUses.slice(before), ["slash"]);
+});
+run("winning a rank trial records the result without issuing a repeatable encounter reward", () => {
+  api.reset();
+  growthHooks.experience.length = 0;
+  const before = growthHooks.trials.length;
+  assert.equal(api.startRankTrial(), true);
+  let turns = 0;
+  while (!api.getState().winner && turns < 24) { assert.equal(api.autoTurn(), true); turns += 1; }
+  assert.equal(api.getState().winner, "victory");
+  assert.deepEqual(growthHooks.trials.slice(before), [["E", true]]);
+  assert.deepEqual(growthHooks.experience, []);
 });
