@@ -1,0 +1,30 @@
+{
+  "version": "CURRENT-1.62.0",
+  "previous_version": "CURRENT-1.61.0",
+  "channel": "web",
+  "distribution_mode": "static_web",
+  "entrypoint": "index.html",
+  "summary": "NPC深化：固定NPC具備個性、精力、壓力、情緒、長期記憶、人際關係與玩家信任，並與自主世界及相關委託連動。",
+  "changelog": [
+    "新增NPC-DEPTH-1.0，18名阿斯戴爾固定NPC取得獨立性格、價值觀、長期目標、恐懼、說話方式與工作關切。",
+    "NPC新增精力、壓力與情緒狀態，每6遊戲小時依工作、休息、天候、地下城壓力、資源與物流狀況持續變化。",
+    "高壓力或低精力NPC會暫時休整，不再永遠機械式執行固定日程。",
+    "新增NPC與玩家的熟悉度、信任、尊重三維關係；一般交談有成長冷卻，提供協助有24小時冷卻，避免無限刷好感。",
+    "NPC會保存最多12筆共同記憶，包括初次見面、交談、協助、相關委託完成與失敗；後續對話會引用近期記憶。",
+    "建立16條固定NPC人際關係邊，包含合作、專業尊重、地方夥伴、技術協作與專業摩擦；同地工作時會對壓力產生有限影響。",
+    "人物的當前關切會讀取自主世界狀態：蜂蜜資源枯竭、河谷雨帶、商隊延誤、北境地下城壓力、寒害、海岸強風等都會改變NPC狀態與談話內容。",
+    "相關委託現在有NPC委託人／關係人；完成會增加其信任與尊重，解除或逾期會留下負面記憶並降低信任。",
+    "高信任NPC只對自己相關的公開委託提供有限簡報優勢：報酬倍率嚴格限制約97%至105%，信任與尊重足夠時期限最多增加8%；不繞過等級、資格、B級前置或市場條件。",
+    "更多選單新增人物誌，可查看已實際遇見的NPC、目前位置與活動、個性、情緒、精力、壓力、關係、服務、相關委託與共同記憶。",
+    "與所在地NPC可進行交談、詢問工作、提供協助與談人際關係；NPC不在當地時仍可從人物誌查看已知資料，但不能隔空互動。",
+    "新增NPC-DEPTH-REGRESSION-1.0，驗證NPC發現、記憶、互動冷卻、委託關係、報酬上限、人際網與疲勞休整。",
+    "既有WORLD-AUTONOMY-1.0／2.0、MARKET-PRICE-SYNC-2.0與localStorage存檔原地相容；不清除既有角色進度。"
+  ],
+  "content_revision": "ASDAIL-DEPTH-2.0",
+  "market_economy_revision": "MARKET-PRICE-SYNC-2.0",
+  "world_autonomy_revision": "WORLD-AUTONOMY-2.0",
+  "npc_depth_revision": "NPC-DEPTH-1.0",
+  "deployment_provider": "github_pages",
+  "netlify_dependency": false,
+  "save_compatible": true
+}
