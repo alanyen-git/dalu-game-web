@@ -90,7 +90,7 @@ assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.9");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.0");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);
-assert.ok(mapSource.includes("regionalScene")&&mapSource.includes("region-atlas.svg#"+scene),"each admin map must resolve regional scene art");
+assert.ok(mapSource.includes("function regionalScene(text)")&&mapSource.includes('region-atlas.svg#"+sceneId'),"admin maps must resolve data-based regional scene art");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
 assert.ok(dungeonMap.includes("function dungeonIndex(l)")&&dungeonMap.includes("G.explorationIntel"),"dungeon map must reflect saved exploration records");
