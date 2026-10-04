@@ -17,7 +17,7 @@ const ASSETS = [
   "./app-update.js?v=0.4.24",
   "./save-system.js?v=0.4.24",
   "./story-progression.js?v=0.4.24",
-  "./character-data.js?v=0.4.24",
+  "./qunlu-database.js?v=0.4.24", "./character-data.js?v=0.4.24",
   "./character-growth.js?v=0.4.24",
   "./assets/art/locations/mist-harbor.svg",
   "./assets/art/locations/bell-hill.svg",
