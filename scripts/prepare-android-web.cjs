@@ -7,7 +7,7 @@ const files = [
   "index.html", "styles.css", "map-navigation.css", "art-direction.css", "app-update.js",
   "event-system.js", "region-content.js", "app.js", "map-navigation.js", "battle.js",
   "profession.js", "formation.js", "battle-ui.js", "character-creation.js",
-  "character-data.js", "character-growth.js", "save-system.js", "story-progression.js", "service-worker.js", "app.webmanifest", "version.json"
+  "qunlu-database.js", "character-data.js", "character-growth.js", "save-system.js", "story-progression.js", "service-worker.js", "app.webmanifest", "version.json"
 ];
 
 async function main() {
