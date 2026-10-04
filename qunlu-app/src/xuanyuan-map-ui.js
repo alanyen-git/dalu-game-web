@@ -23,7 +23,7 @@ function realm(id){
 function province(id){
  const p=typeof provinceRegion==="function"?provinceRegion(id):null;if(!p)return world();
  const r=typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
- function rows(k,label,cl){return (typeof provinceCategoryLocations==="function"?provinceCategoryLocations(p,k,false):[]).slice(0,24).map(x=>node(x.name,(x.tier||"—")+"｜"+label,"xuTown('"+js(x.id)+"')",cl)).join("")}
+ function rows(k,label,cl){return (typeof provinceCategoryLocations==="function"?provinceCategoryLocations(p,k,false):[]).slice(0,24).map(x=>node(x.name,(x.tier||"—")+"｜"+label,x.kind==="town"?"xuTown('"+js(x.id)+"')":"openMapLocationDetail('"+js(x.id)+"')",cl)).join("")}
  const body=rows("town","城鎮","town")+rows("wild","野外","wild")+rows("dungeon","地下城","dungeon");
  showModal(p.name+"・行省地圖",frame(p.display_name||p.name,(r?crumb("王國／政體","xuRealm('"+js(r.id)+"')"):"")+crumb("行省","xuProvince('"+js(p.id)+"')"),board("province",'<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div><div class="xu-node-grid">'+(body||'<span class="small">此行省尚未登錄可探索節點。</span>')+"</div><div class=\"xu-map-footer\">城鎮、野外、地下城均保留既有節點與道路資料。</div>")),(r?"xuRealm('"+js(r.id)+"')":"xuWorld()"));
 }
