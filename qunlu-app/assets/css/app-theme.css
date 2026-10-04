@@ -300,3 +300,12 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .itemrow:hover{background:linear-gradient(90deg,#816b4244,#172d3c33)}
 .modalbody .tier{border-color:#d6bd82;background:linear-gradient(#514834,#2a2b25);color:#f2dcaa}
 @media(max-width:560px){.art-dialogue-portrait{width:31%;height:116px;margin-left:8px}}
+
+/* XUANYUAN-BATTLE-SCENE-1.0：依地點使用原創戰場地景 */
+.xuan-battlebox[data-scene="forest"]{background-image:linear-gradient(145deg,#112633d9,#0b1b2fe8),url("../art/maps/old-forest.svg");background-size:cover;background-position:center}
+.xuan-battlebox[data-scene="mountain"]{background-image:linear-gradient(145deg,#182634df,#101b2fe8),url("../art/maps/mountain-pass.svg");background-size:cover;background-position:center}
+.xuan-battlebox[data-scene="river"]{background-image:linear-gradient(145deg,#112b38dd,#0c1e30e8),url("../art/maps/river-valley.svg");background-size:cover;background-position:center}
+.xuan-battlebox[data-scene="dungeon"]{background-image:linear-gradient(145deg,#171a20d9,#111a27ee),url("../art/maps/stone-vault.svg");background-size:cover;background-position:center}
+.xuan-battlebox[data-scene="town"]{background-image:linear-gradient(145deg,#1e2a32e0,#121e2ded),url("../art/maps/willow-town.svg");background-size:cover;background-position:center}
+.xuan-battlebox[data-scene] .xuan-battle-side{background:linear-gradient(155deg,#172d42e8,#101d30ee);backdrop-filter:blur(2px)}
+.xuan-battlebox[data-scene] .battlelog{background:#0c1929e8}
