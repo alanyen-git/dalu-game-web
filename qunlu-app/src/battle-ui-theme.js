@@ -7,6 +7,9 @@ function wrapUnit(unit,type,extra=""){if(!unit||unit.querySelector(".xuan-sd-por
 function miniPortrait(unit,type){if(unit&&!unit.querySelector(".xuan-sd-portrait"))unit.insertBefore(portrait(type),unit.firstChild)}
 function decorate(){
  const back=document.getElementById("battleBack"),box=back?.querySelector(".battlebox"),body=document.getElementById("battleBody");if(!box||!body)return;box.classList.add("xuan-battlebox");
+ const location=typeof G!=="undefined"&&G.character&&typeof loc==="function"?loc(G.character.locationId):null;
+ const sceneText=[location?.name,location?.description,location?.summary].join(" ");
+ box.dataset.scene=location?.kind==="dungeon"?"dungeon":/山|峰|嶺|峽|雪/.test(sceneText)?"mountain":/河|湖|溪|海|港/.test(sceneText)?"river":location?.kind==="town"?"town":"forest";
  const head=body.querySelector(".battlehead");
  if(head&&!head.dataset.xuanStyled){
   const player=head.querySelector(":scope > .battleunit:not(.enemy):not(.companion)"),party=head.querySelector(":scope > .party-battle-strip"),comp=head.querySelector(":scope > .battleunit.companion"),vs=head.querySelector(":scope > .battleversus"),enemy=head.querySelector(":scope > .battleunit.enemy");
