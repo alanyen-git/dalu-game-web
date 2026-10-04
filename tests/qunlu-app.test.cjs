@@ -49,7 +49,7 @@ assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").in
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v19"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
-assert.ok(battleTheme.includes("data-scene"), "battle background art must follow the current game region");
+assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-ART-1.0"), "event and character artwork styling must be present");
