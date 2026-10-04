@@ -74,7 +74,7 @@ require("./map-controls.test.cjs");
 require("./npc-speaker.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
 
-const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js","src/npc-speaker.js"),"utf8");
+const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
