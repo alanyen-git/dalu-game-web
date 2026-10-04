@@ -6,7 +6,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -38,6 +38,9 @@ assert.ok(!html.includes("dalu-game-web"));
 assert.ok(fs.statSync(path.join(app, "src/game-data.js")).size > 3000000);
 assert.ok(html.includes('src/town-home-ui.js'), "town home module must load");
 assert.ok(html.includes('src/event-portrait-ui.js'), "event portraits must load");
+assert.ok(html.includes('src/inventory-art-ui.js'), "inventory and skill icons must load");
+assert.ok(fs.readFileSync(path.join(app,"src/inventory-art-ui.js"),"utf8").includes("item-skill-icons.svg#"), "inventory art uses original SVG icons");
+assert.ok(fs.readFileSync(path.join(app,"assets/art/maps/stone-vault.svg"),"utf8").includes("connected chamber rooms"), "dungeon artwork must include rooms and corridors");
 assert.equal(html.includes('data-nav="adventure"'), false, "legacy adventure-home nav must be gone");
 assert.ok(html.includes('data-nav="home"'), "town map is the home nav");
 const townHome = fs.readFileSync(path.join(app, "src/town-home-ui.js"), "utf8");
@@ -47,8 +50,8 @@ assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v19"'), "new illustrated scene assets must be deployed with a fresh offline cache");
-for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v20"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
