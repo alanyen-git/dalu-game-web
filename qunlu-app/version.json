@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.68.1",
-  "previous_version": "CURRENT-1.68.0",
+  "version": "CURRENT-1.69.0",
+  "previous_version": "CURRENT-1.68.1",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "修正更新提示把遊戲資料版本誤當 App 版本，並刷新離線快取。",
+  "summary": "加強世界、區域與城鎮地圖的地形、街廓和道路層次；保留既有資料與設施互動。",
   "changelog": [
+    "重畫分層地圖的原創地形、道路、街廓與地標層次；野外／地下城節點改開啟地點資料，不誤導為城鎮地圖。",
     "修正遊戲內更新檢查改用 App 封裝版本，避免 1.68.0 誤顯示為新版；刷新 PWA 離線快取。",
     "Android APK 啟動時檢查公開版本；新版提供 GitHub Actions APK 下載入口，檢查失敗保留 App／存檔並於恢復連線後重試。",
     "統一 App、PWA 安裝提示與 Android 套件的顯示名稱為「異界旅人」，避免與來源遊戲混淆。",
@@ -28,7 +29,7 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.0",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.1",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v12"
+  "pwa_cache_revision": "v13"
 }
