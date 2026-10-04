@@ -8,7 +8,7 @@
   const TIMEOUT_MS=10000;
 
   function versionParts(value){
-    const match=String(value||"").match(/(\\d+)\\.(\\d+)\\.(\\d+)/);
+    const match=String(value||"").match(/(\d+)\.(\d+)\.(\d+)/);
     return match?match.slice(1).map(Number):null;
   }
 
