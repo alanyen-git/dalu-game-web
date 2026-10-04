@@ -45,7 +45,7 @@ assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes("qunlu-pwa-v16"), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v16"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
 assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.0");
