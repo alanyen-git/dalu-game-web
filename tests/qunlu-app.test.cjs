@@ -6,7 +6,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -39,9 +39,15 @@ assert.ok(html.includes('src/town-home-ui.js'), "town home module must load");
 assert.equal(html.includes('data-nav="adventure"'), false, "legacy adventure-home nav must be gone");
 assert.ok(html.includes('data-nav="home"'), "town map is the home nav");
 const townHome = fs.readFileSync(path.join(app, "src/town-home-ui.js"), "utf8");
+assert.ok(townHome.includes("dataset.locationId"), "town map must expose active location state for scene styling");
 assert.ok(townHome.includes("townHomeActions"), "actions must appear inside the town-map page");
 assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on the town-map page");
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
+const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
+assert.ok(sw.includes("qunlu-pwa-v16"), "new illustrated scene assets must be deployed with a fresh offline cache");
+for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
+assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.0");
 require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
