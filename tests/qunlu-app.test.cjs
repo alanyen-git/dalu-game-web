@@ -60,7 +60,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v27"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v28"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -78,7 +78,7 @@ const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v27"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v28"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.8");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
@@ -103,7 +103,7 @@ const npcSpeakerSource=fs.readFileSync(path.join(app,"src/npc-speaker.js"),"utf8
 assert.ok(npcSpeakerSource.includes("DB.regional_npc_archetypes")&&npcSpeakerSource.includes("generateWorldName"),"dialogue identities must use source archetypes and the existing naming AI");
 assert.ok(npcSpeakerSource.includes("namedDialogueNpcNames"),"generated identities and encounter records must persist in an optional save extension");
 assert.ok(npcSpeakerSource.includes("function openJournal()")&&npcSpeakerSource.includes("function openProfile(id)"),"journal and profile views must use saved encounters and source archetypes");
-assert.equal(version.named_dialogue_npc_revision,"REGIONAL-NPC-JOURNAL-1.0");
+assert.equal(version.named_dialogue_npc_revision,"REGIONAL-NPC-JOURNAL-1.1");
 
 assert.ok(mapTheme.includes("REGIONAL-NPC-SPEAKER-1.0"),"regional speaker labels must stay readable on mobile");
 

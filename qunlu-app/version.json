@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.83.0",
-  "previous_version": "CURRENT-1.82.0",
+  "version": "CURRENT-1.84.0",
+  "previous_version": "CURRENT-1.83.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "人物誌整合已遇見的地區角色，記錄對話次數及首次／最近遇見資訊。",
+  "summary": "人物誌保存每名角色最近五則實際設施對話摘要與地點，支援重訪回顧。",
   "changelog": [
+    "人物卡新增最近五則實際對話摘要、設施與地點；同一視窗重繪不重複保存，舊存檔相容，所有顯示文字經跳脫處理。",
     "人物誌列出已遇見的地區具名角色，提供原型職務、文化、社會層級、知識範圍、相關委託與對話紀錄；時間與次數只在實際設施對話時更新。",
     "場景對話連動目前地區及設施的既有NPC原型，依文化命名規則首次產生姓名，並存入相容的世界存檔；顯示個人姓名、職務及原創肖像。",
     "對話立繪優先依既有說話者職務選用原創肖像，並顯示無姓名推定的職務標籤；不為通用對話編造具名角色。",
@@ -60,10 +61,10 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.8",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v27",
+  "pwa_cache_revision": "v28",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
   "dialogue_portrait_revision": "DIALOGUE-PORTRAIT-1.0",
-  "named_dialogue_npc_revision": "REGIONAL-NPC-JOURNAL-1.0"
+  "named_dialogue_npc_revision": "REGIONAL-NPC-JOURNAL-1.1"
 }
