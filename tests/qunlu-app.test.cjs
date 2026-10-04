@@ -6,7 +6,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/game-data.js","src/runtime.js","src/data-patches.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -45,9 +45,10 @@ assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v16"'), "new illustrated scene assets must be deployed with a fresh offline cache");
-for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v17"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
-assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.0");
+assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.1");
+assert.ok(mapSource.includes("mountain-site") && mapSource.includes("river-site"), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
