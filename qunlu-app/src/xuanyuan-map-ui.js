@@ -6,9 +6,20 @@ const getLoc=id=>typeof loc==="function"?loc(id):(DB.locations||[]).find(x=>x.id
 const area=id=>(DB.settlement_region_maps||[]).find(x=>x.id===id);
 const areaOf=id=>(DB.settlement_region_maps||[]).find(x=>(x.location_ids||[]).includes(id));
 const areas=id=>(DB.settlement_region_maps||[]).filter(x=>x.parent_province_region_id===id);
+function regionalScene(text){
+ const t=String(text||"");
+ if(/皓月|黑潮|群島|島|海|港|潮/.test(t))return "region-islands";
+ if(/白氈|汗國|草原|游牧|大漠/.test(t))return "region-steppe";
+ if(/瑟露維亞|精靈|森林|林地|黑月|深庭/.test(t))return "region-forest";
+ if(/霜角|龍脊|火山|高山|雪嶺|山脈/.test(t))return "region-highland";
+ if(/晨律|沼澤|濕地|鹽沼|沼/.test(t))return "region-marsh";
+ if(/斷境|沙漠|荒漠|沉砂|戈壁/.test(t))return "region-desert";
+ if(/聖曜|安威爾|卡薩維爾|自由城|帝國|教國|城盟/.test(t))return "region-city";
+ return "region-riverland";
+}
 const exploreState=id=>{const l=getLoc(id);if(!l)return"未踏";if(typeof G!=="undefined"&&G.character&&G.character.locationId===id)return"目前所在";const history=typeof G!=="undefined"&&Array.isArray(G.history)?G.history:[];return history.some(h=>h.tag==="旅行"&&String(h.text||"").includes("抵達"+l.name))?"曾經抵達":"尚未抵達"};
 function crumb(label,fn){return '<button class="xu-crumb" type="button" onclick="'+esc(fn)+'">'+esc(label)+'</button>'}
-function board(kind,body,sceneId){const layer={world:"world",realm:"realm",province:"province",local:"local"}[kind.split(" ")[0]]||"local";const art=sceneId?"./assets/art/maps/terrain-scenes.svg#"+sceneId:"./assets/art/maps/region-atlas.svg#"+layer;const h=typeof G!=="undefined"&&G.worldTime?G.worldTime.hour:12,time=h<6?"night":h<10?"dawn":h<18?"day":h<21?"dusk":"night";return '<div class="xu-board '+kind+' time-'+time+'"><div class="xu-map-viewport"><div class="xu-map-pan-surface"><svg class="xu-map-art" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="'+art+'"></use></svg><div class="xu-terrain ridge-a"></div><div class="xu-terrain ridge-b"></div><div class="xu-river"></div>'+body+'</div></div><div class="xu-compass">N</div></div>'}
+function board(kind,body,sceneId){const layer={world:"world",realm:"realm",province:"province",local:"local"}[kind.split(" ")[0]]||"local";const isRegional=!!sceneId&&sceneId.indexOf("region-")===0;const art=sceneId?(isRegional?"./assets/art/maps/region-atlas.svg#"+sceneId:"./assets/art/maps/terrain-scenes.svg#"+sceneId):"./assets/art/maps/region-atlas.svg#"+layer;const h=typeof G!=="undefined"&&G.worldTime?G.worldTime.hour:12,time=h<6?"night":h<10?"dawn":h<18?"day":h<21?"dusk":"night";return '<div class="xu-board '+kind+' time-'+time+'"><div class="xu-map-viewport"><div class="xu-map-pan-surface"><svg class="xu-map-art" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="'+art+'"></use></svg><div class="xu-terrain ridge-a"></div><div class="xu-terrain ridge-b"></div><div class="xu-river"></div>'+body+'</div></div><div class="xu-compass">N</div></div>'}
 function frame(title,crumbs,content){return '<div class="xu-map-shell"><div class="xu-map-head"><div><p class="eyebrow">異界旅人・五層地圖</p><h3>'+esc(title)+'</h3><p class="xu-map-hint">世界 → 王國／政體 → 行省 → 當地區域 → 城鎮</p></div><div class="xu-crumbs">'+crumbs+'</div></div>'+content+'</div>'}
 function node(label,meta,fn,kind){return '<button type="button" class="xu-map-node '+(kind||"")+'" onclick="'+esc(fn)+'"><b>'+esc(label)+'</b><small>'+esc(meta||"")+'</small></button>'}
 function world(){
@@ -19,7 +30,7 @@ function realm(id){
  const r=typeof realmRegionMap==="function"?realmRegionMap(id):null;if(!r)return world();
  const p=typeof politicalEntity==="function"?politicalEntity(r.political_entity_id):null;
  const rows=(r.province_region_ids||[]).map(pid=>{const x=typeof provinceRegion==="function"?provinceRegion(pid):null;return x?node(x.name,x.administrative_type||"行省",call("xuProvince",x.id),"province"):""}).join("");
- showModal((p?p.name:r.name)+"・王國地圖",frame(p?p.name:r.name,crumb("世界",call("xuWorld",""))+crumb("王國／政體",call("xuRealm",r.id)),board("realm",'<div class="xu-map-title">'+esc(p?p.name:r.name)+'</div><div class="xu-node-grid">'+rows+'</div>')),call("xuWorld",""));
+ showModal((p?p.name:r.name)+"・王國地圖",frame(p?p.name:r.name,crumb("世界",call("xuWorld",""))+crumb("王國／政體",call("xuRealm",r.id)),board("realm",'<div class="xu-map-title">'+esc(p?p.name:r.name)+'</div><div class="xu-node-grid">'+rows+'</div>',regionalScene([p&&p.name,r.name].join(" ")))),call("xuWorld",""));
 }
 function province(id){
  const p=typeof provinceRegion==="function"?provinceRegion(id):null;if(!p)return world();
@@ -29,7 +40,7 @@ function province(id){
  const loose=["town","wild","dungeon"].flatMap(k=>typeof provinceCategoryLocations==="function"?provinceCategoryLocations(p,k,false):[]).filter(x=>!owned.has(x.id));
  rows+=(loose.length?'<div class="xu-grid-label">其他已登錄地點</div>':"")+loose.map(x=>node(x.name,x.kind==="town"?"城鎮":x.kind==="dungeon"?"地下城":"野外",call(x.kind==="town"?"xuTown":"xuLocation",x.id),x.kind)).join("");
  const content='<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div><div class="xu-node-grid">'+rows+'</div><div class="xu-map-footer">點選當地區域查看道路、城鎮、野外與地下城。</div>';
- showModal(p.name+"・行省地圖",frame(p.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+crumb("行省",call("xuProvince",p.id)),board("province",content)),r?call("xuRealm",r.id):call("xuWorld",""));
+ showModal(p.name+"・行省地圖",frame(p.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+crumb("行省",call("xuProvince",p.id)),board("province",content,regionalScene([r&&r.name,p.name,...groups.map(x=>x.name)].join(" ")))),r?call("xuRealm",r.id):call("xuWorld",""));
 }
 function local(id){
  const s=area(id);if(!s)return world();
@@ -38,7 +49,7 @@ function local(id){
  const rows=places.map((x,i)=>{const k=x.kind==="town"?"town":x.kind==="dungeon"?"dungeon":"wild";return node((i===0?"✦ ":"")+x.name,(k==="town"?"城鎮":k==="dungeon"?"地下城":"野外")+"｜"+exploreState(x.id),call(k==="town"?"xuTown":"xuLocation",x.id),k+" explore-"+exploreState(x.id))}).join("");
  const lines=[];places.forEach(x=>(x.links||[]).forEach(e=>{if(ids.includes(e.to))lines.push(e.to)}));
  const content='<div class="xu-area-caption"><b>'+esc(s.name)+'</b><span>'+esc(s.role||"當地道路與探索地點")+'</span></div><div class="xu-area-paths">'+lines.map(()=>'<i class="xu-route-line"></i>').join("")+'</div><div class="xu-node-grid">'+rows+'</div><div class="xu-map-footer">選擇城鎮進入街廓；野外和地下城會顯示正確地點資訊與道路。</div>';
- showModal(s.name+"・當地區域",frame(s.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+crumb("當地區域",call("xuLocal",s.id)),board("local",content)),p?call("xuProvince",p.id):call("xuWorld",""));
+ showModal(s.name+"・當地區域",frame(s.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+crumb("當地區域",call("xuLocal",s.id)),board("local",content,regionalScene([r&&r.name,p&&p.name,s.name,s.role].join(" ")))),p?call("xuProvince",p.id):call("xuWorld",""));
 }
 function dungeonIndex(l){
  const points=(Array.isArray(l.explore)?l.explore:[]).filter(x=>Array.isArray(x)&&x.length>0);
