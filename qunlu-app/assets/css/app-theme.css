@@ -309,3 +309,12 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xuan-battlebox[data-scene="town"]{background-image:linear-gradient(145deg,#1e2a32e0,#121e2ded),url("../art/maps/willow-town.svg");background-size:cover;background-position:center}
 .xuan-battlebox[data-scene] .xuan-battle-side{background:linear-gradient(155deg,#172d42e8,#101d30ee);backdrop-filter:blur(2px)}
 .xuan-battlebox[data-scene] .battlelog{background:#0c1929e8}
+
+/* XUANYUAN-DATA-UI-1.0：角色、背包、委託與資料卡共用青銅金框與資訊層級 */
+.modalbody .section-title{padding-bottom:7px;border-bottom:1px solid #c7a96777}
+.modalbody .section-title h3{color:#f0d59a;letter-spacing:.07em}
+.modalbody .itemrow{min-height:46px;padding:7px 9px;border:1px solid #b9995b66;border-radius:6px;background:linear-gradient(115deg,#1a3040,#122432 72%,#24313a)}
+.modalbody .itemrow .tier{margin-left:4px}
+.modalbody .itemrow button{min-height:34px;border-color:#d0b677;background:linear-gradient(#3c5660,#243943);color:#fff0c5}
+.modalbody .card .small{color:#d1d6cb}
+.modalbody .danger{color:#f3a08d}
