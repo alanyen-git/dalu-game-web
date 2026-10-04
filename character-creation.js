@@ -25,7 +25,10 @@
       var chosen = kind === "talent"
         ? selected.talents.some(function (entry) { return entry.id === item.id; })
         : selected[kind] && selected[kind].id === item.id;
-      return '<button type="button" class="creation-option ' + (chosen ? "selected" : "") + '" data-create-kind="' + kind + '" data-create-id="' + esc(item.id) + '"><strong>' + esc(item.name) + '</strong><small>' + esc(item.description) + '</small></button>';
+      var detail = kind === "profession"
+        ? [item.combat_role, item.weapon_group, item.resource_type].filter(Boolean).join("・")
+        : [item.category, item.group, item.tier].filter(Boolean).join("・");
+      return '<button type="button" class="creation-option ' + (chosen ? "selected" : "") + '" data-create-kind="' + kind + '" data-create-id="' + esc(item.id) + '"><strong>' + esc(item.name) + '</strong><small>' + esc(item.description) + '</small>' + (detail ? '<em>' + esc(detail) + '</em>' : '') + '</button>';
     }).join("");
   }
 
@@ -48,7 +51,7 @@
   }
 
   function drawCreator() {
-    root.innerHTML = '<div class="creation-toolbar"><label>角色姓名<input id="created-character-name" maxlength="24" value="' + esc(name) + '"></label><button type="button" class="outline-button" data-create-cancel>返回目前旅人</button></div><div class="creation-groups"><section class="creation-group"><h4>種族</h4><div class="creation-options">' + cards("race") + '</div></section><section class="creation-group"><h4>出身</h4><div class="creation-options">' + cards("origin") + '</div></section><section class="creation-group"><h4>職業</h4><div class="creation-options">' + cards("profession") + '</div></section><section class="creation-group"><h4>天賦（選兩項）</h4><div class="creation-options">' + cards("talent") + '</div></section></div><section class="growth-card"><h4>技能傳承（選填）</h4>' + drawArchive() + '<button type="button" class="text-button" data-create-no-inherit>不使用傳承技能</button></section><p class="creation-source">角色資料由大陸旅誌本地目錄提供。</p><button type="button" class="primary" data-create-start>建立新旅人</button>';
+    root.innerHTML = '<div class="creation-toolbar"><label>角色姓名<input id="created-character-name" maxlength="24" value="' + esc(name) + '"></label><button type="button" class="outline-button" data-create-cancel>返回目前旅人</button></div><div class="creation-groups"><section class="creation-group"><h4>種族</h4><div class="creation-options">' + cards("race") + '</div></section><section class="creation-group"><h4>出身</h4><div class="creation-options">' + cards("origin") + '</div></section><section class="creation-group"><h4>職業</h4><div class="creation-options">' + cards("profession") + '</div></section><section class="creation-group"><h4>天賦（選兩項）</h4><div class="creation-options">' + cards("talent") + '</div></section></div><section class="growth-card"><h4>技能傳承（選填）</h4>' + drawArchive() + '<button type="button" class="text-button" data-create-no-inherit>不使用傳承技能</button></section><p class="creation-source">角色資料直接取自群陸旅誌資料庫；ID、職業定位與屬性沿用原始資料。</p><button type="button" class="primary" data-create-start>建立新旅人</button>';
     var input = root.querySelector("#created-character-name");
     input.addEventListener("input", function (event) { name = event.target.value; });
   }
