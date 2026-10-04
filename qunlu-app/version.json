@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.78.0",
-  "previous_version": "CURRENT-1.77.0",
+  "version": "CURRENT-1.79.0",
+  "previous_version": "CURRENT-1.78.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "新增原創多地貌旅行、事件插畫、隊伍與裝備呈現，並加入地圖探索狀態及戰鬥命中特效。",
+  "summary": "新增手機友善的分層地圖縮放、拖曳與重設控制，沿用既有地點和道路。",
   "changelog": [
+    "世界、政體、行省、當地及城鎮地圖加入觸控拖曳、放大／縮小與重設，並保留節點原有互動。",
     "新增森林、山地、河谷、海岸、沼澤、草原及遺跡等原創場景，地圖與城鎮首頁依現有地點資料呈現。",
     "新增營地、遭遇、公會、神龕、村莊與地城原創事件插畫，連動既有事件與委託視窗。",
     "角色資料頁呈現現有隊伍立繪；裝備頁加入專屬原創裝備展示，不改動角色／裝備存檔資料。",
@@ -53,9 +54,9 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.6",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.7",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v22",
+  "pwa_cache_revision": "v23",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5"
 }

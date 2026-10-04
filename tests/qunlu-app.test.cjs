@@ -70,3 +70,10 @@ assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.5");
 assert.ok(mapSource.includes('?"mountain":') && mapSource.includes('?"river":'), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
+
+const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
+assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
+assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
+assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v23"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.7");
