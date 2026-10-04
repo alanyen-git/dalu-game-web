@@ -26,14 +26,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Import pinned Qunlu character catalog
-        run: node scripts/import-qunlu-catalog.cjs
+      - name: Run project regression suite
+        run: |
+          npm test
+          npm run prepare:android
+          npm run test:android-bundle
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'www'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify public version and source commit
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node scripts/verify-pages.cjs
