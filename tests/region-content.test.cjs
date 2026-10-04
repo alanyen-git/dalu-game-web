@@ -35,4 +35,18 @@ assert.match(hillSvg, /<title[^>]*>北坡鐘丘斷鐘石座<\/title>/);
 assert.match(hillSvg, /<desc[^>]*>.*短草.*銅鐘石座.*<\/desc>/);
 assert.doesNotMatch(hillSvg, /(?:href|src)=["']https?:/i, "scene art must not fetch remote resources");
 assert.ok(worker.includes("./assets/art/locations/bell-hill.svg"), "offline cache must include Bell Hill art");
-console.log("PASS Mist Harbor and Bell Hill scenes, named residents, accessible local art, and offline wiring");
+const plannedScenes = ["wind-spring", "salt-marsh", "sand-ruins"];
+for (const id of plannedScenes) {
+  const scene = scenes[id];
+  assert.ok(scene, `${id} must have a local scene record`);
+  assert.ok(scene.title && scene.imageAlt && scene.description, `${id} needs readable scene copy and alternative text`);
+  assert.ok(scene.resident?.name && scene.resident?.role, `${id} needs a named local profile`);
+  const sceneAsset = path.join(root, scene.image.replace(/^\.\//, ""));
+  assert.ok(fs.existsSync(sceneAsset), `${id} scene art must exist locally for offline use`);
+  const sceneSvg = fs.readFileSync(sceneAsset, "utf8");
+  assert.match(sceneSvg, /<title[^>]*>[^<]+<\/title>/, `${id} art needs an accessible SVG title`);
+  assert.match(sceneSvg, /<desc[^>]*>[^<]+<\/desc>/, `${id} art needs an accessible SVG description`);
+  assert.doesNotMatch(sceneSvg, /(?:href|src)=["']https?:/i, `${id} art must not fetch remote resources`);
+  assert.ok(worker.includes(scene.image.replace(/^\.\//, "./")), `${id} art must be precached for offline use`);
+}
+console.log("PASS all five local region scenes, resident records, accessible art, and offline wiring");

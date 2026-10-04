@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-labelledby="title desc">
+  <title id="title">沉砂遺跡流沙舊城門</title>
+  <desc id="desc">流沙從幾何石門前掠過，門柱刻著舊銅色導航線，通往沉砂遺跡深處。</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#d7c8a9"/><stop offset="1" stop-color="#f5f1e8"/></linearGradient>
+    <linearGradient id="sand" x2="0" y2="1"><stop stop-color="#c4a778"/><stop offset="1" stop-color="#8b704f"/></linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#sky)"/>
+  <circle cx="143" cy="83" r="31" fill="#d6a35d" opacity=".75"/>
+  <path d="M0 196q123-53 247-13t235-4 318 14v87H0Z" fill="#b59a70" opacity=".7"/>
+  <path d="M0 273q127-69 265-28t275-1 260-18v194H0Z" fill="url(#sand)"/>
+  <path d="M223 310V145l67-62h222l69 62v165h-66V178l-43-40H332l-43 40v132Z" fill="#5e6158"/>
+  <path d="M248 301V156l55-52h194l58 52v145h-36V171l-37-33H338l-38 33v130Z" fill="#8d8978"/>
+  <path d="M351 302V190l47-45h51l45 45v112Z" fill="#263e3f"/>
+  <path d="M398 302V204l25-27 25 27v98Z" fill="#102c36"/>
+  <path d="M223 174h64m228 0h66M246 208h48m210 0h49" stroke="#d6a35d" stroke-width="5"/>
+  <path d="m267 193 36 22-29 25 34 24-30 28m247-99-36 22 30 25-34 24 30 28" fill="none" stroke="#d6a35d" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M0 327q126-44 247-3t286-3 267 4v95H0Z" fill="#a88a5e"/>
+  <path d="M0 365q110-39 225-3t247 0 328 2v56H0Z" fill="#806746"/>
+  <path d="m0 345 220-22m157 15 184-17m86 22 153-14" fill="none" stroke="#f1dfb9" stroke-opacity=".76" stroke-width="5"/>
+  <path d="M291 317h225m-202 15h177m-151 15h127" stroke="#5c5141" stroke-width="9"/>
+  <path d="M608 313v-73m-18 73-7-50m25 50 14-58m81 62v-90m-19 90-6-61m28 61 13-69" stroke="#737b69" stroke-width="6" stroke-linecap="round"/>
+  <path d="M31 228q108-35 205 1m356-34q89-25 178 2" fill="none" stroke="#fffdf8" stroke-opacity=".55" stroke-width="7"/>
+</svg>
