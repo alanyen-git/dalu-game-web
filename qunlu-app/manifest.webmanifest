@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "群陸旅誌",
+  "short_name": "群陸旅誌",
+  "description": "西方奇幻文字沙盒遊戲《群陸旅誌》",
+  "lang": "zh-Hant-TW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071014",
+  "theme_color": "#071014",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
