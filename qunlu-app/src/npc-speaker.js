@@ -32,7 +32,7 @@ function resolve(facilityId,speakerRole,locationId,interactionKey,conversationSu
  }
  registry[archetype.id]=entry;
  if((isNewInteraction||created||migrated)&&typeof persist==="function")try{persist()}catch(e){}
- return {id:archetype.id,name:String(entry.name),role:archetype.role,regionId,cultureId:archetype.culture_id,firstSeenAt:entry.firstSeenAt||null,lastSeenAt:entry.lastSeenAt||null,locationId:entry.locationId||"",talks:Number(entry.talks)||0};
+ return {id:archetype.id,name:String(entry.name),role:archetype.role,regionId,cultureId:archetype.culture_id,visualStyle:profile,firstSeenAt:entry.firstSeenAt||null,lastSeenAt:entry.lastSeenAt||null,locationId:entry.locationId||"",talks:Number(entry.talks)||0};
 }
 function values(value){return Array.isArray(value)?value.filter(Boolean).map(esc).join("、"):esc(value||"未登錄")}
 function encountered(){const registry=G?.worldState?.namedDialogueNpcNames||{};return Object.entries(registry).map(([id,value])=>{const archetype=(DB.regional_npc_archetypes||[]).find(x=>x.id===id);const entry=typeof value==="string"?{name:value}:value;if(!archetype||!entry?.name)return null;return {id,entry,archetype}}).filter(Boolean)}

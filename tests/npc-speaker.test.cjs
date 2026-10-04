@@ -12,7 +12,7 @@ const sandbox={DB:{locations:[{id:"L-WILLOW",world_region_id:"REG-18",name:"柳�
 vm.runInNewContext(source,sandbox);
 const resolve=sandbox.window.resolveRegionalNpcSpeaker;
 const first=resolve("general","雜貨鋪常駐人員","L-WILLOW","dialogue-one","你提到 <script>危險路段</script>");
-assert.equal(first.id,"NPC-ARCH-18-02");assert.equal(first.name,"艾洛恩");assert.equal(first.role,"行商與工匠中介");assert.equal(first.talks,1);
+assert.equal(first.id,"NPC-ARCH-18-02");assert.equal(first.name,"艾洛恩");assert.equal(first.role,"行商與工匠中介");assert.equal(first.visualStyle,"asdale_west");assert.equal(first.talks,1);
 const repeated=resolve("general","商店服務人員","L-WILLOW","dialogue-one","重繪時不替換原紀錄");
 assert.equal(repeated.name,"艾洛恩");assert.equal(repeated.talks,1,"observer updates must not count the same dialogue twice");
 const second=resolve("general","商店服務人員","L-WILLOW","dialogue-two","後來你又提到石橋");

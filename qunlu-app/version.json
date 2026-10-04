@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.85.0",
-  "previous_version": "CURRENT-1.84.0",
+  "version": "CURRENT-1.86.0",
+  "previous_version": "CURRENT-1.85.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "裝備頁新增依實際穿戴資料呈現的部位、耐久狀態與裝備加成總覽。",
+  "summary": "具名對話角色依資料庫文化分類呈現原創服飾飾紋，串接現有職務肖像。",
   "changelog": [
+    "具名對話角色依既有文化命名分類加入七組原創服飾色彩與飾紋，仍按原型職務選擇肖像；未新增文化設定或人物資料。",
     "裝備頁依存檔中的穿戴欄位顯示物品、耐久狀態及實際生效的裝備屬性加成；保留原裝卸流程，窄螢幕改用雙欄呈現。",
     "人物卡新增最近五則實際對話摘要、設施與地點；同一視窗重繪不重複保存，舊存檔相容，所有顯示文字經跳脫處理。",
     "人物誌列出已遇見的地區具名角色，提供原型職務、文化、社會層級、知識範圍、相關委託與對話紀錄；時間與次數只在實際設施對話時更新。",
@@ -62,11 +63,12 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.8",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v29",
+  "pwa_cache_revision": "v30",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
   "dialogue_portrait_revision": "DIALOGUE-PORTRAIT-1.0",
-  "named_dialogue_npc_revision": "REGIONAL-NPC-JOURNAL-1.1",
-  "character_equipment_revision": "EQUIPMENT-DETAIL-1.0"
+  "named_dialogue_npc_revision": "REGIONAL-NPC-JOURNAL-1.2",
+  "character_equipment_revision": "EQUIPMENT-DETAIL-1.0",
+  "regional_portrait_revision": "REGIONAL-PORTRAIT-1.0"
 }
