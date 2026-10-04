@@ -40,12 +40,20 @@ function local(id){
  const content='<div class="xu-area-caption"><b>'+esc(s.name)+'</b><span>'+esc(s.role||"當地道路與探索地點")+'</span></div><div class="xu-area-paths">'+lines.map(()=>'<i class="xu-route-line"></i>').join("")+'</div><div class="xu-node-grid">'+rows+'</div><div class="xu-map-footer">選擇城鎮進入街廓；野外和地下城會顯示正確地點資訊與道路。</div>';
  showModal(s.name+"・當地區域",frame(s.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+crumb("當地區域",call("xuLocal",s.id)),board("local",content)),p?call("xuProvince",p.id):call("xuWorld",""));
 }
+function dungeonIndex(l){
+ const points=(Array.isArray(l.explore)?l.explore:[]).filter(x=>Array.isArray(x)&&x.length>0);
+ const records=typeof G!=="undefined"&&Array.isArray(G.explorationIntel)?G.explorationIntel.filter(x=>x&&x.locationId===l.id):[];
+ const known=points.reduce((n,p)=>n+(records.some(r=>String(r.text||"").includes(String(p[0])))?1:0),0);
+ const rows=points.map(p=>{const label=String(p[0]),weight=Math.round(Number(p[1])||0),record=records.find(r=>String(r.text||"").includes(label));return '<div class="xu-dungeon-point '+(record?"is-known":"")+'" role="listitem"><span class="xu-dungeon-point-mark" aria-hidden="true">'+(record?"✓":"◇")+'</span><span class="xu-dungeon-point-copy"><b>'+esc(label)+'</b><small>'+(record?esc(record.quality||"已記錄")+"｜重訪 "+Math.max(1,Number(record.timesSeen)||1)+" 次":"尚未記錄")+'</small></span><span class="xu-dungeon-weight">權重 '+weight+'%</span></div>'}).join("");
+ return '<section class="xu-dungeon-index" aria-label="地城探索紀錄"><div class="xu-dungeon-index-head"><div><b>地城探索索引</b><small>依既有資料庫列出探索項目</small></div><strong>'+known+' / '+points.length+'<small>已記錄</small></strong></div><div class="xu-dungeon-points" role="list">'+(rows||'<p class="small">此地尚未建立探索項目。</p>')+'</div><p class="xu-dungeon-note">名稱與權重來自既有地點資料；此索引不代表房間座標或地圖路徑。實際探索後，線索會依本機旅誌更新。</p></section>'
+}
 function locationMap(id){
  const l=getLoc(id);if(!l)return world();if(l.kind==="town")return town(id);const s=areaOf(id),d=l.kind==="dungeon";
  const links=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call("xuLocation",t.id),t.kind):""}).join("");
- const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" ");
- const terrain=d?(/墓|陵|墳|沉砂|遺跡|廢墟|古城/.test(terrainText)?"crypt":/水|潮|淹|河/.test(terrainText)?"flooded-vault":"vault"):/海|港|灘|海岸/.test(terrainText)?"coast":/沼|濕地|泥灘|鹽潮/.test(terrainText)?"marsh":/草原|平原|原野/.test(terrainText)?"grassland":/山|峰|嶺|峽|雪/.test(terrainText)?"mountain":/河|湖|溪|水道/.test(terrainText)?"river":"forest";
- const content='<div class="xu-site-card"><span class="xu-site-kicker">'+(d?"地下城・入口示意":"野外・探索示意")+'</span><h4>'+esc(l.name)+'</h4><p>'+esc(l.description||l.summary||"依既有地點資料探索周邊環境。")+'</p><button type="button" class="xu-site-action" onclick="'+esc(call("openMapLocationDetail",l.id))+'">開啟地點資料／探索</button></div><div class="xu-node-grid xu-site-routes">'+links+'</div><div class="xu-map-footer">示意沿用已登錄地點和道路，不新增房間、任務或事件。</div>';
+ const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" "),archetype=l.encounter_profile&&l.encounter_profile.archetype||"";
+ const dungeonScene={waterway_ruin:"flooded-vault",natural_water_cave:"flooded-vault",swamp_ruin:"marsh",tomb:"crypt",shrine_ruin:"crypt",natural_burrow:"vault",natural_cave:"vault",mine:"vault",artificial_cellar:"vault",artificial_ruin:"vault",fortress_basement:"vault"}[archetype]||(/水|潮|淹|河/.test(terrainText)?"flooded-vault":/墓|陵|墳|沉砂|遺跡|廢墟|古城/.test(terrainText)?"crypt":"vault");
+ const terrain=d?dungeonScene:/海|港|灘|海岸/.test(terrainText)?"coast":/沼|濕地|泥灘|鹽潮/.test(terrainText)?"marsh":/草原|平原|原野/.test(terrainText)?"grassland":/山|峰|嶺|峽|雪/.test(terrainText)?"mountain":/河|湖|溪|水道/.test(terrainText)?"river":"forest";
+ const content='<div class="xu-site-card"><span class="xu-site-kicker">'+(d?"地下城・入口示意":"野外・探索示意")+'</span><h4>'+esc(l.name)+'</h4><p>'+esc(l.description||l.summary||"依既有地點資料探索周邊環境。")+'</p><button type="button" class="xu-site-action" onclick="'+esc(call("openMapLocationDetail",l.id))+'">開啟地點資料／探索</button></div>'+(d?dungeonIndex(l):"")+'<div class="xu-node-grid xu-site-routes">'+links+'</div><div class="xu-map-footer">示意沿用已登錄地點和道路，不新增房間、任務或事件。</div>';
  showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?("dungeon-site terrain-"+terrain):("wild-site terrain-"+terrain),content,terrain)),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function town(id){
