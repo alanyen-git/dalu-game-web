@@ -1,4 +1,4 @@
-name: Android Debug APK
+name: Qunlu-derived Android Debug APK
 
 on:
   push:
@@ -27,8 +27,9 @@ jobs:
         run: |
           npm run import:qunlu
           npm test
-          npm run prepare:android
-          npm run test:android-bundle
+          npm run test:qunlu-app
+          npm run prepare:qunlu
+          npm run test:qunlu-bundle
       - name: Generate Android project and build debug APK
         run: |
           npx cap add android
@@ -38,7 +39,7 @@ jobs:
       - name: Upload installable debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: dalu-android-debug-apk-${{ github.sha }}
+          name: qunlu-derived-android-debug-apk-${{ github.sha }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
