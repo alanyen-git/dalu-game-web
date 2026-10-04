@@ -57,7 +57,7 @@ assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse 
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-ART-1.0"), "event and character artwork styling must be present");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
-assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.2");
+assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.3");
 assert.ok(mapSource.includes("mountain-site") && mapSource.includes("river-site"), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 console.log("Qunlu-derived mobile app source and immutable source lock are present.");
