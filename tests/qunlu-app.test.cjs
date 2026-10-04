@@ -104,6 +104,6 @@ assert.ok(npcSpeakerSource.includes("DB.regional_npc_archetypes")&&npcSpeakerSou
 assert.ok(npcSpeakerSource.includes("namedDialogueNpcNames"),"generated identities must persist as a backward-compatible optional save extension");
 assert.equal(version.named_dialogue_npc_revision,"REGIONAL-NPC-SPEAKER-1.0");
 
-assert.ok(css.includes("REGIONAL-NPC-SPEAKER-1.0"),"regional speaker labels must stay readable on mobile");
+assert.ok(mapTheme.includes("REGIONAL-NPC-SPEAKER-1.0"),"regional speaker labels must stay readable on mobile");
 
 assert.ok(portraitSource.includes('/・對話$/.test(title)'),"named identities must only be created in facility dialogue windows");
