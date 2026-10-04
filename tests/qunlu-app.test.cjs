@@ -59,7 +59,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v24"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v25"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -76,7 +76,7 @@ const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v24"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v25"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.8");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
@@ -89,3 +89,9 @@ const db=JSON.parse(dbSource.slice(dbSource.indexOf("=")+1,dbSource.lastIndexOf(
 const dungeons=db.locations.filter(x=>x.kind==="dungeon");
 assert.equal(dungeons.length,18,"index should cover every existing dungeon");
 for(const dungeon of dungeons){assert.ok(Array.isArray(dungeon.explore)&&dungeon.explore.length===5,dungeon.id+" must have five source exploration points");assert.equal(dungeon.explore.reduce((sum,x)=>sum+(Number(x[1])||0),0),100,dungeon.id+" exploration weights must total 100");}
+
+const portraitSource=fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8");
+assert.ok(portraitSource.includes('body.querySelector(".card b")')&&portraitSource.includes("speakerPortraits"),"dialogue portraits must prefer the source speaker role");
+assert.ok(portraitSource.includes("art-dialogue-speaker")&&portraitSource.includes("speaker+\"人物立繪\""),"speaker role must be visible and accessible");
+assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-SPEAKER-1.0"),"speaker role captions must use responsive original styling");
+assert.equal(version.dialogue_portrait_revision,"DIALOGUE-PORTRAIT-1.0");
