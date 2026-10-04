@@ -7,6 +7,7 @@ class Element{
   appendChild(node){this.children.push(node);node.parentNode=this;return node;}
   removeChild(node){this.children=this.children.filter(x=>x!==node);return node;}
   replaceChildren(...nodes){this.children=[];for(const node of nodes)this.appendChild(node);}
+  append(...nodes){for(const node of nodes)this.appendChild(node);}
   addEventListener(name,handler){this.listeners[name]=handler;}
   set textContent(value){this.text=String(value);this.children=[];}
   get textContent(){return this.text+this.children.map(x=>x.textContent).join("");}
