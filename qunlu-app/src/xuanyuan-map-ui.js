@@ -7,7 +7,7 @@ const area=id=>(DB.settlement_region_maps||[]).find(x=>x.id===id);
 const areaOf=id=>(DB.settlement_region_maps||[]).find(x=>(x.location_ids||[]).includes(id));
 const areas=id=>(DB.settlement_region_maps||[]).filter(x=>x.parent_province_region_id===id);
 function crumb(label,fn){return '<button class="xu-crumb" type="button" onclick="'+esc(fn)+'">'+esc(label)+'</button>'}
-function board(kind,body){return '<div class="xu-board '+kind+'"><div class="xu-compass">N</div><div class="xu-terrain ridge-a"></div><div class="xu-terrain ridge-b"></div><div class="xu-river"></div>'+body+'</div>'}
+function board(kind,body){const layer={world:"world",realm:"realm",province:"province",local:"local"}[kind.split(" ")[0]]||"local";return '<div class="xu-board '+kind+'"><svg class="xu-map-art" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="./assets/art/maps/region-atlas.svg#'+layer+'"></use></svg><div class="xu-compass">N</div><div class="xu-terrain ridge-a"></div><div class="xu-terrain ridge-b"></div><div class="xu-river"></div>'+body+'</div>'}
 function frame(title,crumbs,content){return '<div class="xu-map-shell"><div class="xu-map-head"><div><p class="eyebrow">異界旅人・五層地圖</p><h3>'+esc(title)+'</h3><p class="xu-map-hint">世界 → 王國／政體 → 行省 → 當地區域 → 城鎮</p></div><div class="xu-crumbs">'+crumbs+'</div></div>'+content+'</div>'}
 function node(label,meta,fn,kind){return '<button type="button" class="xu-map-node '+(kind||"")+'" onclick="'+esc(fn)+'"><b>'+esc(label)+'</b><small>'+esc(meta||"")+'</small></button>'}
 function world(){
