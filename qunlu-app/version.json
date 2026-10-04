@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.74.0",
-  "previous_version": "CURRENT-1.73.0",
+  "version": "CURRENT-1.75.0",
+  "previous_version": "CURRENT-1.74.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "新增人物、委託與奇遇彈窗原創肖像，並統一資料視窗的古典金框、資訊層級與物品列表。",
+  "summary": "戰鬥背景依角色所在森林、山道、河谷、城鎮或地城切換，並統一角色、背包、委託資料視窗的金框與資訊卡。",
   "changelog": [
+    "戰鬥背景依目前所在地切換森林、山道、河谷、城鎮或石窟場景，沿用原創地圖素材。",
     "統一角色、背包、委託與資料彈窗的深色卷軸底、青銅金框及資訊卡層級，納入最新離線快取。",
     "加入公會、商人、斥候、工匠、學者及旅人的原創 SVG 肖像；依既有彈窗文字顯示人物立繪，並補齊手機版委託／奇遇介面樣式。",
     "新增山道與河谷兩款原創野外地圖，依地點名稱及描述切換場景，並納入首頁及分層地圖的離線美術。",
@@ -41,8 +42,8 @@
   "netlify_dependency": false,
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.4",
-  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v18",
+  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.1",
+  "pwa_cache_revision": "v19",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.2"
 }
