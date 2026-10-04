@@ -62,9 +62,13 @@ run("progress sources cannot grant duplicate experience", () => {
   assert.equal(hero.growth.experience, 180);
 });
 
-run("character catalog is local to Dalu and includes every creation category", () => {
+run("character catalog is imported from the pinned 群陸旅誌 database", () => {
   const data = require("../character-data.js");
-  for (const key of ["races", "origins", "combat_classes", "talents"]) {
-    assert.ok(Array.isArray(data[key]) && data[key].length >= 3, key + " catalog must be populated");
-  }
+  assert.equal(data.source_repo, "alanyen-git/qunlu-game-web");
+  assert.equal(data.source_revision, "0025a0783dbaf0358ed17dbfb831ecfe8609aa15");
+  assert.equal(data.source_database, "src/game-data.js");
+  assert.equal(data.races.length, 15);
+  assert.equal(data.origins.length, 50);
+  assert.equal(data.combat_classes.length, 100);
+  assert.equal(data.talents.length, 100);
 });
