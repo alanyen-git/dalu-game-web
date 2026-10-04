@@ -86,3 +86,70 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
  .xuan-battlebox .battleactions{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
  .xuan-battlebox .battleactions button{min-height:40px;padding:7px 4px;font-size:12px}
 }
+
+/* XUANYUAN-MAP-UI-1.1：原創地形、路網與城鎮街區圖 */
+.xu-map-shell{gap:13px}
+.xu-map-head{padding:3px 2px 10px;border-bottom:1px solid #d6bf8066}
+.xu-map-head h3{font-size:20px;letter-spacing:.08em;text-shadow:0 2px 8px #0008}
+.xu-map-hint{max-width:560px;color:#d6ddcf;font-size:11px;line-height:1.55}
+.xu-board{min-height:520px;border:2px solid #d3bd81;border-radius:9px;background:#486a62;box-shadow:inset 0 0 0 4px #172e34aa,inset 0 0 26px #18232999,0 12px 30px #0008}
+.xu-board:before{inset:7px;opacity:.68;background-image:repeating-radial-gradient(ellipse at 30% 30%,transparent 0 27px,#e8d7a222 28px 29px,transparent 30px 47px),repeating-linear-gradient(25deg,#172d3420 0 1px,transparent 1px 30px),radial-gradient(#fff2 1px,transparent 1px);background-size:auto,auto,18px 18px}
+.xu-board:after{left:5%;right:5%;top:13%;bottom:11%;border:2px solid #e8d5a155;border-radius:34% 52% 41% 48%;transform:rotate(-4deg);box-shadow:inset 0 0 0 10px #253f3022,0 0 0 9px #e5d29a10}
+.xu-board.world{background:radial-gradient(ellipse at 48% 48%,#416b70,#254b5e 70%,#162f43)}
+.xu-board.world:after{left:13%;right:13%;top:17%;bottom:16%;border-radius:41% 55% 47% 50%;transform:rotate(-9deg);border-color:#c9c18a99}
+.xu-board.realm{background:linear-gradient(150deg,#6c8060,#44695a 56%,#345465)}
+.xu-board.realm:after{left:9%;right:11%;top:17%;bottom:14%;border-radius:18% 47% 25% 54%;transform:rotate(2deg)}
+.xu-board.province{background:linear-gradient(145deg,#98a16b,#6d8965 46%,#52727a)}
+.xu-board.province:after{left:7%;right:7%;top:15%;bottom:12%;border-radius:8% 29% 12% 38%;transform:rotate(-2deg);border-color:#eee0a066}
+.xu-compass{width:38px;height:38px;border:1px solid #ffe4a8;background:linear-gradient(#75623b,#332d25);box-shadow:0 2px 7px #0008;color:#fff0b5}
+.xu-map-title{border:1px solid #eddaa1;background:linear-gradient(145deg,#4f5545ee,#252f2cee);box-shadow:0 4px 12px #0006,inset 0 1px #fff5;letter-spacing:.08em}
+.xu-node-grid{inset:24% 7% 16%;padding:8px 2px;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;align-content:center}
+.xu-node-grid:before{content:"";position:absolute;inset:5% -3%;z-index:-1;background:linear-gradient(24deg,transparent 47%,#d6c39a66 48%,#d6c39a66 51%,transparent 52%),linear-gradient(153deg,transparent 47%,#d6c39a55 48%,#d6c39a55 51%,transparent 52%),linear-gradient(90deg,transparent 32%,#cdbc9566 33%,#cdbc9566 34%,transparent 35%,transparent 65%,#cdbc9566 66%,#cdbc9566 67%,transparent 68%)}
+.xu-map-node{position:relative;min-height:66px;display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid #f0d99a;border-radius:8px 12px 8px 12px;background:linear-gradient(155deg,#f0e3bf,#c8b688);color:#332d22;box-shadow:0 4px 0 #53463188,0 7px 12px #06131177,inset 0 1px #fff9;text-shadow:none}
+.xu-map-node:before{content:"";position:absolute;left:50%;bottom:-7px;width:12px;height:12px;background:#cbb88b;border-right:1px solid #f0d99a;border-bottom:1px solid #f0d99a;transform:translateX(-50%) rotate(45deg)}
+.xu-map-node b{font-size:11px;line-height:1.35;color:#302a20}
+.xu-map-node small{color:#625741;font-size:9px;line-height:1.3}
+.xu-map-node:hover{transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 6px 0 #53463188,0 12px 16px #06131177}
+.xu-map-node .xu-node-icon{flex:0 0 27px;width:27px;height:27px;display:grid;place-items:center;border:1px solid #9a8351;border-radius:50%;background:linear-gradient(#82724a,#51442e);color:#ffedb0;font-size:14px}
+.xu-map-node.realm{background:linear-gradient(155deg,#e8d9b4,#c8b58a)}
+.xu-map-node.province{background:linear-gradient(155deg,#d9e0bb,#9ca77d)}
+.xu-map-node.town{border-color:#f0d397;background:linear-gradient(155deg,#f4ddb1,#d3aa69)}
+.xu-map-node.wild{border-color:#d6e1a2;background:linear-gradient(155deg,#d5e0b1,#8ba46e)}
+.xu-map-node.dungeon{border-color:#dcb8a1;background:linear-gradient(155deg,#d4c0a8,#8c7167)}
+.xu-map-node.route{border-style:dashed;background:linear-gradient(155deg,#e3dec6,#aaa78c)}
+.xu-map-footer{left:12px;right:12px;bottom:10px;border:1px solid #dfcd9c66;background:#1b2928eF;color:#eee2bd;text-align:center}
+.xu-town-board{min-height:580px;padding:0;border:2px solid #d2bd88;border-radius:9px;background:linear-gradient(145deg,#738365,#9b956c 48%,#566e62);box-shadow:inset 0 0 0 4px #26392d99,0 10px 26px #0008}
+.xu-town-board:before{inset:12px;opacity:.88;border:15px solid #b7a47b;border-radius:15px;background-color:#677653;background-image:linear-gradient(90deg,transparent 0 8%,#d8c6a1 8.5% 11.5%,transparent 12% 30%,#d8c6a1 30.5% 33.5%,transparent 34% 58%,#d8c6a1 58.5% 61.5%,transparent 62% 86%,#d8c6a1 86.5% 89.5%,transparent 90%),linear-gradient(0deg,transparent 0 15%,#d8c6a1 15.5% 19%,transparent 19.5% 42%,#d8c6a1 42.5% 46%,transparent 46.5% 68%,#d8c6a1 68.5% 72%,transparent 72.5% 91%,#d8c6a1 91.5% 95%,transparent 95.5%),repeating-linear-gradient(90deg,#6f6344 0 7px,#928158 7px 12px,#536145 12px 16px),repeating-linear-gradient(0deg,#65754b 0 10px,#977c50 10px 15px)}
+.xu-town-board:after{content:"";position:absolute;left:13px;right:13px;top:13px;bottom:13px;z-index:1;border:2px solid #e3cf9a;border-radius:12px;pointer-events:none;box-shadow:inset 0 0 0 4px #202d2788}
+.xu-town-board .xu-town-title{position:absolute;top:24px;left:50%;transform:translateX(-50%);margin:0;z-index:4;border:1px solid #f0dda5;background:#353c31ed;box-shadow:0 4px 12px #0008}
+.xu-town-board .xu-town-street{display:none}
+.xu-facility-grid{inset:25% 7% 20%;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.xu-facility{position:relative;min-height:86px;border:1px solid #f5dda0;border-radius:7px 12px 7px 12px;background:linear-gradient(155deg,#eadbb4,#ba9862);color:#30291f;box-shadow:0 4px 0 #47392a99,0 8px 14px #08130f88,inset 0 1px #fff9}
+.xu-facility:after{content:"";position:absolute;left:50%;bottom:-7px;width:12px;height:12px;background:#c3a273;border-right:1px solid #f5dda0;border-bottom:1px solid #f5dda0;transform:translateX(-50%) rotate(45deg)}
+.xu-facility-icon{color:#51452f;text-shadow:0 1px #fff8}
+.xu-facility b{color:#30291f}
+.xu-facility small{color:#5d4d35}
+.xu-facility.tavern{background:linear-gradient(155deg,#e9cc9b,#b47750)}
+.xu-facility.inn{background:linear-gradient(155deg,#e1d7bd,#9c9277)}
+.xu-facility.church{background:linear-gradient(155deg,#f0e3b6,#c6ae70)}
+.xu-facility.guild{background:linear-gradient(155deg,#e4d5ad,#a69363)}
+.xu-town-routes{bottom:57px;left:18px;right:18px;padding:8px;border:1px solid #ead7a1;background:#26352deB;border-radius:8px}
+.xu-town-routes .xu-map-node{min-width:148px;min-height:54px}
+.xu-map-footer{z-index:6}
+.xu-tabs button{border-color:#bfa56e;background:linear-gradient(#e2d2a8,#a78c57);color:#302a20}
+.xu-tabs button.active{border-color:#fff0be;background:linear-gradient(#e7b962,#9f673a);color:#231c16}
+@media(max-width:560px){
+ .xu-map-head h3{font-size:18px}
+ .xu-board{min-height:500px}
+ .xu-node-grid{inset:23% 5% 16%;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 9px}
+ .xu-map-node{min-height:60px;padding:7px}
+ .xu-map-node .xu-node-icon{flex-basis:23px;width:23px;height:23px;font-size:12px}
+ .xu-map-node b{font-size:10px}
+ .xu-map-node small{font-size:8px}
+ .xu-town-board{min-height:650px}
+ .xu-facility-grid{inset:23% 5% 20%;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .xu-facility{min-height:74px;padding:6px}
+ .xu-facility-icon{font-size:18px}
+ .xu-facility b{font-size:10px}
+ .xu-town-routes{left:8px;right:8px;bottom:56px}
+}
