@@ -14,7 +14,9 @@
     "test:update": "node tests/app-update.test.cjs",
     "test:story": "node tests/story-progression.test.cjs",
     "test:character-growth": "node tests/character-growth.test.cjs",
-    "test:region-content": "node tests/region-content.test.cjs"
+    "test:region-content": "node tests/region-content.test.cjs",
+    "prepare:qunlu": "node scripts/prepare-qunlu-app.cjs",
+    "test:qunlu-app": "node tests/qunlu-app.test.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",
