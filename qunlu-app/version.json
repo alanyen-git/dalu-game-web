@@ -1,11 +1,18 @@
 {
-  "version": "CURRENT-1.77.0",
-  "previous_version": "CURRENT-1.76.0",
+  "version": "CURRENT-1.78.0",
+  "previous_version": "CURRENT-1.77.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "新增世界、政體、行省與當地四層原創地形圖，並為城鎮設施服務加入專屬室內場景。",
+  "summary": "新增原創多地貌旅行、事件插畫、隊伍與裝備呈現，並加入地圖探索狀態及戰鬥命中特效。",
   "changelog": [
+    "新增森林、山地、河谷、海岸、沼澤、草原及遺跡等原創場景，地圖與城鎮首頁依現有地點資料呈現。",
+    "新增營地、遭遇、公會、神龕、村莊與地城原創事件插畫，連動既有事件與委託視窗。",
+    "角色資料頁呈現現有隊伍立繪；裝備頁加入專屬原創裝備展示，不改動角色／裝備存檔資料。",
+    "戰鬥敵方按現有怪物資料顯示不同類型立繪，並依傷害、暴擊、魔法、治療及閃避顯示動畫回饋。",
+    "地圖節點顯示目前位置及已抵達狀態，並按白晝、黃昏與夜間變化場景氛圍。",
+    "增加常見材料與裝備類別圖示及品質底框；將新增場景美術納入 PWA 離線快取。",
+    "按多區域原創素材、動態探索狀態及手機版可操作畫面重新稽核，美術與遊戲感覆蓋估值為 82/100。",
     "新增世界、王國／政體、行省及當地區域四款原創地形地圖，沿用既有行政區、路線與地標資料。",
     "為公會、商鋪、鐵匠鋪、酒館、旅館、教會、診療所及已登錄工坊服務加入專屬原創室內場景，保留原有互動與服務流程。",
     "依 60% 稽核基準，地圖與城鎮室內兩類覆蓋由 50% 提升至 75%，加權總分由 53 升至 60。",
@@ -46,9 +53,9 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.5",
-  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.1",
-  "pwa_cache_revision": "v21",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.6",
+  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
+  "pwa_cache_revision": "v22",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
-  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.4"
+  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.5"
 }
