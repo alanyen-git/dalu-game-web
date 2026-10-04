@@ -286,3 +286,17 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-board.wild-site.river-site{background-image:url("../art/maps/river-valley.svg")}
 .xu-board.wild-site.forest-site{background-image:url("../art/maps/old-forest.svg")}
 .xu-board.wild-site.mountain-site,.xu-board.wild-site.river-site,.xu-board.wild-site.forest-site{background-size:cover;background-position:center}
+
+/* XUANYUAN-DIALOGUE-ART-1.0：人物、委託與事件彈窗立繪 */
+.art-dialogue-portrait{float:right;width:min(32%,140px);height:142px;margin:-2px 0 8px 12px;display:grid;place-items:end center;overflow:hidden;border:1px solid #d9bd7e;border-radius:9px;background:radial-gradient(ellipse at 50% 35%,#ad946066,transparent 65%),linear-gradient(145deg,#243c45,#101c28);box-shadow:inset 0 1px #fff4,0 5px 13px #0006}
+.art-dialogue-portrait svg{width:100%;height:100%;filter:drop-shadow(0 3px 3px #0007)}
+.modalbody:has(.art-dialogue-portrait){display:flow-root}
+.modalbody .card{border-color:#bda16b88;background:linear-gradient(145deg,#1b3344,#102336);box-shadow:inset 0 1px #fff2,0 4px 12px #07121b66}
+.modalbody .card b,.modalbody .section-title h3{color:#f0d59a}
+.modalhead{background:linear-gradient(115deg,#293e4a,#182b39 65%,#483b29);border-bottom-color:#d2b578}
+.modaltitlewrap h2{font-family:Georgia,"Noto Serif TC",serif;letter-spacing:.04em}
+.modalicon{border-color:#d7bc7d;background:linear-gradient(#756342,#3e3425);color:#ffe4a4}
+.itemrow{border-bottom:1px solid #c3a76a55;background:linear-gradient(90deg,#172d3c66,transparent);border-radius:5px}
+.itemrow:hover{background:linear-gradient(90deg,#816b4244,#172d3c33)}
+.modalbody .tier{border-color:#d6bd82;background:linear-gradient(#514834,#2a2b25);color:#f2dcaa}
+@media(max-width:560px){.art-dialogue-portrait{width:31%;height:116px;margin-left:8px}}
