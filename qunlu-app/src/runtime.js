@@ -4259,6 +4259,9 @@ function openCharacter(){
  const c=G.character,cc=cls(c.classId),cs=combatStats(),eres=elementalResistances();
  const roleText=cc.combat_role||"—",trackText=cc.combat_track_label||combatTrackText(cc);
  const subjobText=c.subjobs.length?c.subjobs.map(x=>`${sub(x.id).name}［${x.grade}］`).join("、"):"無";
+ const safePartyText=v=>String(v||"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ const members=[{name:c.name,role:cc.name,type:"warrior"},...partyMembers().map(m=>{const t=partyTemplate(m.templateId)||{},role=t.role||t.classId||"隊友",type=/治療|祭司|僧侶/.test(role)?"healer":/魔法|術士|法師/.test(role)?"mage":/弓|斥候|遊俠/.test(role)?"scout":"warrior";return{name:t.name||"冒險團隊友",role,type}})];
+ const partyVisual=`<section class="xu-party-formation"><h3>冒險團隊形・${members.length} 人</h3>${members.map(m=>`<div class="xu-party-member"><svg viewBox="0 0 128 160" aria-hidden="true"><use href="./assets/art/battle-sd-portraits.svg#${m.type}"></use></svg><b>${safePartyText(m.name)}</b><small>${safePartyText(m.role)}</small></div>`).join("")}</section>`;
  const attrs=[["STR 力量","力量"],["DEX 敏捷","敏捷"],["CON 體質","體力"],["INT 智力","智力"],["WIS 精神","意志"],["CHA 魅力","魅力"],["LUK 幸運","幸運"]].map(([label,key])=>`<div class="card"><b>${label}</b><br>${c.stats[key]}${effectiveStat(key)!==c.stats[key]?` → ${effectiveStat(key)}`:""}${c.abilityPoints>0?` <button class="stat-up good" onclick="spendAbilityPoint('${key}')">＋1</button>`:""}</div>`).join("");
  const core=`<div class="grid3"><div class="card"><b>物理攻擊</b><br>${cs.attack}</div><div class="card"><b>魔法攻擊</b><br>${cs.magicPower}</div><div class="card"><b>物理防禦</b><br>${cs.defense}</div><div class="card"><b>魔法防禦</b><br>${cs.magicDefense}</div><div class="card"><b>命中率</b><br>${cs.accuracy}%</div><div class="card"><b>閃避率</b><br>${cs.evasion}%</div><div class="card"><b>爆擊率</b><br>${cs.critRate}%</div><div class="card"><b>爆擊傷害</b><br>${cs.critDamage}%</div><div class="card"><b>速度／先攻</b><br>${cs.initiative}</div></div>`;
  const advanced=`<div class="grid3"><div class="card"><b>移動速度</b><br>${cs.moveSpeed}</div><div class="card"><b>攻擊速度</b><br>${cs.attackSpeed.toFixed(2)}×</div><div class="card"><b>詠唱速度</b><br>${cs.castSpeed.toFixed(2)}×</div><div class="card"><b>射程</b><br>${cs.range}m</div><div class="card"><b>破甲／魔穿</b><br>${cs.armorPenPct}% / ${cs.magicPenPct}%</div><div class="card"><b>格擋</b><br>${cs.blockRate}% / 減傷${cs.blockValue}%</div><div class="card"><b>韌性</b><br>${cs.poise}</div><div class="card"><b>異常命中</b><br>${cs.statusAccuracy}%</div><div class="card"><b>異常抗性</b><br>${cs.statusResist}%</div><div class="card"><b>生命偷取</b><br>${cs.lifeSteal}%</div><div class="card"><b>治療效果</b><br>${cs.healingPower}%</div><div class="card"><b>MP回復</b><br>${cs.manaRegen}/時</div><div class="card"><b>HP回復</b><br>${cs.hpRegen}/時</div><div class="card"><b>爆擊抗性</b><br>${cs.critResist}%</div><div class="card"><b>威脅值</b><br>${cs.threat}</div><div class="card"><b>潛行</b><br>${cs.stealth}</div><div class="card"><b>感知</b><br>${cs.perception}</div><div class="card"><b>負重上限</b><br>${cs.carryCapacity}kg</div></div>`;
@@ -4275,6 +4278,7 @@ function openCharacter(){
    <div class="profile-row"><span class="profile-key">元素親和</span><span class="profile-value">${c.element}</span></div>
    <div class="profile-row"><span class="profile-key">副職業</span><span class="profile-value">${subjobText}</span></div>
  </div>
+ ${partyVisual}
  <div class="money-card"><div class="money-title">持有金額</div><div class="money-display">${denominationMoney(c.moneySilver||0)}</div></div>
  <div class="resource-list-card">
    <div class="resource-list-row"><span class="resource-list-key">HP</span><span class="resource-list-value">${Math.round(c.hp)}/${c.maxHp}</span></div>
@@ -4296,7 +4300,8 @@ function openCharacter(){
 }
 function forgetSkill(i){if(G.character.skills.length<=2){alert("至少保留2個技能。");return}if(confirm(`確定遺忘${G.character.skills[i].name}？`)){G.character.skills.splice(i,1);persist();openCharacter()}}
 function openEquipment(){
- let b=Object.entries(G.character.equipment).map(([slot,eq])=>{
+ const worn=Object.values(G.character.equipment||{}).filter(Boolean).length+(offhandEquip()?1:0);const banner=`<div class="equipment-art-hero"><img src="./assets/art/ui/equipment-display.svg" alt="裝備展示圖"><div><b>行旅裝束</b><span>${worn} / 9 裝備部位已使用</span><span>裝備耐久、數值與副手皆沿用現有欄位</span></div></div>`;
+ let b=banner+Object.entries(G.character.equipment).map(([slot,eq])=>{
    if(!eq)return `<div class="itemrow"><span>${slot}</span><b>—</b></div>`;
    const d=item(eq.id);return `<div class="itemrow"><span><b>${slot}</b>：${d.name} <span class="tier">${d.tier}</span><br><span class="small">${itemStatsText(d)}｜耐久${eq.durability}/${eq.maxDurability}</span></span><button onclick="unequip('${slot}')">卸下</button></div>`
  }).join("");
