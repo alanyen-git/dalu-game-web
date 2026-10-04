@@ -1,11 +1,14 @@
 {
-  "version": "CURRENT-1.64.0",
-  "previous_version": "CURRENT-1.63.0",
+  "version": "CURRENT-1.65.0",
+  "previous_version": "CURRENT-1.64.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
   "summary": "新增軒轅劍三系列節點式分層地圖與城鎮設施互動。",
   "changelog": [
+    "戰鬥介面改為軒轅式原創戰場編排，保留回合制與戰鬥指令。",
+    "加入戰士、法師、治療者、斥候、魔物與夥伴的 SD 二頭身 SVG 立繪。",
+    "調整我方、隊友／夥伴與敵方狀態欄，並同步更新手機版排版與離線快取。",
     "修正分層地圖 UI 的 JavaScript 語法錯誤，恢復地圖開啟與節點互動。",
     "更新 PWA 離線快取版本並納入手機地圖與軒轅式地圖模組。",
     "新增世界地圖、王國／政體級、行省級、當地／城鎮地圖的節點式導覽。",
@@ -21,5 +24,6 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.0"
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.0",
+  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0"
 }

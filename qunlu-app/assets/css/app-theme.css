@@ -23,3 +23,66 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 /* XUANYUAN-MAP-UI-1.0：節點式大地圖與城鎮平面圖 */
 .xu-map-shell{display:grid;gap:10px}.xu-map-head{display:flex;justify-content:space-between;align-items:end;gap:12px;padding:2px}.xu-map-head h3{margin:0;color:#fff}.xu-map-hint{margin:4px 0 0;color:#d8e7ff;font-size:11px}.xu-crumbs{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}.xu-crumb{min-height:30px;padding:5px 8px;font-size:11px;background:#173664;border-color:#9dbce2}.xu-board{position:relative;min-height:430px;overflow:hidden;border:1px solid #c2d8b5aa;border-radius:15px;background:#345f72;box-shadow:inset 0 1px #fff4,0 10px 25px #02081766}.xu-board:before{content:"";position:absolute;inset:0;opacity:.5;background-image:radial-gradient(#f5e5a833 1px,transparent 1px),linear-gradient(135deg,#172e5133 25%,transparent 25%);background-size:22px 22px,44px 44px}.xu-board.world{background:linear-gradient(145deg,#1d5675,#13304f 60%,#3d6b67)}.xu-board.realm{background:linear-gradient(145deg,#356d6a,#233f64 62%,#776741)}.xu-board.province{background:linear-gradient(145deg,#8b9c6d,#55786b 55%,#31556a)}.xu-board:after{content:"";position:absolute;left:7%;right:7%;top:22%;bottom:12%;border:2px solid #e3e3ad55;border-radius:42% 55% 48% 39%;transform:rotate(-5deg);pointer-events:none}.xu-compass{position:absolute;right:13px;top:12px;z-index:4;width:34px;height:34px;display:grid;place-items:center;border:1px solid #ffe39a99;border-radius:50%;color:#ffe39a;background:#152b4dcc;font-weight:900}.xu-map-title{position:relative;z-index:3;margin:18px auto 8px;width:max-content;max-width:82%;padding:9px 14px;border:1px solid #ffe39a99;border-radius:10px;background:#142b4ddd;color:#ffe9af;font-weight:900;text-align:center}.xu-node-grid{position:absolute;inset:25% 7% 16%;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:center;gap:10px}.xu-map-node{min-height:56px;padding:8px;border-radius:12px;text-align:left;background:linear-gradient(#3e73a5ee,#132d59ee);border:1px solid #d2e7ffbb;box-shadow:0 4px #07152d99}.xu-map-node b,.xu-map-node small{display:block}.xu-map-node b{font-size:12px}.xu-map-node small{margin-top:4px;color:#d9e9ff;font-size:10px}.xu-map-node:hover{transform:translateY(-2px);border-color:#ffe39a}.xu-map-node.realm{background:linear-gradient(#6757a8ee,#29245bee)}.xu-map-node.province{background:linear-gradient(#347d79ee,#184d58ee)}.xu-map-node.town{background:linear-gradient(#a76f3aee,#5c3727ee)}.xu-map-node.wild{background:linear-gradient(#4f9162ee,#244936ee)}.xu-map-node.dungeon{background:linear-gradient(#875371ee,#402441ee)}.xu-map-node.route{border-style:dashed;background:#17345ccc}.xu-map-footer{position:absolute;left:12px;right:12px;bottom:10px;z-index:4;padding:8px 10px;border-radius:9px;background:#081a38dd;color:#e6f0ff;font-size:10px;line-height:1.5}.xu-town-board{position:relative;min-height:430px;overflow:hidden;border-radius:14px;background:linear-gradient(145deg,#b9aa83,#7b927c 58%,#557484)}.xu-town-board:before{content:"";position:absolute;inset:0;opacity:.35;background-image:linear-gradient(30deg,#fff3 1px,transparent 1px),linear-gradient(120deg,#192f3e22 1px,transparent 1px);background-size:28px 28px}.xu-town-title{position:relative;z-index:4;margin:14px auto;width:max-content;max-width:80%;display:grid;gap:3px;padding:9px 13px;border:1px solid #ffe4a0;background:#3c4d49e6;color:#fff0bb;border-radius:10px;text-align:center}.xu-town-title small{color:#ecf1dd;font-size:10px}.xu-town-street{position:absolute;z-index:1;background:#6f624f99;box-shadow:inset 0 2px #fff4,inset 0 -2px #39473744}.street-a{left:-8%;right:-8%;top:52%;height:34px;transform:rotate(-12deg)}.street-b{top:10%;bottom:2%;left:50%;width:30px;transform:rotate(25deg)}.xu-facility-grid{position:absolute;inset:26% 7% 22%;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:center;gap:10px}.xu-facility{min-height:76px;padding:8px;border-radius:13px;text-align:center;background:linear-gradient(#d6964fee,#6f3c27ee);border:1px solid #ffe2a0;box-shadow:0 4px #3e241699}.xu-facility:hover{transform:translateY(-2px);filter:brightness(1.12)}.xu-facility-icon,.xu-facility b,.xu-facility small{display:block}.xu-facility-icon{font-size:22px;color:#fff0a9}.xu-facility b{font-size:11px}.xu-facility small{margin-top:3px;color:#ffe8c0;font-size:9px}.xu-facility.tavern{background:linear-gradient(#b56d39ee,#5b2f2aee)}.xu-facility.inn{background:linear-gradient(#7c72aeee,#39365fee)}.xu-facility.church{background:linear-gradient(#cfbd70ee,#776438ee)}.xu-facility.guild{background:linear-gradient(#687db0ee,#283b6fee)}.xu-town-routes{position:absolute;left:10px;right:10px;bottom:48px;z-index:4;display:flex;gap:6px;overflow:auto}.xu-town-routes .xu-map-node{min-width:125px}.xu-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.xu-tabs button{min-height:38px}.xu-tabs button.active{border-color:#ffe39a;background:linear-gradient(#d59a49,#754327)}.xu-facility-panel{display:grid;gap:8px}.xu-facility-panel h4{margin:0;color:#ffe9a7}
 @media(max-width:560px){.xu-map-head{align-items:start;flex-direction:column}.xu-crumbs{justify-content:flex-start}.xu-node-grid{grid-template-columns:repeat(2,minmax(0,1fr));inset:24% 5% 16%;gap:7px}.xu-map-node{min-height:52px;padding:7px}.xu-map-node b{font-size:10px}.xu-map-node small{font-size:9px}.xu-facility-grid{grid-template-columns:repeat(2,minmax(0,1fr));inset:25% 5% 22%;gap:7px}.xu-facility{min-height:68px;padding:6px}.xu-facility-icon{font-size:19px}.xu-facility b{font-size:10px}.xu-board,.xu-town-board{min-height:440px}}
+
+
+/* 軒轅式原創戰場介面與 SD 二頭身人物 */
+#battleBack .battlebox.xuan-battlebox{width:min(1040px,100%);max-height:95dvh;padding:14px;color:#f8f1df;background:radial-gradient(ellipse at 50% 0,#294e82 0,#132b50 45%,#0b1b35 100%);border:2px solid #d0aa61;border-radius:12px;box-shadow:0 20px 64px #020817e8,inset 0 0 0 4px #f6d58a18,inset 0 0 0 7px #07142c}
+#battleBack .battlebox.xuan-battlebox::before{content:"";position:absolute;inset:5px;border:1px solid #e8cb8b66;border-radius:8px;pointer-events:none}
+.xuan-battlebox #battleTitle{color:#f4d993;font-size:12px;letter-spacing:.18em;text-align:center}
+.xuan-battle-head{display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);gap:8px;align-items:stretch}
+.xuan-battle-side{position:relative;min-width:0;padding:10px;border:1px solid #d4b978a6;border-radius:9px;background:linear-gradient(155deg,#244b78ee,#142c51f2 75%);box-shadow:inset 0 1px #fff3,0 5px 16px #02081755}
+.xuan-side-heading{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px;padding:0 2px 6px;border-bottom:1px solid #e3c57a77;color:#f5d995;font-weight:900;letter-spacing:.12em}
+.xuan-side-heading small{font-size:10px;font-weight:600;letter-spacing:0;color:#d3e1f2}
+.xuan-main-unit{min-height:135px;display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e2c57888;border-radius:8px;background:linear-gradient(110deg,#102647cc,#1e3c67aa)}
+.xuan-enemy-unit{flex-direction:row-reverse;text-align:right;background:linear-gradient(250deg,#3d293bdf,#1e3154cc)}
+.xuan-unit-card .xuan-unit-info{min-width:0;flex:1}
+.xuan-unit-card .xuan-unit-info>b{display:block;color:#fff1c9;font-size:16px}
+.xuan-unit-card .xuan-unit-info>.small{color:#cadaed}
+.xuan-unit-card .tier{color:#f2cc70}
+.xuan-sd-portrait{display:flex;flex:0 0 auto;align-items:flex-end;justify-content:center;width:96px;height:124px;overflow:hidden;border-radius:9px 9px 3px 3px;background:radial-gradient(ellipse at 50% 85%,#83bde955,#83bde900 68%);filter:drop-shadow(0 4px 4px #02081799)}
+.xuan-sd-portrait svg{display:block;width:100%;height:100%;overflow:visible}
+.xuan-enemy-unit .xuan-sd-portrait{background:radial-gradient(ellipse at 50% 85%,#ed9a7255,#ed9a7200 68%)}
+.xuan-party-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px;margin-top:7px}
+.xuan-party-strip .party-mini{position:relative;min-width:0;min-height:86px;display:grid;grid-template-columns:42px 1fr;grid-template-rows:auto auto 1fr;column-gap:5px;align-items:center;padding:5px;border:1px solid #d5ba7870;border-radius:7px;background:#0b1c34bb}
+.xuan-party-strip .xuan-sd-portrait{grid-row:1/4;width:42px;height:64px}
+.xuan-party-strip .party-mini>b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff0c6;font-size:11px}
+.xuan-party-strip .party-mini>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c6d6e9;font-size:9px}
+.xuan-party-strip .party-mini>div{font-size:9px}
+.xuan-party-strip .hpbar{grid-column:2;height:6px;margin:1px 0}
+.xuan-party-strip .party-mini.ko{opacity:.48;filter:grayscale(1)}
+.xuan-companion-unit{display:flex;align-items:center;gap:8px;margin-top:7px;padding:6px 8px;border:1px solid #9dc3d577;border-radius:7px;background:#0b1c34aa}
+.xuan-companion-unit .xuan-sd-portrait{width:42px;height:56px}
+.xuan-companion-unit .xuan-unit-info{min-width:0;flex:1}
+.xuan-companion-unit .xuan-unit-info>b{color:#f7e6b7}
+.xuan-battle-head .battleversus{display:grid;place-items:center;align-self:center;width:42px;height:42px;border:1px solid #edce7a;border-radius:50%;background:radial-gradient(circle,#37598a,#132646);color:#ffe5a0;font-family:Georgia,serif;font-size:14px;box-shadow:0 0 18px #edce7a55}
+.xuan-enemy-field{display:flex;align-items:center;justify-content:center;min-height:190px}
+.xuan-enemy-field .battleunit{width:100%;min-height:152px}
+.xuan-battlebox .hpbar{height:9px;border-color:#adc1d888;background:#09182b}
+.xuan-battlebox .hpbar i{background:linear-gradient(90deg,#63c996,#c3df82)}
+.xuan-battlebox .enemy .hpbar i{background:linear-gradient(90deg,#e67669,#efbf77)}
+.xuan-battlebox .battlelog{max-height:126px;min-height:74px;margin:9px 0;border:1px solid #d0b47777;background:#091a32bd;color:#ecf1f4}
+.xuan-command-heading{margin:4px 0 6px;color:#f2d58e;text-align:center;font-size:12px;font-weight:850;letter-spacing:.2em}
+.xuan-battlebox .battleactions button{border-color:#ddbd72;background:linear-gradient(#294e7d,#132d52);color:#fff1ce;box-shadow:inset 0 1px #fff3,0 3px 8px #0005}
+.xuan-battlebox .battleactions button:hover:not(:disabled){border-color:#fff0b4;background:linear-gradient(#41689a,#1b3a67)}
+.xuan-battlebox .battleactions button.good{background:linear-gradient(#477b73,#1b4e4d)}
+.xuan-battlebox .battleactions button.warn{background:linear-gradient(#8a553e,#563024)}
+.xuan-battlebox .battlechoice{padding:8px;border:1px solid #d0b47777;border-radius:8px;background:#0c1e37dd}
+@media(max-width:620px){
+ #battleBack .battlebox.xuan-battlebox{max-height:96dvh;padding:11px 8px calc(10px + env(safe-area-inset-bottom));border-radius:13px 13px 0 0}
+ .xuan-battle-head{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:4px}
+ .xuan-battle-side{padding:6px 5px}
+ .xuan-side-heading{font-size:11px}
+ .xuan-side-heading small{font-size:8px}
+ .xuan-main-unit{min-height:105px;gap:4px;padding:5px}
+ .xuan-sd-portrait{width:58px;height:82px}
+ .xuan-unit-card .xuan-unit-info>b{font-size:12px}
+ .xuan-unit-card .xuan-unit-info>div{font-size:9px}
+ .xuan-battle-head .battleversus{width:26px;height:26px;font-size:10px}
+ .xuan-enemy-field{min-height:138px}
+ .xuan-enemy-field .battleunit{min-height:116px}
+ .xuan-party-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ .xuan-party-strip .party-mini{grid-template-columns:30px 1fr;min-height:70px;padding:4px}
+ .xuan-party-strip .xuan-sd-portrait{width:30px;height:48px}
+ .xuan-battlebox .battleactions{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .xuan-battlebox .battleactions button{min-height:40px;padding:7px 4px;font-size:12px}
+}
