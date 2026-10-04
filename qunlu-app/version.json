@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.72.0",
-  "previous_version": "CURRENT-1.71.0",
+  "version": "CURRENT-1.73.0",
+  "previous_version": "CURRENT-1.72.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "加入柳橋鎮原創俯視場景與森林、石窟地城底圖；首頁設施與旅途路線維持可互動，並更新離線美術快取。",
+  "summary": "加入山道與河谷地圖，野外及地點分層地圖會依既有地名／描述顯示森林、山地或河谷場景。",
   "changelog": [
+    "新增山道與河谷兩款原創野外地圖，依地點名稱及描述切換場景，並納入首頁及分層地圖的離線美術。",
     "新增柳橋鎮街廓、城門、河道與建築屋頂原創地圖底圖，並加入森林野外與石窟地城場景；保留設施、路線與地點入口互動。",
     "新增 3 款原創 SVG 場景美術並納入 PWA 離線快取；世界資料、戰鬥規則與存檔格式維持相容。",
     "以城鎮地圖取代原冒險首頁，整合可用行動、旅人狀態、旅誌與角色資料入口。",
@@ -37,9 +38,9 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.3",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.4",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.0",
-  "pwa_cache_revision": "v16",
+  "pwa_cache_revision": "v17",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
-  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.0"
+  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.1"
 }
