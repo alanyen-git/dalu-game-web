@@ -18,7 +18,9 @@ function renderMap(){
  const l=current();if(!l)return;
  const canvas=$("#townMapCanvas"),pins=$("#townMapBuildings");
  const town=l.kind==="town",dungeon=l.kind==="dungeon";
- canvas.className="town-map-canvas "+(town?"is-town":dungeon?"is-dungeon":"is-wild");\n canvas.dataset.locationId=l.id||"";
+ const terrainText=[l.name,l.description,l.summary].join(" ");
+ const terrain=/山|峰|嶺|峽|雪/.test(terrainText)?"is-mountain":/河|湖|溪|海|港/.test(terrainText)?"is-river":"";
+ canvas.className="town-map-canvas "+(town?"is-town":dungeon?"is-dungeon":"is-wild "+terrain);\n canvas.dataset.locationId=l.id||"";
  $("#townHomePlace").textContent=l.name||"旅人所在之地";
  $("#townHomeSubtitle").textContent=town?"街道、委託與冒險都從此處展開":dungeon?"地城探索・入口與周邊道路":"野外探索・地標與道路";
  pins.innerHTML=town?(l.facilities||[]).map((id,i)=>DB.facilities&&DB.facilities[id]?'<button type="button" class="town-map-building '+esc(id)+'" style="--pin:'+i+'" onclick="'+esc(call("xuFacility",id))+'"><span class="town-map-building-icon">'+(icons[id]||"◆")+'</span><b>'+esc(names[id]||DB.facilities[id].name||id)+'</b><small>點選互動</small></button>':"").join(""):'<div class="town-current-site '+(dungeon?"dungeon":"wild")+'"><span>'+(dungeon?"地城入口":"探索地標")+'</span><b>'+esc(l.name)+'</b><button type="button" onclick="'+esc(call("openMapLocationDetail",l.id))+'">查看地點與探索</button></div>';
