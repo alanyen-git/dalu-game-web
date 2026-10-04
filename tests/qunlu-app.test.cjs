@@ -21,7 +21,10 @@ assert.ok(runtimeSource.includes('meta[name="app-version"]'), "web updater must 
 const mapSource = fs.readFileSync(path.join(app, "src/xuanyuan-map-ui.js"), "utf8");
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
 assert.ok(mapSource.includes("openMapLocationDetail"), "wild and dungeon map nodes must retain location details");
-assert.ok(mapTheme.includes("XUANYUAN-MAP-UI-1.1"), "map art and street layout theme must be present");
+assert.ok(mapTheme.includes("XUANYUAN-MAP-UI-1.2"), "five-layer map art and exploration layout must be present");
+assert.ok(mapSource.includes("function local(id)"), "province map must open the local-area layer");
+assert.ok(mapSource.includes("function locationMap(id)"), "wild and dungeon nodes must open their illustrated location layer");
+assert.ok(mapSource.includes("window.openSettlementRegionMap=local"), "existing settlement-map entrypoint must route to local-area map");
 const manifest = JSON.parse(fs.readFileSync(path.join(app, "manifest.webmanifest"), "utf8"));
 assert.equal(manifest.name, "異界旅人");
 assert.equal(manifest.short_name, "異界旅人");
