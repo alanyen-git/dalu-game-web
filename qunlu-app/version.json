@@ -1,11 +1,14 @@
 {
-  "version": "CURRENT-1.76.0",
-  "previous_version": "CURRENT-1.75.0",
+  "version": "CURRENT-1.77.0",
+  "previous_version": "CURRENT-1.76.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "擴充石窟地城的房間／走廊底圖，為背包、技能與戰鬥指令加入原創類型圖示。",
+  "summary": "新增世界、政體、行省與當地四層原創地形圖，並為城鎮設施服務加入專屬室內場景。",
   "changelog": [
+    "新增世界、王國／政體、行省及當地區域四款原創地形地圖，沿用既有行政區、路線與地標資料。",
+    "為公會、商鋪、鐵匠鋪、酒館、旅館、教會、診療所及已登錄工坊服務加入專屬原創室內場景，保留原有互動與服務流程。",
+    "依 60% 稽核基準，地圖與城鎮室內兩類覆蓋由 50% 提升至 75%，加權總分由 53 升至 60。",
     "擴充石窟地城為多房間連接走廊的原創探索底圖，配合既有地點詳情與道路入口。",
     "新增刀劍、防具、藥水、卷軸、料理、材料、寶石、鑰匙及四元素技能圖示，依既有物件名稱自動呈現。",
     "戰鬥背景依目前所在地切換森林、山道、河谷、城鎮或石窟場景，沿用原創地圖素材。",
@@ -43,9 +46,9 @@
   "deployment_provider": "github_pages",
   "netlify_dependency": false,
   "save_compatible": true,
-  "map_ui_revision": "XUANYUAN-MAP-UI-1.4",
+  "map_ui_revision": "XUANYUAN-MAP-UI-1.5",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.1",
-  "pwa_cache_revision": "v20",
+  "pwa_cache_revision": "v21",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
-  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.3"
+  "scene_art_revision": "ORIGINAL-MAP-SCENES-1.4"
 }
