@@ -5,7 +5,7 @@ const root = path.resolve(__dirname, "..");
 const version = JSON.parse(fs.readFileSync(path.join(root, "www", "version.json"), "utf8"));
 const html = fs.readFileSync(path.join(root, "www", "index.html"), "utf8");
 assert.match(version.version, /^CURRENT-/);
-assert.ok(html.includes("群陸旅誌"));
+assert.ok(html.includes("異界旅人"), "published app name must be 異界旅人");
 assert.ok(html.includes(version.version), "published page title must match version.json");
 const url = process.env.PAGES_URL;
 if (url) console.log("Qunlu App Pages URL: " + url + " version=" + version.version);

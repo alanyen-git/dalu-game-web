@@ -7,7 +7,7 @@ const icons={guild:"⚔",general:"◆",blacksmith:"⚒",tavern:"♨",inn:"⌂",c
 function facility(id){return DB&&DB.facilities?DB.facilities[id]:null}
 function locById(id){return typeof loc==="function"?loc(id):(DB.locations||[]).find(x=>x.id===id)}
 function crumb(label,call){return '<button type="button" class="xu-crumb" onclick="'+call+'">'+esc(label)+"</button>"}
-function frame(title,crumbs,board){return '<div class="xu-map-shell"><div class="xu-map-head"><div><p class="eyebrow">群陸地圖誌・軒轅式導覽</p><h3>'+esc(title)+'</h3><p class="xu-map-hint">點選地圖節點進入下一層；城鎮設施直接標在平面圖上。</p></div><div class="xu-crumbs">'+crumbs+"</div></div>"+board+"</div>"}
+function frame(title,crumbs,board){return '<div class="xu-map-shell"><div class="xu-map-head"><div><p class="eyebrow">異界旅人・分層地圖</p><h3>'+esc(title)+'</h3><p class="xu-map-hint">點選地圖節點進入下一層；城鎮設施直接標在平面圖上。</p></div><div class="xu-crumbs">'+crumbs+"</div></div>"+board+"</div>"}
 function board(kind,body){return '<div class="xu-board '+kind+'"><div class="xu-compass">N</div><div class="xu-rivers"></div><div class="xu-roads"></div>'+body+"</div>"}
 function node(label,meta,call,cl){return '<button type="button" class="xu-map-node '+(cl||"")+'" onclick="'+call+'"><b>'+esc(label)+'</b><small>'+esc(meta||"")+"</small></button>"}
 function world(){

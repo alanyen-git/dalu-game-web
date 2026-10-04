@@ -10,6 +10,10 @@ for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game
 }
 const html=fs.readFileSync(path.join(web,"index.html"),"utf8");
 assert.ok(html.includes("src/game-data.js"));
+assert.ok(html.includes("<title>異界旅人 " + version.version + "</title>"));
+const manifest=JSON.parse(fs.readFileSync(path.join(web,"manifest.webmanifest"),"utf8"));
+assert.equal(manifest.name,"異界旅人");
+assert.equal(manifest.short_name,"異界旅人");
 assert.ok(html.includes("src/runtime.js"));
 assert.ok(html.includes("assets/css/app-theme.css"));
 assert.ok(html.includes("src/battle-ui-theme.js"));

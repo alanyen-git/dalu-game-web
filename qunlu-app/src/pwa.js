@@ -11,8 +11,8 @@
     if(installButton||!deferredInstallPrompt)return;
     installButton=document.createElement("button");
     installButton.type="button";
-    installButton.textContent="安裝群陸旅誌到主畫面";
-    installButton.setAttribute("aria-label","安裝群陸旅誌到手機主畫面");
+    installButton.textContent="安裝異界旅人到主畫面";
+    installButton.setAttribute("aria-label","安裝異界旅人到手機主畫面");
     Object.assign(installButton.style,{
       position:"fixed",
       right:"16px",
