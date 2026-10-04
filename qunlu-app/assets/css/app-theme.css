@@ -278,3 +278,11 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-board.wild-site:before,.xu-board.dungeon-site:before{inset:0;z-index:0;background-image:linear-gradient(#14211b44,#14211b44)}
 .xu-site-card{background:#16281feF;backdrop-filter:blur(2px);box-shadow:0 10px 26px #000a,inset 0 1px #fff3}
 .xu-board.dungeon-site .xu-site-card{background:#211e1bef;border-color:#d4bd90}
+
+/* XUANYUAN-ARTKIT-0.2：依地點名稱與描述選擇原創地貌 */
+.town-map-canvas.is-wild.is-mountain{background-image:url("../art/maps/mountain-pass.svg")}
+.town-map-canvas.is-wild.is-river{background-image:url("../art/maps/river-valley.svg")}
+.xu-board.wild-site.mountain-site{background-image:url("../art/maps/mountain-pass.svg")}
+.xu-board.wild-site.river-site{background-image:url("../art/maps/river-valley.svg")}
+.xu-board.wild-site.forest-site{background-image:url("../art/maps/old-forest.svg")}
+.xu-board.wild-site.mountain-site,.xu-board.wild-site.river-site,.xu-board.wild-site.forest-site{background-size:cover;background-position:center}
