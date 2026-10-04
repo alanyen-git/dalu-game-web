@@ -15,7 +15,7 @@ const version = JSON.parse(fs.readFileSync(path.join(root, "version.json"), "utf
 const packageInfo = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 
 
-for (const file of ["region-content.js", "app.js", "battle.js", "battle-ui.js", "app-update.js", "character-creation.js", "character-data.js", "character-growth.js", "profession.js", "story-progression.js", "service-worker.js"]) {
+for (const file of ["region-content.js", "app.js", "battle.js", "battle-ui.js", "app-update.js", "character-creation.js", "qunlu-database.js", "character-data.js", "character-growth.js", "profession.js", "story-progression.js", "service-worker.js"]) {
   const syntax = spawnSync(process.execPath, ["--check", path.join(root, file)], { encoding: "utf8" });
   assert.equal(syntax.status, 0, `${file} must parse: ${syntax.stderr}`);
 }
@@ -47,8 +47,10 @@ assert.match(html, /app\.webmanifest/);
 assert.ok(html.includes("app-update.js?v=" + packageInfo.version));
 assert.ok(html.indexOf("character-growth.js?v=" + packageInfo.version) < html.indexOf("app.js?v=" + packageInfo.version), "growth must initialize before the game state");
 assert.ok(html.includes("character-data.js?v=" + packageInfo.version), "character creation uses the local Dalu catalog");
+assert.ok(html.includes("qunlu-database.js?v=" + packageInfo.version), "the complete Qunlu base database is loaded locally");
 assert.ok(worker.includes("./character-growth.js?v=" + packageInfo.version), "growth module must be cached for offline startup");
 assert.ok(worker.includes("./character-data.js?v=" + packageInfo.version), "Dalu character catalog must be cached for offline startup");
+assert.ok(worker.includes("./qunlu-database.js?v=" + packageInfo.version), "the complete Qunlu database must be cached for offline startup");
 assert.ok(worker.includes("./region-content.js?v=" + packageInfo.version), "regional content must be cached for offline startup");
 assert.ok(!html.includes("qunlu-character-data") && !worker.includes("qunlu-character-data"), "Dalu must remain independent of the other project");
 assert.equal(version.version, packageInfo.version, "public build version must match the Android package version");
