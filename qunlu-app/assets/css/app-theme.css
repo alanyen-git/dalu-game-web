@@ -153,3 +153,31 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
  .xu-facility b{font-size:10px}
  .xu-town-routes{left:8px;right:8px;bottom:56px}
 }
+/* XUANYUAN-MAP-UI-1.2：五層區域探索與原創地形 */
+.xu-map-hint{letter-spacing:.04em}
+.xu-board{isolation:isolate;min-height:480px;background-image:radial-gradient(ellipse at 18% 24%,#b7aa7933 0 8%,transparent 22%),radial-gradient(ellipse at 82% 76%,#87906444 0 9%,transparent 24%),linear-gradient(150deg,#253c39aa,#78836044 42%,#243b49aa)}
+.xu-board:before{z-index:-1;opacity:.8;background-image:repeating-radial-gradient(ellipse at 38% 48%,transparent 0 21px,#e4d9ae38 22px 24px,transparent 25px 44px),radial-gradient(#233d3329 1.2px,transparent 1.6px);background-size:auto,18px 18px}
+.xu-board.local{background-image:radial-gradient(ellipse at 16% 23%,#b7a66c 0 9%,transparent 22%),radial-gradient(ellipse at 82% 74%,#a1a16a 0 8%,transparent 21%),linear-gradient(145deg,#82794f,#66805e 52%,#426c70)}
+.xu-board.local:before{opacity:.9;background-image:repeating-linear-gradient(27deg,transparent 0 28px,#d9c58b44 29px 32px,transparent 33px 65px),repeating-linear-gradient(115deg,transparent 0 72px,#314e3c55 73px 91px,transparent 92px 124px),radial-gradient(#dfd4ac33 1px,transparent 2px);background-size:auto,auto,14px 14px}
+.xu-board.dungeon-site{background:radial-gradient(ellipse at center,#41353b,#151b22 72%);border-color:#95857b}
+.xu-board.dungeon-site:before{background-image:linear-gradient(90deg,#c7b58e22 1px,transparent 1px),linear-gradient(#c7b58e22 1px,transparent 1px);background-size:32px 32px}
+.xu-board.wild-site{background:radial-gradient(ellipse at 50% 55%,#9b9b5e,#5d7754 48%,#283f43)}
+.xu-board.wild-site:before{background-image:repeating-radial-gradient(ellipse at 40% 55%,transparent 0 18px,#d6d09944 19px 21px,transparent 22px 43px),radial-gradient(#18392355 1.5px,transparent 2px);background-size:auto,16px 16px}
+.xu-terrain{position:absolute;z-index:0;pointer-events:none;border-radius:48%;filter:drop-shadow(0 5px 4px #14221e66)}
+.xu-terrain.ridge-a{width:28%;height:32%;left:5%;top:8%;border:12px solid #a19a6c33;transform:rotate(-25deg)}
+.xu-terrain.ridge-b{width:30%;height:24%;right:3%;bottom:14%;border:10px solid #a9aa7133;transform:rotate(22deg)}
+.xu-river{position:absolute;z-index:0;left:47%;top:3%;width:13%;height:112%;border-radius:50%;border-left:12px solid #80b9b577;border-right:6px solid #c8d2a355;transform:rotate(22deg);filter:blur(1px);pointer-events:none}
+.xu-map-node.region{background:linear-gradient(155deg,#d3c08aee,#795c38f2);border-color:#f4e2aa}
+.xu-map-node.region:before{content:"⌖";float:right;color:#f6dda0;font-size:18px}
+.xu-grid-label{grid-column:1/-1;padding:4px 8px;color:#f5e5b5;font-size:11px}
+.xu-area-caption{position:absolute;z-index:3;top:13%;left:7%;right:7%;display:grid;gap:3px;padding:8px 11px;border:1px solid #f0dda688;border-radius:8px;background:#1b302cdd;color:#fff1c1}
+.xu-area-caption span{font-size:10px;color:#e1ddc1}
+.xu-area-paths{position:absolute;z-index:1;inset:27% 10% 20%;pointer-events:none}
+.xu-route-line{position:absolute;width:58%;height:40%;left:19%;top:28%;border-top:4px solid #e4d1a1aa;border-bottom:4px dashed #e4d1a177;border-radius:50%;transform:rotate(-18deg)}
+.xu-site-card{position:absolute;z-index:3;left:8%;right:8%;top:15%;padding:14px;border:1px solid #e6d6a2;border-radius:12px;background:#152c28ef;color:#eee8d5;box-shadow:0 8px 20px #0008}
+.xu-site-card h4{margin:5px 0;color:#ffe4a4}.xu-site-card p{font-size:12px;line-height:1.6}
+.xu-site-kicker{font-size:10px;letter-spacing:.1em;color:#d6c48f}
+.xu-site-action{min-height:42px;background:linear-gradient(#d6b567,#8d6134);color:#241d14;border-color:#ffdf9b}
+.xu-site-routes{inset:57% 8% 14%;align-content:center}
+.xu-town-center{position:absolute;z-index:1;left:42%;top:44%;width:16%;height:14%;border:2px solid #f1d58a;border-radius:50%;background:#4b5e3c99;box-shadow:0 0 0 10px #d6c18c22}
+@media(max-width:560px){.xu-board{min-height:540px}.xu-board.local .xu-node-grid{inset:29% 5% 15%;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.xu-node-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.xu-area-caption{top:11%;left:6%;right:6%}.xu-site-card{left:5%;right:5%;top:12%;padding:11px}.xu-site-routes{inset:54% 5% 15%}}
