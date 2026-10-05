@@ -1,11 +1,14 @@
 {
-  "version": "CURRENT-1.99.0",
-  "previous_version": "CURRENT-1.98.0",
+  "version": "CURRENT-1.100.0",
+  "previous_version": "CURRENT-1.99.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "一般介面不再自動插入人物大頭圖；角色對話與人物資料頁保留肖像，戰鬥及隊伍立繪不變。",
+  "summary": "修復商鋪互動與野外旅行；角色資料改用高細節三頭身立繪。",
   "changelog": [
+    "修復城鎮建築點擊沒有互動視窗，恢復商鋪與各項設施操作。",
+    "修復野外道路只能開啟地點資料、無法移動：城鎮道路可直接旅行，鄰接地點資料可按前往。",
+    "角色資料隊伍立繪改用高細節三頭身人物素材，取代簡化 SVG 小圖；一般介面仍不插入人物大頭圖。",
     "修正人物肖像誤出現在「更多」、「世界組織」、「流派」等一般介面的問題；只有明確角色對話與人物資料頁會顯示大頭圖，劇情場景和戰鬥立繪維持原樣。",
     "新增森林河谷、海岸濕地、雪嶺高地與沙漠遺跡四款原創高細節地圖，依既有地區自動選景；節點與道路不變。",
     "新增原創高細節手繪地圖底景：連續山脈、森林、河網、海岸與乾濕地形；城鎮街廓鋪面屋瓦細節及水下石窟光影。",
@@ -93,7 +96,7 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.14",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.4",
-  "pwa_cache_revision": "v43",
+  "pwa_cache_revision": "v44",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-2.0",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -105,5 +108,6 @@
   "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0",
   "political_region_revision": "FROSTHORN-REGION-PACK-1.0",
   "class_art_revision": "CLASS-ARCHETYPE-PORTRAITS-1.0",
-  "portrait_ui_scope_revision": "GENERAL-PORTRAIT-SCOPE-1.0"
+  "portrait_ui_scope_revision": "GENERAL-PORTRAIT-SCOPE-1.0",
+  "party_portrait_revision": "PAINTED-PARTY-PORTRAITS-1.0"
 }

@@ -84,6 +84,6 @@ function town(id){
  showModal(l.name+"・城鎮地圖",frame(l.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb("城鎮",call("xuTown",l.id)),content),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function current(){const c=typeof mapHierarchyForLocation==="function"?mapHierarchyForLocation():{};if(c.location&&c.location.kind==="town")return town(c.location.id);if(c.location&&(c.location.kind==="wild"||c.location.kind==="dungeon"))return locationMap(c.location.id);if(c.settlement)return local(c.settlement.id);if(c.province)return province(c.province.id);if(c.realm)return realm(c.realm.id);return world()}
-window.xuWorld=world;window.xuRealm=realm;window.xuProvince=province;window.xuLocal=local;window.xuLocation=locationMap;window.xuTown=town;
+window.xuWorld=world;window.xuRealm=realm;window.xuProvince=province;window.xuLocal=local;window.xuLocation=locationMap;window.xuTown=town;window.xuFacility=function(id){if(typeof visitFacility==="function")return visitFacility(id)};
 window.openMap=current;window.openWorldMapHierarchy=world;window.openRealmRegionMap=realm;window.openProvinceRegionMap=province;window.openSettlementRegionMap=local;
 })();

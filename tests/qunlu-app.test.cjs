@@ -91,6 +91,10 @@ assert.ok(html.includes('data-nav="home"'), "town map is the home nav");
 const townHome = fs.readFileSync(path.join(app, "src/town-home-ui.js"), "utf8");
 assert.ok(townHome.includes("dataset.locationId"), "town map must expose active location state for scene styling");
 assert.ok(townHome.includes("townHomeActions"), "actions must appear inside the town-map page");
+assert.ok(townHome.includes('call("travel",to.id,e.hours||1)'),"town roads to wild locations must travel and pass duration");
+assert.ok(mapSource.includes("window.xuFacility=function(id)"),"town building taps must be connected to facility interactions");
+assert.ok(runtimeSource.includes("arrivalRoute")&&runtimeSource.includes("前往此地"),"an adjacent map destination must offer a direct travel action");
+assert.ok(runtimeSource.includes('data-sheet="characters"')&&runtimeSource.includes("xuan-painted-sprite")&&!runtimeSource.includes("battle-sd-portraits.svg#"),"party profile must use detailed painted character portraits");
 assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on the town-map page");
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
@@ -238,9 +242,11 @@ const mapContext={
   regionalScene:()=>""
 };
 mapContext.window=mapContext;
+const visitedFacilities=[];mapContext.visitFacility=id=>visitedFacilities.push(id);
 mapContext.showModal=(title,html)=>{mapContext.rendered={title,html}};
 vm.createContext(mapContext);
 vm.runInContext(regionMapUiSource,mapContext);
+mapContext.xuFacility("general");assert.deepEqual(visitedFacilities,["general"],"shop pin must dispatch to the facility interaction");
 mapContext.xuRealm("RMAP-POL-016");
 assert.match(mapContext.rendered.html,/霜角高地會盟領/,"realm map must expose the new province node");
 mapContext.xuProvince("PROV-016-FROST-VALLEY");

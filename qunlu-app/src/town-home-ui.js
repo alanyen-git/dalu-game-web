@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const call=(n,a)=>n+"("+JSON.stringify(String(a))+")";
+const call=(n,...args)=>n+"("+args.map(value=>JSON.stringify(value)).join(",")+")";
 const $=s=>document.querySelector(s);
 const current=()=>typeof G!=="undefined"&&G.character&&typeof loc==="function"?loc(G.character.locationId):null;
 const names={guild:"冒險者公會",general:"商鋪",blacksmith:"鐵匠鋪",tavern:"酒館",inn:"旅館",church:"教會",clinic:"診療所",tailor:"裁縫鋪",alchemy:"煉金工坊",enchanter:"附魔工坊",mageguild:"魔法公會"};
@@ -27,7 +27,7 @@ function renderMap(){
  $("#townHomePlace").textContent=l.name||"旅人所在之地";
  $("#townHomeSubtitle").textContent=town?"街道、委託與冒險都從此處展開":dungeon?"地城探索・入口與周邊道路":"野外探索・地標與道路";
  pins.innerHTML=town?(l.facilities||[]).map((id,i)=>DB.facilities&&DB.facilities[id]?'<button type="button" class="town-map-building '+esc(id)+'" style="--pin:'+i+'" onclick="'+esc(call("xuFacility",id))+'"><span class="town-map-building-icon">'+(icons[id]||"◆")+'</span><b>'+esc(names[id]||DB.facilities[id].name||id)+'</b><small>點選互動</small></button>':"").join(""):'<div class="town-current-site '+(dungeon?"dungeon":"wild")+'"><span>'+(dungeon?"地城入口":"探索地標")+'</span><b>'+esc(l.name)+'</b><button type="button" onclick="'+esc(call("openMapLocationDetail",l.id))+'">查看地點與探索</button></div>';
- $("#townMapRoutes").innerHTML=(l.links||[]).map(e=>{const to=loc(e.to);return to?'<button type="button" class="town-route-pin" onclick="'+esc(call(to.kind==="town"?"travel":"openMapLocationDetail",to.id))+'"><span>→</span><b>'+esc(to.name)+'</b><small>'+esc((e.hours||"—")+" 小時")+'</small></button>':""}).join("");
+ $("#townMapRoutes").innerHTML=(l.links||[]).map(e=>{const to=loc(e.to);return to?'<button type="button" class="town-route-pin" onclick="'+esc(call("travel",to.id,e.hours||1))+'"><span>→</span><b>'+esc(to.name)+'</b><small>'+esc((e.hours||"—")+" 小時")+'</small></button>':""}).join("");
  $("#townHomeFlavor").textContent=town?"可用行動與旅人資料已整合於城鎮地圖；點選地標開啟互動。":dungeon?"地城入口及道路依既有世界資料顯示。":"野外地點、道路與探索入口依既有世界資料顯示。";
 }
 function renderProfile(){
