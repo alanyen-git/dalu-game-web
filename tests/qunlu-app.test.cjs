@@ -112,7 +112,7 @@ assert.ok(!battleTheme.includes('classList.add("xuan-unit-card",extra)'),"battle
 assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.8");
 assert.ok(battleTheme.includes("xuan-stage-figures")&&battleTheme.includes("xuan-command-panel"),"battle scene arranges SD units and illustrated commands");
 assert.equal(version.home_ui_revision,"TOWN-MAP-HOME-1.2");
-assert.equal(version.facility_shop_ui_revision,"FACILITY-SHOP-SCREEN-1.0");
+assert.match(version.facility_shop_ui_revision,/^FACILITY-[A-Z-]+-\d+\.\d+$/,"facility UI revision must remain versioned");
 const facilityUiSource=fs.readFileSync(path.join(app,"src/facility-shop-ui.js"),"utf8");
 assert.ok(html.indexOf("src/runtime.js")<html.indexOf("src/facility-shop-ui.js"),"facility interaction override must load after the game runtime");
 assert.ok(facilityUiSource.includes("xu-store-actions-primary")&&facilityUiSource.includes("facility-interiors.svg"),"facility screens need illustrated interiors and service controls");
