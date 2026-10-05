@@ -5,6 +5,7 @@ const app=path.join(__dirname,"..","qunlu-app");
 const atlas=fs.readFileSync(path.join(app,"assets","art","maps","region-atlas.svg"),"utf8");
 const ui=fs.readFileSync(path.join(app,"src","xuanyuan-map-ui.js"),"utf8");
 const sw=fs.readFileSync(path.join(app,"sw.js"),"utf8");
+const index=fs.readFileSync(path.join(app,"index.html"),"utf8");
 const version=JSON.parse(fs.readFileSync(path.join(app,"version.json"),"utf8"));
 for(const id of ["region-windspring","region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.match(atlas,new RegExp('<symbol id="'+id+'"'),"scene symbol "+id);
 for(const id of ["world","realm","province","local","region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.match(atlas,new RegExp('id="atlas-detail-'+id.replace("region-","")+'"'),"illustrated terrain detail "+id);
@@ -20,8 +21,9 @@ assert.match(ui,/call\("travel",l.id,Number\(route.hours\)\|\|1\)/,"adjacent pin
 for(const asset of ["painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"])assert.ok(ui.includes(asset),"biome scene selector "+asset);
 for(const [pattern,label] of [["(?:region-)?(?:forest|windspring)","forest and windspring"],["(?:region-)?(?:highland|mountain)","highland and mountain"],["(?:region-)?(?:islands|coast|marsh)|salt-tide|mist-harbor","island, coastal, marsh and harbor"],["(?:region-)?desert|sinking-sand","desert and sinking sand"]])assert.ok(new RegExp(pattern).test(ui),"biome routing: "+label);
 for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp","painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
-assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v51"/,"map cache revision");
+assert.equal(sw.match(/const CACHE_NAME=CACHE_PREFIX\+"(v\d+)"/)?.[1],version.pwa_cache_revision,"service worker and version metadata cache revision stay in sync");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.107.0");
-assert.equal(version.pwa_cache_revision,"v50");
+assert.match(version.version,/^CURRENT-\d+\.\d+\.\d+$/,"release version format");
+assert.ok(index.includes("<title>異界旅人 "+version.version+"</title>"),"page title matches release version");
+assert.ok(index.includes('<meta name="app-version" content="'+version.version+'">'),"page metadata matches release version");
 console.log("PASS original regional map scenes, interactive location pins, town illustration, and offline cache");
