@@ -246,7 +246,7 @@ for(const name of ["霜角石圈聚落區","白角溪寨聚落區"])assert.ok(ma
 for(const area of regionFixture.settlement_region_maps){mapContext.xuLocal(area.id);for(const id of area.location_ids){const place=regionFixture.locations.find(x=>x.id===id);assert.ok(mapContext.rendered.html.includes(place.name),"local map must expose "+place.name)}}
 
 const battleArt = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
-const portraitArt = fs.readFileSync(path.join(app, "src/event-portrait-ui.js"), "utf8");
+const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-ui.js"), "utf8");
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(portraitArt, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
