@@ -461,3 +461,84 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-map-canvas .town-map-border{position:absolute;inset:8px}
 
 .town-map-canvas .town-map-routes{inset:0;display:block}
+
+
+/* XUANYUAN-TOWN-BUILDING-ART-1.0 */
+.xu-facility-map .xu-facility{width:clamp(70px,17vw,118px);min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;text-shadow:none;filter:drop-shadow(0 4px 5px #07100bb8)}
+.xu-facility-map .xu-facility:hover{transform:translate(-50%,-56%);filter:brightness(1.12) drop-shadow(0 7px 7px #07100bdd)}
+.xu-facility-map .xu-facility:focus-visible{outline:2px solid #ffe6a2;outline-offset:1px}
+.xu-facility-art{display:block;width:100%;height:clamp(56px,11vw,90px);overflow:visible;filter:drop-shadow(0 2px 2px #0c151166)}
+.xu-facility-map .xu-facility b{max-width:100%;padding:2px 6px;border:1px solid #d6c18a99;border-radius:10px;background:#101b1ae8;color:#fff0c9;font-size:9px;line-height:1.15;white-space:nowrap;text-shadow:0 1px 2px #000}
+@media(max-width:560px){.xu-facility-map .xu-facility{width:clamp(68px,19vw,86px)}.xu-facility-art{height:58px}.xu-facility-map .xu-facility b{font-size:8px;padding:2px 4px}}
+
+/* XUANYUAN-BATTLE-FIELD-LAYOUT-1.0 */
+#battleBack .battlebox.xuan-battlebox{width:min(1160px,100%);max-height:96dvh;padding:10px;color:#f5ebd2;background:#0a0e12;border:1px solid #b79a62;border-radius:5px;box-shadow:0 20px 65px #000d,inset 0 0 0 4px #d4b46c13}
+#battleBack .battlebox.xuan-battlebox::before{inset:4px;border:1px solid #dfc88255;border-radius:3px}
+.xuan-battlebox #battleTitle{margin:1px 0 7px;color:#f0d89f;font-size:12px;letter-spacing:.22em;text-align:center}
+.xuan-battle-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:clamp(310px,46vh,500px);overflow:hidden;isolation:isolate;border:1px solid #b59a61;border-radius:3px;background:#344237}
+.xuan-battle-stage::before{content:"";position:absolute;z-index:0;inset:0;background:linear-gradient(180deg,#07110c0d 30%,#11110ca8 100%),url("../art/maps/old-forest.svg") center/cover no-repeat;filter:saturate(.88) contrast(1.02)}
+.xuan-battle-stage::after{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(90deg,#11120d08 0 49%,#0a100c3c 50%,#0b111116 100%),radial-gradient(ellipse at 50% 90%,#debf6e24,transparent 54%)}
+.xuan-battlebox[data-scene="forest"] .xuan-battle-stage::before{background-image:linear-gradient(180deg,#07110c08 30%,#11110c9e 100%),url("../art/maps/old-forest.svg")}
+.xuan-battlebox[data-scene="mountain"] .xuan-battle-stage::before{background-image:linear-gradient(180deg,#10151a0d 30%,#11110ca8 100%),url("../art/maps/mountain-pass.svg")}
+.xuan-battlebox[data-scene="river"] .xuan-battle-stage::before{background-image:linear-gradient(180deg,#08181c0d 30%,#11110ca8 100%),url("../art/maps/river-valley.svg")}
+.xuan-battlebox[data-scene="dungeon"] .xuan-battle-stage::before{background-image:linear-gradient(180deg,#1110140d 30%,#090b0eb8 100%),url("../art/maps/stone-vault.svg")}
+.xuan-battlebox[data-scene="town"] .xuan-battle-stage::before{background-image:linear-gradient(180deg,#19160f0d 30%,#11110ca8 100%),url("../art/maps/willow-town.svg")}
+.xuan-battle-stage>.xuan-battle-side{position:relative;z-index:2;min-width:0;min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none}
+.xuan-battle-stage>.xuan-foes{grid-column:1;grid-row:1}
+.xuan-battle-stage>.xuan-allies{grid-column:2;grid-row:1}
+.xuan-battle-stage .xuan-side-heading{position:absolute;z-index:5;top:9px;left:10px;right:auto;margin:0;padding:3px 9px;border:1px solid #e1c98280;border-radius:2px;background:#10120fdb;color:#f0d99f;font-size:10px;letter-spacing:.14em}
+.xuan-battle-stage .xuan-side-heading small{display:none}
+.xuan-battle-stage .xuan-allies>.xuan-side-heading{left:auto;right:10px}
+.xuan-battle-stage .xuan-main-unit,.xuan-battle-stage .xuan-enemy-unit{position:absolute;z-index:3;left:auto;right:9%;bottom:78px;width:clamp(112px,17vw,195px);min-height:0;display:flex;flex-direction:column;align-items:center;gap:0;padding:0;border:0;border-radius:0;background:transparent;text-align:center;box-shadow:none}
+.xuan-battle-stage .xuan-sd-portrait{width:clamp(124px,18vw,202px);height:clamp(168px,29vh,270px);border-radius:0 0 2px 2px;overflow:visible;filter:drop-shadow(0 7px 5px #050807bc)}
+.xuan-battle-stage .xuan-enemy-unit{left:9%;right:auto}
+.xuan-battle-stage .xuan-unit-info{width:100%;min-width:0;flex:none;margin-top:-4px;padding:4px 6px;border:1px solid #d7bd7b78;border-radius:2px;background:linear-gradient(90deg,#10120fe8,#1d1a13ec);text-align:center}
+.xuan-battle-stage .xuan-unit-info>b{display:block;overflow:hidden;color:#fff0c2;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+.xuan-battle-stage .xuan-unit-info>.small{color:#d2c69f;font-size:8px;line-height:1.25}
+.xuan-battle-stage .xuan-unit-info>div:not(.small):not(.hpbar){overflow:hidden;color:#e7ddc6;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.xuan-battle-stage .xuan-unit-info>div.small:nth-of-type(2){display:none}
+.xuan-battle-stage .xuan-unit-info .hpbar{height:6px;margin-top:3px;border-color:#9c8c62;background:#141714}
+.xuan-battle-stage .xuan-enemy-field{position:absolute;z-index:2;inset:0;display:block;min-height:0;pointer-events:none}
+.xuan-battle-stage .xuan-companion-unit{position:absolute;z-index:3;left:2%;right:auto;bottom:77px;width:clamp(76px,10vw,112px);min-height:0;display:flex;flex-direction:column;align-items:center;gap:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;text-align:center;box-shadow:none}
+.xuan-battle-stage .xuan-companion-unit .xuan-sd-portrait{width:clamp(76px,10vw,112px);height:clamp(100px,17vh,158px)}
+.xuan-battle-stage .xuan-companion-unit .xuan-unit-info{padding:3px 4px}
+.xuan-party-status{margin:5px 0 0;padding:4px;border:1px solid #a98d57;border-radius:3px;background:linear-gradient(#181b1c,#0a0d10);box-shadow:inset 0 1px #fff2}
+.xuan-party-status .xuan-party-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:4px;margin:0}
+.xuan-party-status .party-mini{position:relative;min-width:0;min-height:55px;display:grid;grid-template-columns:32px minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:5px;align-items:center;padding:3px;border:1px solid #67583a;border-radius:2px;background:linear-gradient(110deg,#161a19,#0d1114);box-shadow:inset 0 1px #fff1}
+.xuan-party-status .party-mini .xuan-sd-portrait{grid-row:1/4;width:30px;height:45px;filter:drop-shadow(0 2px 2px #000a)}
+.xuan-party-status .party-mini>b{overflow:hidden;color:#f1dca2;font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+.xuan-party-status .party-mini>span{overflow:hidden;color:#c8c3b1;font-size:7px;text-overflow:ellipsis;white-space:nowrap}
+.xuan-party-status .party-mini>div:not(.hpbar){overflow:hidden;color:#d3d0c5;font-size:7px;text-overflow:ellipsis;white-space:nowrap}
+.xuan-party-status .party-mini .hpbar{grid-column:2;height:5px;margin:1px 0}
+.xuan-party-status .party-mini.ko{opacity:.5;filter:grayscale(1)}
+.xuan-battlebox .battlelog{max-height:66px;min-height:35px;margin:5px 0;border:1px solid #74603c;border-radius:2px;background:#0d1114ef;color:#ebe2ca;font-size:11px;line-height:1.35}
+.xuan-command-heading{margin:4px 0 5px;color:#dec88f;text-align:center;font-size:10px;font-weight:800;letter-spacing:.18em}
+.xuan-battlebox .battleactions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:0 0 5px}
+.xuan-battlebox .battleactions button{min-width:0;min-height:42px;padding:6px 4px;border:1px solid #9f8653;border-radius:3px;background:linear-gradient(#54462e,#29261f);color:#f3e3b8;font-size:11px;box-shadow:inset 0 1px #fff2,0 2px #090b0e}
+.xuan-battlebox .battleactions button:hover:not(:disabled){border-color:#f1d991;background:linear-gradient(#705936,#373024)}
+.xuan-battlebox .battleactions button.good{background:linear-gradient(#53674b,#293a2e)}
+.xuan-battlebox .battleactions button.warn{background:linear-gradient(#81493c,#482b27)}
+.xuan-battlebox .battlechoice{padding:6px;border:1px solid #776442;border-radius:3px;background:#111619;color:#e8dec5;font-size:11px}
+.xuan-battle-stage .xuan-main-unit .xuan-sd-portrait,.xuan-battle-stage .xuan-enemy-unit .xuan-sd-portrait{animation:xuan-battle-idle 2.2s ease-in-out infinite}
+@keyframes xuan-battle-idle{0%,100%{translate:0 0}50%{translate:0 -3px}}
+@media(max-width:620px){
+ #battleBack .battlebox.xuan-battlebox{width:100%;max-height:97dvh;padding:6px 5px calc(7px + env(safe-area-inset-bottom));border-radius:7px 7px 0 0}
+ .xuan-battle-stage{min-height:clamp(290px,42vh,390px)}
+ .xuan-battle-stage .xuan-main-unit,.xuan-battle-stage .xuan-enemy-unit{bottom:71px;width:clamp(92px,31vw,122px)}
+ .xuan-battle-stage .xuan-sd-portrait{width:clamp(108px,34vw,138px);height:clamp(150px,23vh,190px)}
+ .xuan-battle-stage .xuan-enemy-unit{left:3%}
+ .xuan-battle-stage .xuan-main-unit{right:3%}
+ .xuan-battle-stage .xuan-companion-unit{left:0;bottom:71px;width:60px}
+ .xuan-battle-stage .xuan-companion-unit .xuan-sd-portrait{width:58px;height:88px}
+ .xuan-party-status{margin-top:4px;padding:3px}
+ .xuan-party-status .xuan-party-strip{grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}
+ .xuan-party-status .party-mini{grid-template-columns:25px minmax(0,1fr);min-height:48px;column-gap:3px;padding:2px}
+ .xuan-party-status .party-mini .xuan-sd-portrait{width:24px;height:38px}
+ .xuan-party-status .party-mini>b{font-size:8px}
+ .xuan-party-status .party-mini>span,.xuan-party-status .party-mini>div:not(.hpbar){font-size:6px}
+ .xuan-battlebox .battlelog{max-height:52px;min-height:30px;margin:4px 0;font-size:9px}
+ .xuan-battlebox .battleactions{gap:3px}
+ .xuan-battlebox .battleactions button{min-height:42px;padding:5px 2px;font-size:10px;line-height:1.2}
+}
+@media(max-width:359px){.xuan-party-status .xuan-party-strip{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.xuan-battle-stage .xuan-main-unit .xuan-sd-portrait,.xuan-battle-stage .xuan-enemy-unit .xuan-sd-portrait{animation:none!important}}
