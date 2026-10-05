@@ -108,7 +108,7 @@ const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v31"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v32"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.9");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.0");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
