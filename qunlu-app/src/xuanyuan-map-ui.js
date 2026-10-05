@@ -92,12 +92,19 @@ function realm(id){
 function province(id){
  const p=typeof provinceRegion==="function"?provinceRegion(id):null;if(!p)return world();
  const r=typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null,groups=areas(p.id);
- const owned=new Set(groups.flatMap(x=>x.location_ids||[]));
- let locations=groups.flatMap(x=>x.location_ids||[]).map(getLoc).filter(Boolean);
+ const owned=new Set(groups.flatMap(x=>x.location_ids||[])),members=new Map(),ownerByLocation=new Map();
+ groups.forEach(group=>{const list=(group.location_ids||[]).map(getLoc).filter(Boolean);members.set(String(group.id),list);list.forEach(place=>ownerByLocation.set(String(place.id),"area:"+group.id))});
  const loose=["town","wild","dungeon"].flatMap(k=>typeof provinceCategoryLocations==="function"?provinceCategoryLocations(p,k,false):[]).filter(x=>!owned.has(x.id));
- locations=Array.from(new Map(locations.concat(loose).map(x=>[String(x.id),x])).values());
- const places=neighboringLocations(locations),nodes=locationMapNodes(places,currentLocationId()),edges=routeEdges(places);
- const content='<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div>'+routeCanvas(nodes,edges,currentLocationId(),{label:p.name+"行道路網"})+'<div class="xu-map-footer">道路依已登錄地點連結；點選相鄰城鎮、野外或地下城圖釘會直接旅行。圖釘無比例尺。</div>';
+ const sourceLocations=Array.from(new Map(groups.flatMap(g=>members.get(String(g.id))||[]).concat(loose).map(x=>[String(x.id),x])).values());
+ const places=neighboringLocations(sourceLocations),current=currentLocationId();
+ const currentGroup=groups.find(g=>(g.location_ids||[]).includes(current));
+ const areaNodes=groups.map(g=>({id:"area:"+g.id,name:g.name,kind:"area",icon:"⌖",current:!!currentGroup&&String(currentGroup.id)===String(g.id),meta:(members.get(String(g.id))||[]).length+"處地點・查看當地道路",action:call("xuLocal",g.id)}));
+ const exposed=places.filter(x=>!owned.has(x.id)),placeNodes=locationMapNodes(exposed,current),nodes=areaNodes.concat(placeNodes);
+ const nodeIds=new Set(nodes.map(x=>String(x.id))),edgeSeen=new Set(),edges=[];
+ const nodeForLocation=locationId=>ownerByLocation.get(String(locationId))||(nodeIds.has(String(locationId))?String(locationId):null);
+ places.forEach(place=>(place.links||[]).forEach(link=>{const a=nodeForLocation(place.id),b=nodeForLocation(link.to);if(!a||!b||a===b)return;const key=[a,b].sort().join("|");if(edgeSeen.has(key))return;edgeSeen.add(key);edges.push({a,b})}));
+ const currentNode=currentGroup?"area:"+currentGroup.id:(nodeIds.has(String(current))?String(current):null);
+ const content='<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div>'+routeCanvas(nodes,edges,currentNode,{label:p.name+"行道路網"})+'<div class="xu-map-footer">行省圖依已登錄的當地區域與道路呈現；點區域圖釘進入當地道路圖，再點相鄰城鎮、野外或地下城直接旅行。未歸屬地點只按既有位置與道路顯示，不新增行政區。</div>';
  showModal(p.name+"・行省道路地圖",frame(p.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+crumb("行省",call("xuProvince",p.id)),board("province",content,regionalScene([r&&r.name,p.name,...groups.map(x=>x.name)].join(" ")))),r?call("xuRealm",r.id):call("xuWorld",""));
 }
 function local(id){

@@ -455,3 +455,5 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 }
 
 .xu-town-map-surface{position:absolute;inset:0;transform-origin:center;touch-action:none;will-change:transform}
+
+.xu-route-marker.is-area .xu-map-pin-glyph{border-radius:11px 11px 4px 11px;background:linear-gradient(145deg,#548b83,#244b50);border-width:3px}

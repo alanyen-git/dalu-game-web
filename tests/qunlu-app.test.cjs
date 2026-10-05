@@ -252,6 +252,8 @@ mapContext.xuRealm("RMAP-POL-016");
 assert.match(mapContext.rendered.html,/霜角高地會盟領/,"realm map must expose the new province node");
 mapContext.xuProvince("PROV-016-FROST-VALLEY");
 for(const name of ["霜角石圈聚落區","白角溪寨聚落區"])assert.ok(mapContext.rendered.html.includes(name),"province map must expose local area "+name);
+assert.match(mapContext.rendered.html,/class="xu-route-marker is-area/,"province local areas must be clickable map pins");
+assert.ok(mapContext.rendered.html.includes("xuLocal("),"province area pins must open their real local road map");
 for(const area of regionFixture.settlement_region_maps){mapContext.xuLocal(area.id);for(const id of area.location_ids){const place=regionFixture.locations.find(x=>x.id===id);assert.ok(mapContext.rendered.html.includes(place.name),"local map must expose "+place.name)}}
 
 const battleArt = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
@@ -259,7 +261,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v44"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v45"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -271,5 +273,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v44"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v45"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);
