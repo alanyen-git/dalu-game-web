@@ -226,4 +226,5 @@ vm.runInContext(regionMapUiSource,mapContext);
 mapContext.xuRealm("RMAP-POL-016");
 assert.match(mapContext.rendered.html,/霜角高地會盟領/,"realm map must expose the new province node");
 mapContext.xuProvince("PROV-016-FROST-VALLEY");
-for(const name of ["霜角石圈","白角溪寨","雪羊牧道","裂風隘口","祖靈石環下層","冰脈舊礦"])assert.ok(mapContext.rendered.html.includes(name),"province map must expose "+name);
+for(const name of ["霜角石圈聚落區","白角溪寨聚落區"])assert.ok(mapContext.rendered.html.includes(name),"province map must expose local area "+name);
+for(const area of regionFixture.settlement_region_maps){mapContext.xuLocal(area.id);for(const id of area.location_ids){const place=regionFixture.locations.find(x=>x.id===id);assert.ok(mapContext.rendered.html.includes(place.name),"local map must expose "+place.name)}}
