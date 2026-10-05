@@ -14,3 +14,5 @@ jobs:
           node-version: 20
       - name: Test hierarchy and travel rules
         run: node tests/map-navigation.test.js
+      - name: Test clickable route-map navigation
+        run: node tests/map-route-canvas.test.cjs

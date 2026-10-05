@@ -1,6 +1,6 @@
 (()=>{"use strict";
 const selector=".xu-board,.xu-town-board,.town-map-canvas",states=new WeakMap(),clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-function target(stage){return stage.querySelector(".xu-map-pan-surface")||stage.querySelector(".town-map-border")||stage.querySelector(".xu-town-board")||stage}
+function target(stage){return stage.querySelector(".xu-map-pan-surface")||stage.querySelector(".town-map-border")||stage.querySelector(".xu-town-map-surface")||stage.querySelector(".xu-town-board")||stage}
 function state(stage){if(!states.has(stage))states.set(stage,{zoom:1,x:0,y:0,pointer:null,moved:false,suppress:false});return states.get(stage)}
 function apply(stage){const s=state(stage),el=target(stage);el.style.transformOrigin="center";el.style.transform="translate("+s.x+"px,"+s.y+"px) scale("+s.zoom+")"}
 function fit(stage){const s=state(stage),w=stage.clientWidth,h=stage.clientHeight;s.x=clamp(s.x,-w*(s.zoom-1)/2,w*(s.zoom-1)/2);s.y=clamp(s.y,-h*(s.zoom-1)/2,h*(s.zoom-1)/2);apply(stage)}

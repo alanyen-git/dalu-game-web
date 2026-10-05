@@ -12,11 +12,13 @@ assert.equal((atlas.match(/fill="url\(#atlas-etching\)"/g)||[]).length,16,"each 
 for(const selector of ["風泉村","鹽潮荒野","沉砂遺跡","霧港村"])assert.ok(ui.includes(selector),"scene selector "+selector);
 for(const id of ["region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.ok(ui.includes('"'+id+'"'),"wild/dungeon scene route "+id);
 assert.match(ui,/town-illustration/,"town uses painterly scene art");
+assert.match(ui,/xu-route-map/,"locations render as interactive road-map pins");
+assert.match(ui,/call\("travel",l.id,Number\(route.hours\)\|\|1\)/,"adjacent pins invoke real travel");
 for(const asset of ["painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"])assert.ok(ui.includes(asset),"biome scene selector "+asset);
 for(const [pattern,label] of [["(?:region-)?(?:forest|windspring)","forest and windspring"],["(?:region-)?(?:highland|mountain)","highland and mountain"],["(?:region-)?(?:islands|coast|marsh)|salt-tide|mist-harbor","island, coastal, marsh and harbor"],["(?:region-)?desert|sinking-sand","desert and sinking sand"]])assert.ok(new RegExp(pattern).test(ui),"biome routing: "+label);
 for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp","painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
-assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v44"/,"map cache revision");
+assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v45"/,"map cache revision");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.100.0");
-assert.equal(version.pwa_cache_revision,"v44");
-console.log("PASS original regional map scenes, location selectors, town illustration, and offline cache");
+assert.equal(version.version,"CURRENT-1.101.0");
+assert.equal(version.pwa_cache_revision,"v45");
+console.log("PASS original regional map scenes, interactive location pins, town illustration, and offline cache");

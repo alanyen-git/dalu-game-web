@@ -396,3 +396,62 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-town-board.painterly-town:before{z-index:1;opacity:.1}
 .xu-town-board.painterly-town .xu-town-illustration{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;opacity:1}
 .xu-town-board.painterly-town .xu-town-street,.xu-town-board.painterly-town .xu-town-center{display:none}
+
+
+/* MAP-TOPOLOGY-INTERACTION-1.0 */
+.xu-route-map{position:absolute;inset:58px 2% 54px;z-index:4;pointer-events:none}
+.xu-route-map-home{inset:0}
+.xu-route-map-town{inset:0 0 62px;z-index:5}
+.xu-road-network{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.xu-road-shadow{fill:none;stroke:#392b20c9;stroke-width:22;stroke-linecap:round;filter:drop-shadow(0 3px 3px #0007)}
+.xu-road-center{fill:none;stroke:#e5d2a2e8;stroke-width:10;stroke-linecap:round;stroke-dasharray:2 2}
+.xu-route-marker{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;gap:3px;width:clamp(94px,17vw,136px);min-height:60px;padding:0;border:0;background:transparent;color:#fff4d2;text-align:center;transform:translate(-50%,-50%);pointer-events:auto;touch-action:manipulation;cursor:pointer}
+.xu-route-marker:hover{z-index:6;filter:brightness(1.16)}
+.xu-route-marker:focus-visible{outline:3px solid #8ce0e4;outline-offset:3px;border-radius:12px}
+.xu-map-pin-glyph{width:38px;height:38px;display:grid;place-items:center;border:2px solid #f3d894;border-radius:50% 50% 50% 8px;background:linear-gradient(145deg,#725433,#1b2524);box-shadow:0 3px 7px #000b,0 0 0 3px #161c1c99;color:#fff0bb;font-size:19px;font-weight:900}
+.xu-route-marker.is-town .xu-map-pin-glyph{background:linear-gradient(145deg,#b3763f,#5d3928)}
+.xu-route-marker.is-wild .xu-map-pin-glyph{background:linear-gradient(145deg,#638d53,#27472e)}
+.xu-route-marker.is-dungeon .xu-map-pin-glyph{background:linear-gradient(145deg,#846074,#382936)}
+.xu-route-marker.is-realm .xu-map-pin-glyph{background:linear-gradient(145deg,#7365ab,#302a5a)}
+.xu-route-marker.is-province .xu-map-pin-glyph{background:linear-gradient(145deg,#387e78,#194c54)}
+.xu-route-marker.is-current .xu-map-pin-glyph{border-color:#fff0a5;box-shadow:0 0 0 4px #ffe8a344,0 4px 12px #000b;color:#fff7c7}
+.xu-route-marker.is-adjacent:not(.is-current) .xu-map-pin-glyph{border-color:#bce2a1;box-shadow:0 0 0 3px #a1d18655,0 4px 10px #000b}
+.xu-route-marker.is-visited:not(.is-current) .xu-map-pin-glyph{border-color:#8fd4d1}
+.xu-map-pin-label{display:grid;justify-items:center;max-width:100%;line-height:1.15;text-shadow:0 2px 3px #07100d,1px 0 2px #07100d,-1px 0 2px #07100d}
+.xu-map-pin-label b{font-size:11px;font-weight:900;overflow-wrap:anywhere}
+.xu-map-pin-label small{margin-top:2px;color:#fff1c9;font-size:9px;font-weight:700}
+.xu-map-title{z-index:8}
+.xu-map-footer{z-index:9}
+.xu-facility-map{position:absolute;z-index:6;inset:0;pointer-events:none}
+.xu-facility-map .xu-facility{position:absolute;left:var(--fx);top:var(--fy);transform:translate(-50%,-50%);width:clamp(76px,17vw,118px);min-height:62px;display:grid;place-content:center;justify-items:center;gap:2px;padding:5px;border-radius:7px 10px 7px 10px;pointer-events:auto}
+.xu-facility-map .xu-facility-icon{font-size:23px;line-height:1}
+.xu-facility-map .xu-facility b{font-size:10px;line-height:1.2;white-space:normal}
+.xu-route-map-town .xu-route-marker.is-current{display:none}
+.xu-town-board .xu-town-title{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:8;margin:0}
+.xu-town-board .xu-town-illustration{z-index:0}
+.xu-town-board .xu-town-street{z-index:1}
+.xu-town-board .xu-town-center{z-index:2}
+.xu-town-board .xu-map-footer{z-index:9}
+.town-map-routes{position:absolute;inset:0;z-index:5;display:block;left:0;right:0;bottom:auto;gap:0;overflow:visible;padding:0;border:0;border-radius:0;background:transparent}
+.town-map-routes>.xu-route-map{inset:0}
+.town-map-buildings{display:block;inset:0;z-index:6;padding:0;pointer-events:none}
+.town-map-building{position:absolute;left:var(--fx);top:var(--fy);transform:translate(-50%,-50%);width:clamp(72px,17vw,112px);min-height:58px;display:grid;justify-items:center;align-content:center;gap:2px;padding:4px 6px;pointer-events:auto}
+.town-map-building-icon{font-size:23px;line-height:1}
+.town-map-building b{font-size:10px;line-height:1.15;white-space:normal;text-align:center}
+.town-current-site-pin{position:absolute;left:50%;top:50%;z-index:7;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:4px;min-width:90px;padding:4px;border:0;background:transparent;color:#fff1c9;text-shadow:0 2px 4px #000;font-size:26px;pointer-events:auto;cursor:pointer}
+.town-current-site-pin.dungeon{color:#e9c5cc}
+.town-current-site-pin b{font-size:12px}
+@media(max-width:560px){
+ .xu-route-map{inset:58px 0 52px}
+ .xu-route-map-town{inset:0 0 62px}
+ .xu-route-marker{width:94px}
+ .xu-map-pin-glyph{width:36px;height:36px;font-size:17px}
+ .xu-map-pin-label b{font-size:10px}
+ .xu-map-pin-label small{font-size:8px}
+ .xu-facility-map .xu-facility{width:82px;min-height:58px}
+ .xu-town-board{min-height:460px}
+ .town-map-building{width:80px;min-height:54px}
+ .town-map-building-icon{font-size:21px}
+}
+
+.xu-town-map-surface{position:absolute;inset:0;transform-origin:center;touch-action:none;will-change:transform}
