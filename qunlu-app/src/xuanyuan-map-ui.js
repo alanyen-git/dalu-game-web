@@ -8,6 +8,10 @@ const areaOf=id=>(DB.settlement_region_maps||[]).find(x=>(x.location_ids||[]).in
 const areas=id=>(DB.settlement_region_maps||[]).filter(x=>x.parent_province_region_id===id);
 function regionalScene(text){
  const t=String(text||"");
+ if(/風泉村/.test(t))return "region-windspring";
+ if(/鹽潮荒野|鹽潮/.test(t))return "region-salt-tide";
+ if(/沉砂遺跡|沉砂/.test(t))return "region-sinking-sand";
+ if(/霧港村|霧港/.test(t))return "region-mist-harbor";
  if(/皓月|黑潮|群島|島|海|港|潮/.test(t))return "region-islands";
  if(/白氈|汗國|草原|游牧|大漠/.test(t))return "region-steppe";
  if(/瑟露維亞|精靈|森林|林地|黑月|深庭/.test(t))return "region-forest";
@@ -64,11 +68,11 @@ function dungeonIndex(l){
 function locationMap(id){
  const l=getLoc(id);if(!l)return world();if(l.kind==="town")return town(id);const s=areaOf(id),d=l.kind==="dungeon";
  const links=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call("xuLocation",t.id),t.kind):""}).join("");
- const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" "),archetype=l.encounter_profile&&l.encounter_profile.archetype||"";
+ const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" "),archetype=l.encounter_profile&&l.encounter_profile.archetype||"",scene=/鹽潮荒野|鹽潮/.test(terrainText)?"region-salt-tide":/沉砂遺跡|沉砂/.test(terrainText)?"region-sinking-sand":/霧港村|霧港/.test(terrainText)?"region-mist-harbor":null;
  const dungeonScene={waterway_ruin:"flooded-vault",natural_water_cave:"flooded-vault",swamp_ruin:"marsh",tomb:"crypt",shrine_ruin:"crypt",natural_burrow:"vault",natural_cave:"vault",mine:"vault",artificial_cellar:"vault",artificial_ruin:"vault",fortress_basement:"vault"}[archetype]||(/水|潮|淹|河/.test(terrainText)?"flooded-vault":/墓|陵|墳|沉砂|遺跡|廢墟|古城/.test(terrainText)?"crypt":"vault");
  const terrain=d?dungeonScene:/海|港|灘|海岸/.test(terrainText)?"coast":/沼|濕地|泥灘|鹽潮/.test(terrainText)?"marsh":/草原|平原|原野/.test(terrainText)?"grassland":/山|峰|嶺|峽|雪/.test(terrainText)?"mountain":/河|湖|溪|水道/.test(terrainText)?"river":"forest";
  const content='<div class="xu-site-card"><span class="xu-site-kicker">'+(d?"地下城・入口示意":"野外・探索示意")+'</span><h4>'+esc(l.name)+'</h4><p>'+esc(l.description||l.summary||"依既有地點資料探索周邊環境。")+'</p><button type="button" class="xu-site-action" onclick="'+esc(call("openMapLocationDetail",l.id))+'">開啟地點資料／探索</button></div>'+(d?dungeonIndex(l):"")+'<div class="xu-node-grid xu-site-routes">'+links+'</div><div class="xu-map-footer">示意沿用已登錄地點和道路，不新增房間、任務或事件。</div>';
- showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?("dungeon-site terrain-"+terrain):("wild-site terrain-"+terrain),content,terrain)),s?call("xuLocal",s.id):call("xuWorld",""));
+ showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),board(d?("dungeon-site terrain-"+terrain):("wild-site terrain-"+terrain),content,scene||terrain)),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function town(id){
  const l=getLoc(id);if(!l)return world();const s=areaOf(id),p=s&&typeof provinceRegion==="function"?provinceRegion(s.parent_province_region_id):null,r=p&&typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
@@ -76,7 +80,7 @@ function town(id){
  const labels={guild:"冒險者公會",general:"商鋪",blacksmith:"鐵匠鋪",tavern:"酒館",inn:"旅館",church:"教會"};
  const fac=(l.facilities||[]).map(fid=>{const f=DB.facilities&&DB.facilities[fid];return f?'<button type="button" class="xu-facility '+fid+'" onclick="'+esc(call("xuFacility",fid))+'"><span class="xu-facility-icon">'+(icons[fid]||"◆")+'</span><b>'+esc(labels[fid]||f.name||fid)+'</b><small>交易／對話／情報</small></button>':""}).join("");
  const routes=(l.links||[]).map(e=>{const t=getLoc(e.to);return t?node(t.name,(e.hours||"—")+" 小時",call(t.kind==="town"?"xuTown":"xuLocation",t.id),"route"):""}).join("");
- const content='<div class="xu-town-board"><div class="xu-town-title"><b>'+esc(l.name)+'</b><small>'+esc(l.size||"聚落")+'</small></div><div class="xu-town-street street-a"></div><div class="xu-town-street street-b"></div><div class="xu-town-center"></div><div class="xu-facility-grid">'+fac+'</div><div class="xu-town-routes">'+routes+'</div><div class="xu-map-footer">點選公會、商鋪、酒館、旅館或教會開啟互動。</div></div>';
+ const townScene=/風泉村/.test(l.name||"")?'<svg class="xu-town-illustration" viewBox="0 0 800 500" aria-hidden="true"><use href="./assets/art/maps/region-atlas.svg#region-windspring"></use></svg>':"";const content='<div class="xu-town-board'+(/風泉村/.test(l.name||"")?" windspring-village":"")+'"><div class="xu-town-title"><b>'+esc(l.name)+'</b><small>'+esc(l.size||"聚落")+'</small></div>'+townScene+'<div class="xu-town-street street-a"></div><div class="xu-town-street street-b"></div><div class="xu-town-center"></div><div class="xu-facility-grid">'+fac+'</div><div class="xu-town-routes">'+routes+'</div><div class="xu-map-footer">點選公會、商鋪、酒館、旅館或教會開啟互動。</div></div>';
  showModal(l.name+"・城鎮地圖",frame(l.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb("城鎮",call("xuTown",l.id)),content),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function current(){const c=typeof mapHierarchyForLocation==="function"?mapHierarchyForLocation():{};if(c.location&&c.location.kind==="town")return town(c.location.id);if(c.location&&(c.location.kind==="wild"||c.location.kind==="dungeon"))return locationMap(c.location.id);if(c.settlement)return local(c.settlement.id);if(c.province)return province(c.province.id);if(c.realm)return realm(c.realm.id);return world()}

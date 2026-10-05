@@ -1,0 +1,17 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const app=path.join(__dirname,"..","qunlu-app");
+const atlas=fs.readFileSync(path.join(app,"assets","art","maps","region-atlas.svg"),"utf8");
+const ui=fs.readFileSync(path.join(app,"src","xuanyuan-map-ui.js"),"utf8");
+const sw=fs.readFileSync(path.join(app,"sw.js"),"utf8");
+const version=JSON.parse(fs.readFileSync(path.join(app,"version.json"),"utf8"));
+for(const id of ["region-windspring","region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.match(atlas,new RegExp('<symbol id="'+id+'"'),"scene symbol "+id);
+for(const selector of ["風泉村","鹽潮荒野","沉砂遺跡","霧港村"])assert.ok(ui.includes(selector),"scene selector "+selector);
+for(const id of ["region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.ok(ui.includes('"'+id+'"'),"wild/dungeon scene route "+id);
+assert.match(ui,/town-illustration/,"Wind Spring town uses its scene art");
+assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v39"/,"map cache revision");
+assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
+assert.equal(version.version,"CURRENT-1.95.0");
+assert.equal(version.pwa_cache_revision,"v39");
+console.log("PASS original regional map scenes, location selectors, town illustration, and offline cache");
