@@ -32,7 +32,7 @@ const context={
 };
 vm.runInNewContext(source,context);
 context.window.xuLocal("area-a");
-assert.ok(shown.body.includes('class="xu-route-map"'),"local map renders a mapped route layer");
+assert.ok(/class="xu-route-map(?:\s|")/.test(shown.body),"local map renders a mapped route layer");
 assert.match(shown.body,/xu-road-center/,"map roads come from location links");
 assert.match(shown.body,/柳橋鎮/);
 assert.match(shown.body,/青石野地/);
