@@ -250,7 +250,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v37"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v38"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
