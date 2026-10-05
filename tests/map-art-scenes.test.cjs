@@ -15,8 +15,8 @@ assert.match(ui,/town-illustration/,"town uses painterly scene art");
 for(const asset of ["painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"])assert.ok(ui.includes(asset),"biome scene selector "+asset);
 for(const [pattern,label] of [["(?:region-)?(?:forest|windspring)","forest and windspring"],["(?:region-)?(?:highland|mountain)","highland and mountain"],["(?:region-)?(?:islands|coast|marsh)|salt-tide|mist-harbor","island, coastal, marsh and harbor"],["(?:region-)?desert|sinking-sand","desert and sinking sand"]])assert.ok(new RegExp(pattern).test(ui),"biome routing: "+label);
 for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp","painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
-assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v42"/,"map cache revision");
+assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v43"/,"map cache revision");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.98.0");
-assert.equal(version.pwa_cache_revision,"v42");
+assert.equal(version.version,"CURRENT-1.99.0");
+assert.equal(version.pwa_cache_revision,"v43");
 console.log("PASS original regional map scenes, location selectors, town illustration, and offline cache");
