@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","assets/art/town/facility-buildings.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -94,6 +94,7 @@ assert.ok(townHome.includes("townHomeActions"), "actions must appear inside the 
 assert.ok(townHome.includes("xuRouteMapForLocation"),"town and wilderness exits must use the clickable shared map");
 assert.ok(mapSource.includes('call("travel",l.id,Number(route.hours)||1)')&&mapSource.includes("routeCanvas(nodes,edges"),"road pins must pass the destination and route duration into travel");
 assert.ok(mapSource.includes("window.xuFacility=function(id)"),"town building taps must be connected to facility interactions");
+assert.ok(mapSource.includes("facility-buildings.svg#${fid}")&&mapTheme.includes("xu-facility-art"),"town shops must use individual storefront artwork");
 assert.ok(runtimeSource.includes("arrivalRoute")&&runtimeSource.includes("前往此地"),"an adjacent map destination must offer a direct travel action");
 assert.ok(runtimeSource.includes('data-sheet="characters"')&&runtimeSource.includes("xuan-painted-sprite")&&!runtimeSource.includes("battle-sd-portraits.svg#"),"party profile must use detailed painted character portraits");
 assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on the town-map page");
@@ -105,6 +106,7 @@ assert.ok(runtimeSource.includes("xu-party-formation"), "character data must sho
 assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must have a dedicated illustration");
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
+assert.ok(battleTheme.includes("xuan-battle-stage")&&battleTheme.includes("xuan-party-status")&&mapTheme.includes("XUANYUAN-BATTLE-FIELD-LAYOUT-1.0"),"battle uses a full field scene and bottom party status row");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 const cacheMarker = 'CACHE_NAME=CACHE_PREFIX+"v';
 const cacheOffset = sw.indexOf(cacheMarker);
@@ -123,7 +125,7 @@ for(const asset of ["characters-three-head-v1.webp","monsters-three-head-v1.webp
 assert.ok(battleTheme.includes("xuan-painted-sprite")&&battleTheme.includes('["monsters",3]'),"battle roles and common monsters must use detailed sprite sheets");
 assert.ok(portraitUI.includes("art-dialogue-painted"),"dialogue roles must render the painted three-head art");
 assert.ok(paintedTheme.includes("characters-three-head-v1.webp")&&paintedTheme.includes("monsters-three-head-v1.webp"),"painted sprite sheets must use their intended CSS crops");
-for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
+for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg", "facility-buildings.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
@@ -142,7 +144,7 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.16");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.17");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.4");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);

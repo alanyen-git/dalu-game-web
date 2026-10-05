@@ -43,6 +43,7 @@ assert.doesNotMatch(shown.body,/xu-node-grid/,"location names are map pins, not 
 context.window.xuTown("town-a");
 assert.match(shown.body,/xu-facility-map/,"town facilities are anchored to the street map");
 assert.match(shown.body,/xuFacility\(&quot;general&quot;\)/,"shop pin opens its facility interaction");
+assert.match(shown.body,/facility-buildings\.svg#general/,"shop has its own illustrated storefront file");
 assert.match(shown.body,/xu-route-map-town/,"town exits are drawn on the same map");
 assert.match(shown.body,/travel\(&quot;wild-b&quot;,1\.5\)/,"town wilderness exit pin moves through travel");
 
