@@ -161,6 +161,8 @@ const portraitSource=fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"
 assert.ok(portraitSource.includes('body.querySelector(".card b")')&&portraitSource.includes("speakerPortraits"),"dialogue portraits must prefer the source speaker role");
 assert.ok(portraitSource.includes("art-dialogue-speaker")&&portraitSource.includes('identity.name+"，"+identity.role'),"speaker name and source role must be visible and accessible");
 assert.ok(portraitSource.includes("identity?.visualStyle")&&portraitSource.includes("culture-"),"regional dialogue portraits must receive a source culture style");
+assert.ok(portraitSource.includes('portraitAllowed=/・對話$/.test(title)||/^人物資料$/.test(title)')&&portraitSource.includes("if(!portraitAllowed||!target)"),"general interfaces must not display character portraits");
+assert.ok(!portraitSource.includes("portraits.find(x=>x.keys.test(text))"),"portrait selection must not scan generic modal text");
 const portraitAssets=fs.readFileSync(path.join(app,"assets/art/npc-portrait-sprites.svg"),"utf8");
 for(const style of ["asdale_west","valrek_imperial","free_city","elven","dwarven","beast_steppe","dark_elf"])assert.ok(portraitAssets.includes("culture-"+style),"regional portrait art must exist for "+style);
 assert.equal(version.regional_portrait_revision,"REGIONAL-PORTRAIT-1.1");

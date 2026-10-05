@@ -1,11 +1,12 @@
 {
-  "version": "CURRENT-1.98.0",
-  "previous_version": "CURRENT-1.97.0",
+  "version": "CURRENT-1.99.0",
+  "previous_version": "CURRENT-1.98.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "依地貌自動套用森林河谷、海岸濕地、雪嶺高地與沙漠遺跡專屬地圖底景，保留既有節點與道路。",
+  "summary": "一般介面不再自動插入人物大頭圖；角色對話與人物資料頁保留肖像，戰鬥及隊伍立繪不變。",
   "changelog": [
+    "修正人物肖像誤出現在「更多」、「世界組織」、「流派」等一般介面的問題；只有明確角色對話與人物資料頁會顯示大頭圖，劇情場景和戰鬥立繪維持原樣。",
     "新增森林河谷、海岸濕地、雪嶺高地與沙漠遺跡四款原創高細節地圖，依既有地區自動選景；節點與道路不變。",
     "新增原創高細節手繪地圖底景：連續山脈、森林、河網、海岸與乾濕地形；城鎮街廓鋪面屋瓦細節及水下石窟光影。",
     "世界圖使用大陸全景、區域圖使用內陸地貌、城鎮與地城依場景切換專屬底景；原有節點、標記、設施互動與縮放拖曳保留。",
@@ -103,5 +104,6 @@
   "regional_map_revision": "REGIONAL-MAP-SCENES-1.4",
   "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0",
   "political_region_revision": "FROSTHORN-REGION-PACK-1.0",
-  "class_art_revision": "CLASS-ARCHETYPE-PORTRAITS-1.0"
+  "class_art_revision": "CLASS-ARCHETYPE-PORTRAITS-1.0",
+  "portrait_ui_scope_revision": "GENERAL-PORTRAIT-SCOPE-1.0"
 }
