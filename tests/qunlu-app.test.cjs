@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -100,6 +100,12 @@ assert.ok(runtimeSource.includes("xu-party-formation"), "character data must sho
 assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must have a dedicated illustration");
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
+const paintedTheme=fs.readFileSync(path.join(app,"assets/css/polish-v1.css"),"utf8");
+assert.ok(html.includes("assets/css/polish-v1.css"),"painted sprite styling must load");
+for(const asset of ["characters-three-head-v1.webp","monsters-three-head-v1.webp"])assert.ok(sw.includes(asset),"painted sprite sheets must be cached offline: "+asset);
+assert.ok(battleTheme.includes("xuan-painted-sprite")&&battleTheme.includes('["monsters",3]'),"battle roles and common monsters must use detailed sprite sheets");
+assert.ok(portraitUI.includes("art-dialogue-painted"),"dialogue roles must render the painted three-head art");
+assert.ok(paintedTheme.includes("characters-three-head-v1.webp")&&paintedTheme.includes("monsters-three-head-v1.webp"),"painted sprite sheets must use their intended CSS crops");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 const cacheMarker = 'CACHE_NAME=CACHE_PREFIX+"v';
 const cacheOffset = sw.indexOf(cacheMarker);

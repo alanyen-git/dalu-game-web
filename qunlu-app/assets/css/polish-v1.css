@@ -50,3 +50,15 @@ body:before{opacity:.11;background-image:radial-gradient(circle at 1px 1px,#e9d7
  .art-dialogue-speaker{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){.town-map-building,.action-grid button,.town-home-actions button{transition:none!important}}
+
+
+/* Painted three-head sprites: reference-led, non-pixel character and creature art */
+.xuan-sd-portrait.xuan-painted-sprite{display:block;background-color:transparent;background-image:none;background-repeat:no-repeat;background-size:auto 100%;background-position:0 center;filter:drop-shadow(0 5px 5px #020817bb)}
+.xuan-painted-sprite[data-sheet="characters"],.art-dialogue-painted[data-sheet="characters"]{background-image:url("../art/three-head/characters-three-head-v1.webp")}
+.xuan-painted-sprite[data-sheet="monsters"]{background-image:url("../art/three-head/monsters-three-head-v1.webp")}
+.xuan-painted-sprite[data-index="1"],.art-dialogue-painted[data-index="1"]{background-position:33.333% center}
+.xuan-painted-sprite[data-index="2"],.art-dialogue-painted[data-index="2"]{background-position:66.667% center}
+.xuan-painted-sprite[data-index="3"],.art-dialogue-painted[data-index="3"]{background-position:100% center}
+.xuan-enemy-unit .xuan-painted-sprite{filter:drop-shadow(0 5px 8px #e38e6038)}
+.xuan-party-strip .xuan-painted-sprite{filter:drop-shadow(0 2px 3px #000a)}
+.art-dialogue-painted{position:absolute;inset:0;display:block;background-repeat:no-repeat;background-size:auto 100%;background-position:0 center;filter:drop-shadow(0 5px 6px #0009)}
