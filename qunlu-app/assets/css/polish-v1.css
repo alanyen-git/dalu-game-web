@@ -65,3 +65,8 @@ body:before{opacity:.11;background-image:radial-gradient(circle at 1px 1px,#e9d7
 .xuan-enemy-unit .xuan-painted-sprite{filter:drop-shadow(0 5px 8px #e38e6038)}
 .xuan-party-strip .xuan-painted-sprite{filter:drop-shadow(0 2px 3px #000a)}
 .art-dialogue-painted{position:absolute;inset:0;display:block;background-repeat:no-repeat;background-size:auto 100%;background-position:0 center;filter:drop-shadow(0 5px 6px #0009)}
+
+/* Facility scenes: fill the frame and keep hand-painted room detail readable. */
+.xu-store-scene{isolation:isolate;background:#171b1e}
+.xu-store-scene>svg{filter:brightness(1.02) saturate(1.05)}
+.xu-store-scene:after{background:linear-gradient(180deg,#07101955 0%,transparent 34%,transparent 72%,#07101933 100%),radial-gradient(ellipse at 50% 38%,transparent 32%,#09101833 100%)}

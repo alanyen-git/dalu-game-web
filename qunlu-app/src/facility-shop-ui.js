@@ -99,7 +99,7 @@ function renderFacility(fid){
   const room=profile.scene||"general";
   const html='<section class="xu-store-screen store-'+attr(fid)+'" data-facility="'+attr(fid)+'" data-environment="'+attr(room)+'">'+
     '<div class="xu-store-scene" role="img" aria-label="'+attr(f.name+"的"+profile.environment)+'">'+
-      '<svg viewBox="0 0 800 500" aria-hidden="true"><use href="./assets/art/town/facility-interiors.svg#'+attr(room)+'"></use></svg>'+
+      '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="./assets/art/town/facility-interiors.svg#'+attr(room)+'"></use></svg>'+
       '<div class="xu-store-sign"><span>'+esc(profile.english)+'</span><strong>'+esc(profile.headline)+'</strong><small>'+esc(profile.subline)+'</small></div>'+
       '<div class="xu-store-caption"><b>'+esc(f.name)+'</b><span>'+esc(profile.environment)+'</span></div>'+
     '</div>'+
