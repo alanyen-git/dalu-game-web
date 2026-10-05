@@ -22,6 +22,20 @@ assert.ok(runtimeSource.includes('meta[name="app-version"]'), "web updater must 
 const mapSource = fs.readFileSync(path.join(app, "src/xuanyuan-map-ui.js"), "utf8");
 const battleTheme = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
+const emptyRealmResult = {};
+const emptyRealmContext = {
+  DB: { realm_region_maps: [{ id: "realm-empty", political_entity_id: "polity-empty", name: "雲杉王國", province_region_ids: [] }] },
+  window: null,
+  realmRegionMap: () => ({ id: "realm-empty", political_entity_id: "polity-empty", name: "雲杉王國", province_region_ids: [] }),
+  politicalEntity: id => ({ id, name: "雲杉王國" }),
+  showModal: (title, html) => Object.assign(emptyRealmResult, { title, html })
+};
+emptyRealmContext.window = emptyRealmContext;
+vm.createContext(emptyRealmContext);
+vm.runInContext(mapSource, emptyRealmContext);
+emptyRealmContext.xuRealm("realm-empty");
+assert.match(emptyRealmResult.html, /此政體目前尚未登錄行省級地圖資料/);
+assert.match(emptyRealmResult.html, /世界/);
 assert.ok(mapSource.includes("region-atlas.svg#"), "map layers must render the new illustrated terrain atlas");
 assert.ok(mapSource.includes("terrain-scenes.svg#"), "outdoor and dungeon locations must render distinct scene art");
 assert.ok(mapSource.includes("exploreState"), "map locations must reflect current and previously visited places");
