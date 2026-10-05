@@ -24,10 +24,16 @@ const battleTheme = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "u
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
 const emptyRealmResult = {};
 const emptyRealmContext = {
-  DB: { realm_region_maps: [{ id: "realm-empty", political_entity_id: "polity-empty", name: "雲杉王國", province_region_ids: [] }] },
+  DB: {
+    realm_region_maps: [{ id: "realm-empty", political_entity_id: "polity-empty", name: "雲杉王國", province_region_ids: [] }],
+    world_regions: [
+      { id: "region-core", name: "杉影高地", terrain: "山地", political_entity_id: "polity-empty" },
+      { id: "region-unrelated", name: "遠海群島", terrain: "礁島", political_entity_id: "other-polity" }
+    ]
+  },
   window: null,
   realmRegionMap: () => ({ id: "realm-empty", political_entity_id: "polity-empty", name: "雲杉王國", province_region_ids: [] }),
-  politicalEntity: id => ({ id, name: "雲杉王國" }),
+  politicalEntity: id => ({ id, name: "雲杉王國", core_region_id: "region-core" }),
   showModal: (title, html) => Object.assign(emptyRealmResult, { title, html })
 };
 emptyRealmContext.window = emptyRealmContext;
@@ -36,6 +42,12 @@ vm.runInContext(mapSource, emptyRealmContext);
 emptyRealmContext.xuRealm("realm-empty");
 assert.match(emptyRealmResult.html, /此政體目前尚未登錄行省級地圖資料/);
 assert.match(emptyRealmResult.html, /世界/);
+assert.match(emptyRealmResult.html, /已登錄核心地理區域（非行省）/);
+assert.match(emptyRealmResult.html, /杉影高地/);
+assert.match(emptyRealmResult.html, /地形：山地/);
+assert.match(emptyRealmResult.html, /地理區域不代表行政區/);
+assert.doesNotMatch(emptyRealmResult.html, /遠海群島/);
+assert.doesNotMatch(emptyRealmResult.html, /xuProvince\(/);
 assert.ok(mapSource.includes("region-atlas.svg#"), "map layers must render the new illustrated terrain atlas");
 assert.ok(mapSource.includes("terrain-scenes.svg#"), "outdoor and dungeon locations must render distinct scene art");
 assert.ok(mapSource.includes("exploreState"), "map locations must reflect current and previously visited places");
@@ -89,7 +101,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v32"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v33"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -108,8 +120,8 @@ const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v32"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.10");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v33"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.11");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.0");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);

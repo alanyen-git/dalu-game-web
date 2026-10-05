@@ -30,7 +30,9 @@ function realm(id){
  const r=typeof realmRegionMap==="function"?realmRegionMap(id):null;if(!r)return world();
  const p=typeof politicalEntity==="function"?politicalEntity(r.political_entity_id):null;
  const rows=(r.province_region_ids||[]).map(pid=>{const x=typeof provinceRegion==="function"?provinceRegion(pid):null;return x?node(x.name,x.administrative_type||"行省",call("xuProvince",x.id),"province"):""}).join("");
- const listing=rows?'<div class="xu-node-grid">'+rows+'</div>':'<div class="xu-map-footer xu-map-empty" role="status" aria-live="polite">此政體目前尚未登錄行省級地圖資料。請使用「世界」按鈕返回上一層；此畫面不會虛構行政區。</div>';
+ const coreRegion=p&&p.core_region_id?(DB.world_regions||[]).find(x=>x.id===p.core_region_id):null;
+ const geography=coreRegion?'<div class="xu-map-footer xu-map-geography"><b>已登錄核心地理區域（非行省）</b><br>'+esc(coreRegion.name)+(coreRegion.terrain?'<br>地形：'+esc(coreRegion.terrain):"")+(coreRegion.layered_sovereignty?'<br>'+esc(coreRegion.sovereignty_note||"此區域具有分層主權紀錄。"):"")+'<br>地理區域不代表行政區，也不提供下鑽地圖。</div>':"";
+ const listing=rows?'<div class="xu-node-grid">'+rows+'</div>':'<div class="xu-map-footer xu-map-empty" role="status" aria-live="polite">此政體目前尚未登錄行省級地圖資料。請使用「世界」按鈕返回上一層；此畫面不會虛構行政區。</div>'+geography;
  showModal((p?p.name:r.name)+"・王國地圖",frame(p?p.name:r.name,crumb("世界",call("xuWorld",""))+crumb("王國／政體",call("xuRealm",r.id)),board("realm",'<div class="xu-map-title">'+esc(p?p.name:r.name)+'</div>'+listing,regionalScene([p&&p.name,r.name].join(" ")))),call("xuWorld",""));
 }
 function province(id){
