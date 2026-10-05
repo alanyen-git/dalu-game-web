@@ -58,6 +58,7 @@ function routeCanvas(nodes,edges,currentId,options){
 }
 const locationIcon=k=>k==="town"?"⌂":k==="dungeon"?"▣":"⚑";
 const kindLabel=k=>k==="town"?"城鎮":k==="dungeon"?"地下城":"野外";
+const currentLocationId=()=>typeof G!=="undefined"&&G.character?G.character.locationId:null;
 function routeEdges(locations){
  const ids=new Set(locations.map(x=>String(x.id))),seen=new Set(),edges=[];
  locations.forEach(l=>(l.links||[]).forEach(link=>{const to=String(link.to);if(!ids.has(to)||to===String(l.id))return;const key=[String(l.id),to].sort().join("|");if(seen.has(key))return;seen.add(key);edges.push({a:String(l.id),b:to,hours:Number(link.hours)||1})}));
@@ -95,15 +96,15 @@ function province(id){
  let locations=groups.flatMap(x=>x.location_ids||[]).map(getLoc).filter(Boolean);
  const loose=["town","wild","dungeon"].flatMap(k=>typeof provinceCategoryLocations==="function"?provinceCategoryLocations(p,k,false):[]).filter(x=>!owned.has(x.id));
  locations=Array.from(new Map(locations.concat(loose).map(x=>[String(x.id),x])).values());
- const places=neighboringLocations(locations),nodes=locationMapNodes(places,G&&G.character&&G.character.locationId),edges=routeEdges(places);
- const content='<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div>'+routeCanvas(nodes,edges,G&&G.character&&G.character.locationId,{label:p.name+"行道路網"})+'<div class="xu-map-footer">道路依已登錄地點連結；點選相鄰城鎮、野外或地下城圖釘會直接旅行。圖釘無比例尺。</div>';
+ const places=neighboringLocations(locations),nodes=locationMapNodes(places,currentLocationId()),edges=routeEdges(places);
+ const content='<div class="xu-map-title">'+esc(p.display_name||p.name)+'</div>'+routeCanvas(nodes,edges,currentLocationId(),{label:p.name+"行道路網"})+'<div class="xu-map-footer">道路依已登錄地點連結；點選相鄰城鎮、野外或地下城圖釘會直接旅行。圖釘無比例尺。</div>';
  showModal(p.name+"・行省道路地圖",frame(p.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+crumb("行省",call("xuProvince",p.id)),board("province",content,regionalScene([r&&r.name,p.name,...groups.map(x=>x.name)].join(" ")))),r?call("xuRealm",r.id):call("xuWorld",""));
 }
 function local(id){
  const s=area(id);if(!s)return world();
  const p=typeof provinceRegion==="function"?provinceRegion(s.parent_province_region_id):null,r=p&&typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
- const ids=s.location_ids||[],base=ids.map(getLoc).filter(Boolean),places=neighboringLocations(base),nodes=locationMapNodes(places,G&&G.character&&G.character.locationId),edges=routeEdges(places);
- const content='<div class="xu-map-title">'+esc(s.name)+'・道路圖</div>'+routeCanvas(nodes,edges,G&&G.character&&G.character.locationId,{label:s.name+"道路地圖"})+'<div class="xu-map-footer">金色圖釘是目前位置；點選相鄰圖釘就會沿已登錄道路直接旅行。</div>';
+ const ids=s.location_ids||[],base=ids.map(getLoc).filter(Boolean),places=neighboringLocations(base),nodes=locationMapNodes(places,currentLocationId()),edges=routeEdges(places);
+ const content='<div class="xu-map-title">'+esc(s.name)+'・道路圖</div>'+routeCanvas(nodes,edges,currentLocationId(),{label:s.name+"道路地圖"})+'<div class="xu-map-footer">金色圖釘是目前位置；點選相鄰圖釘就會沿已登錄道路直接旅行。</div>';
  showModal(s.name+"・當地道路地圖",frame(s.name,(r?crumb("王國／政體",call("xuRealm",r.id)):"")+(p?crumb("行省",call("xuProvince",p.id)):"")+crumb("當地區域",call("xuLocal",s.id)),board("local",content,regionalScene([r&&r.name,p&&p.name,s.name,s.role].join(" ")))),p?call("xuProvince",p.id):call("xuWorld",""));
 }
 function dungeonIndex(l){
@@ -114,8 +115,8 @@ function dungeonIndex(l){
  return '<section class="xu-dungeon-index" aria-label="地城探索紀錄"><div class="xu-dungeon-index-head"><div><b>地城探索索引</b><small>依既有資料庫列出探索項目</small></div><strong>'+known+' / '+points.length+'<small>已記錄</small></strong></div><div class="xu-dungeon-points" role="list">'+(rows||'<p class="small">此地尚未建立探索項目。</p>')+'</div><p class="xu-dungeon-note">名稱與權重來自既有地點資料；此索引不代表房間座標或地圖路徑。實際探索後，線索會依本機旅誌更新。</p></section>'
 }
 function locationMap(id){
- const l=getLoc(id);if(!l)return world();if(l.kind==="town"){const here=G&&G.character&&G.character.locationId===l.id,route=(getLoc(G&&G.character&&G.character.locationId)?.links||[]).find(e=>e.to===l.id);if(here)return town(id);if(route)return travel(l.id,Number(route.hours)||1);if(typeof openMapLocationDetail==="function")return openMapLocationDetail(id);return world()}const s=areaOf(id),d=l.kind==="dungeon";
- const places=neighboringLocations([l]),activeId=G&&G.character&&G.character.locationId,nodes=locationMapNodes(places,activeId),edges=routeEdges(places);
+ const l=getLoc(id);if(!l)return world();if(l.kind==="town"){const here=currentLocationId()===l.id,route=(getLoc(currentLocationId())?.links||[]).find(e=>e.to===l.id);if(here)return town(id);if(route)return travel(l.id,Number(route.hours)||1);if(typeof openMapLocationDetail==="function")return openMapLocationDetail(id);return world()}const s=areaOf(id),d=l.kind==="dungeon";
+ const places=neighboringLocations([l]),activeId=currentLocationId(),nodes=locationMapNodes(places,activeId),edges=routeEdges(places);
  const terrainText=[l.name,l.description,l.summary,s&&s.name].join(" "),archetype=l.encounter_profile&&l.encounter_profile.archetype||"",scene=/鹽潮荒野|鹽潮/.test(terrainText)?"region-salt-tide":/沉砂遺跡|沉砂/.test(terrainText)?"region-sinking-sand":/霧港村|霧港/.test(terrainText)?"region-mist-harbor":null;
  const dungeonScene={waterway_ruin:"flooded-vault",natural_water_cave:"flooded-vault",swamp_ruin:"marsh",tomb:"crypt",shrine_ruin:"crypt",natural_burrow:"vault",natural_cave:"vault",mine:"vault",artificial_cellar:"vault",artificial_ruin:"vault",fortress_basement:"vault"}[archetype]||(/水|潮|淹|河/.test(terrainText)?"flooded-vault":/墓|陵|墳|沉砂|遺跡|廢墟|古城/.test(terrainText)?"crypt":"vault");
  const terrain=d?dungeonScene:/海|港|灘|海岸/.test(terrainText)?"coast":/沼|濕地|泥灘|鹽潮/.test(terrainText)?"marsh":/草原|平原|原野/.test(terrainText)?"grassland":/山|峰|嶺|峽|雪/.test(terrainText)?"mountain":/河|湖|溪|水道/.test(terrainText)?"river":"forest";
@@ -124,7 +125,7 @@ function locationMap(id){
  showModal(l.name+(d?"・地下城":"・野外"),frame(l.name,(s?crumb("當地區域",call("xuLocal",s.id)):"")+crumb(d?"地下城":"野外",call("xuLocation",l.id)),content),s?call("xuLocal",s.id):call("xuWorld",""));
 }
 function town(id){
- const l=getLoc(id);if(!l)return world();const currentLoc=getLoc(G&&G.character&&G.character.locationId),arrival=(currentLoc?.links||[]).find(e=>e.to===l.id);if(currentLoc&&currentLoc.id!==l.id){if(arrival)return travel(l.id,Number(arrival.hours)||1);if(typeof openMapLocationDetail==="function")return openMapLocationDetail(l.id);return world()}const s=areaOf(id),p=s&&typeof provinceRegion==="function"?provinceRegion(s.parent_province_region_id):null,r=p&&typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
+ const l=getLoc(id);if(!l)return world();const currentLoc=getLoc(currentLocationId()),arrival=(currentLoc?.links||[]).find(e=>e.to===l.id);if(currentLoc&&currentLoc.id!==l.id){if(arrival)return travel(l.id,Number(arrival.hours)||1);if(typeof openMapLocationDetail==="function")return openMapLocationDetail(l.id);return world()}const s=areaOf(id),p=s&&typeof provinceRegion==="function"?provinceRegion(s.parent_province_region_id):null,r=p&&typeof realmRegionMap==="function"?realmRegionMap(p.parent_realm_map_id):null;
  const icons={guild:"⚔",general:"◆",blacksmith:"⚒",tavern:"♨",inn:"⌂",church:"✦",clinic:"✚",tailor:"✂",alchemy:"⚗",enchanter:"◇",mageguild:"✧"};
  const labels={guild:"冒險者公會",general:"商鋪",blacksmith:"鐵匠鋪",tavern:"酒館",inn:"旅館",church:"教會",clinic:"診療所",tailor:"裁縫鋪",alchemy:"煉金工坊",enchanter:"附魔工坊",mageguild:"魔法公會"};
  const positions=[[25,38],[50,35],[75,38],[28,68],[52,70],[76,66],[18,53],[39,53],[61,53],[82,52]];
