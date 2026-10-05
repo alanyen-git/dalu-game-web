@@ -51,5 +51,5 @@ function decorate(){
 }
 let lastEffectLog="";
 function battleEffect(){const box=document.querySelector("#battleBack .battlebox"),body=document.getElementById("battleBody"),row=body?.querySelector(".battlelog>div:last-child"),line=String(row?.textContent||"").trim();if(!box||!line||line===lastEffectLog)return;lastEffectLog=line;if(!/造成|傷害|治療|回復|命中|未命中|爆擊|格擋|施放/.test(line))return;const type=/爆擊/.test(line)?"critical":/火|焰|炎/.test(line)?"fire":/水|冰|霜/.test(line)?"ice":/治療|回復/.test(line)?"heal":/未命中/.test(line)?"miss":/魔法|施放|術式/.test(line)?"magic":"slash";const fx=make("div","xuan-hit-fx fx-"+type);fx.setAttribute("aria-hidden","true");box.appendChild(fx);setTimeout(()=>fx.remove(),900)}
-const target=document.getElementById("battleBody");if(target){new MutationObserver(()=>{decorate();battleEffect()}).observe(target,{childList:true,subtree:true,characterData:true});decorate();battleEffect()}
+const watchRoot=document.body||document.getElementById("battleBody");if(watchRoot){new MutationObserver(()=>{decorate();battleEffect()}).observe(watchRoot,{childList:true,subtree:true,characterData:true});decorate();battleEffect()}
 })();

@@ -106,6 +106,9 @@ assert.ok(runtimeSource.includes("xu-party-formation"), "character data must sho
 assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must have a dedicated illustration");
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
+assert.ok(battleTheme.includes("document.body||document.getElementById(\"battleBody\")"),"battle styling observes dynamically opened encounters");
+assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.6");
+assert.equal(version.home_ui_revision,"TOWN-MAP-HOME-1.2");
 assert.ok(battleTheme.includes("xuan-battle-stage")&&battleTheme.includes("xuan-party-status"), "battle uses side-by-side combatants and a bottom party status strip");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-FIELD-LAYOUT-1.0"), "battle scene follows the reference field layout");
 assert.ok(mapSource.includes("facility-buildings.svg#"), "town map pins render individual building artwork");
@@ -265,7 +268,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v48"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v49"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -277,5 +280,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v48"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v49"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);
