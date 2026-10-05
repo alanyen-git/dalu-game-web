@@ -92,6 +92,7 @@ const townHome = fs.readFileSync(path.join(app, "src/town-home-ui.js"), "utf8");
 assert.ok(townHome.includes("dataset.locationId"), "town map must expose active location state for scene styling");
 assert.ok(townHome.includes("townHomeActions"), "actions must appear inside the town-map page");
 assert.ok(townHome.includes("xuRouteMapForLocation"),"town and wilderness exits must use the clickable shared map");
+assert.ok(townHome.includes("facility-buildings.svg#")&&mapTheme.includes(".town-map-building-art"),"town home uses per-facility storefront art");
 assert.ok(mapSource.includes('call("travel",l.id,Number(route.hours)||1)')&&mapSource.includes("routeCanvas(nodes,edges"),"road pins must pass the destination and route duration into travel");
 assert.ok(mapSource.includes("window.xuFacility=function(id)"),"town building taps must be connected to facility interactions");
 assert.ok(runtimeSource.includes("arrivalRoute")&&runtimeSource.includes("前往此地"),"an adjacent map destination must offer a direct travel action");
@@ -145,7 +146,7 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.17");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.18");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.4");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);
@@ -264,7 +265,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v47"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v48"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -276,5 +277,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v47"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v48"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);

@@ -17,10 +17,10 @@ assert.match(ui,/call\("travel",l.id,Number\(route.hours\)\|\|1\)/,"adjacent pin
 for(const asset of ["painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"])assert.ok(ui.includes(asset),"biome scene selector "+asset);
 for(const [pattern,label] of [["(?:region-)?(?:forest|windspring)","forest and windspring"],["(?:region-)?(?:highland|mountain)","highland and mountain"],["(?:region-)?(?:islands|coast|marsh)|salt-tide|mist-harbor","island, coastal, marsh and harbor"],["(?:region-)?desert|sinking-sand","desert and sinking sand"]])assert.ok(new RegExp(pattern).test(ui),"biome routing: "+label);
 for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp","painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
-assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v47"/,"map cache revision");
+assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v48"/,"map cache revision");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.103.0");
-assert.equal(version.pwa_cache_revision,"v47");
+assert.equal(version.version,"CURRENT-1.104.0");
+assert.equal(version.pwa_cache_revision,"v48");
 assert.match(sw,/facility-buildings\.svg/,"illustrated storefronts are cached");
 assert.ok(fs.existsSync(path.join(app,"assets","art","town","facility-buildings.svg")),"facility art file exists");
 console.log("PASS original regional map scenes, interactive location pins, town illustration, and offline cache");

@@ -542,3 +542,12 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 }
 @media(max-width:359px){.xuan-party-status .xuan-party-strip{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.xuan-battle-stage .xuan-main-unit .xuan-sd-portrait,.xuan-battle-stage .xuan-enemy-unit .xuan-sd-portrait{animation:none!important}}
+
+/* XUANYUAN-TOWN-BUILDING-ART-1.0 */
+.town-map-canvas.is-town .town-map-buildings{display:block;inset:0;padding:0;grid-template:none;pointer-events:none}
+.town-map-canvas.is-town .town-map-building{position:absolute;left:var(--fx);top:var(--fy);transform:translate(-50%,-50%);width:clamp(86px,16vw,126px);min-width:0;min-height:0;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;padding:0;border:0;border-radius:0;background:transparent!important;color:#fff0c9;box-shadow:none!important;filter:drop-shadow(0 4px 6px #07100bd9);pointer-events:auto}
+.town-map-canvas.is-town .town-map-building:before{display:none}
+.town-map-building-art{display:block;width:100%;height:clamp(58px,10vw,84px);overflow:visible;filter:drop-shadow(0 2px 2px #090e0bcc)}
+.town-map-canvas.is-town .town-map-building b{display:block;max-width:100%;margin-top:-3px;padding:3px 7px;border:1px solid #d6c18aaa;border-radius:8px;background:#101b1aed;color:#fff0c9;font-size:clamp(9px,1vw,11px);line-height:1.1;white-space:nowrap;text-align:center;text-shadow:0 1px 2px #000}
+.town-map-canvas.is-town .town-map-building-icon{display:none!important}
+@media(max-width:700px){.town-map-canvas.is-town .town-map-building{width:clamp(76px,23vw,104px)}.town-map-building-art{height:60px}}
