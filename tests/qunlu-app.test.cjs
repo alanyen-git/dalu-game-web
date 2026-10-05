@@ -176,7 +176,7 @@ const regionPackSource = fs.readFileSync(path.join(app,"src/political-region-pac
 const regionIndexText = fs.readFileSync(path.join(app,"index.html"),"utf8");
 const regionSwText = fs.readFileSync(path.join(app,"sw.js"),"utf8");
 assert.ok(regionIndexText.indexOf("src/asdail-depth-v2.js") < regionIndexText.indexOf("src/political-region-pack-v1.js"),"region pack must load before runtime indexing");
-assert.ok(regionSwText.includes("CACHE_NAME=CACHE_PREFIX+\"v34\"")&&regionSwText.includes("./src/political-region-pack-v1.js"),"the new region pack must be cached offline");
+assert.ok(cacheVersion > 34&&regionSwText.includes("./src/political-region-pack-v1.js"),"the new region pack must be cached offline");
 assert.equal(version.political_region_revision,"FROSTHORN-REGION-PACK-1.0");
 const regionFixture = {
   meta:{},
