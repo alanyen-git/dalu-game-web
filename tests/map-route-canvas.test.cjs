@@ -53,4 +53,5 @@ const appHtml=fs.readFileSync(path.join(__dirname,"..","qunlu-app","index.html")
 assert.match(appHtml,/<script src="src\/asdail-depth-v2\.js"><\/script>\s*<script src="src\/political-region-pack-v1\.js"><\/script>/,"region scripts load as separate script elements");
 const townMapTheme=fs.readFileSync(path.join(__dirname,"..","qunlu-app","assets","css","app-theme.css"),"utf8");
 assert.match(townMapTheme,/\.town-map-canvas \.town-map-border\{position:absolute;inset:8px\}/,"route marker layer must have a nonzero map surface");
+assert.match(townMapTheme,/\.town-map-canvas \.town-map-routes\{inset:0;display:block\}/,"town road pin layer must fill the map surface so each destination has a distinct hit area");
 console.log("PASS mapped roads, location pins, direct adjacent travel, facility pins, and remote town access");

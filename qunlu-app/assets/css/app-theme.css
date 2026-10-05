@@ -459,3 +459,5 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-route-marker.is-area .xu-map-pin-glyph{border-radius:11px 11px 4px 11px;background:linear-gradient(145deg,#548b83,#244b50);border-width:3px}
 
 .town-map-canvas .town-map-border{position:absolute;inset:8px}
+
+.town-map-canvas .town-map-routes{inset:0;display:block}
