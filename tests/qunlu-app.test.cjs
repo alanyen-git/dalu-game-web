@@ -258,7 +258,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v43"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v44"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -270,5 +270,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v43"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v44"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);
