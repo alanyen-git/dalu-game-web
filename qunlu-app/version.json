@@ -1,11 +1,14 @@
 {
-  "version": "CURRENT-1.89.0",
-  "previous_version": "CURRENT-1.88.0",
+  "version": "CURRENT-1.90.0",
+  "previous_version": "CURRENT-1.89.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "政體地圖在缺少行省資料時，補列既有核心地理區域，同時明確標示行政區資料仍未登錄。",
+  "summary": "為既有霜角高地核心區新增首批可玩省級地圖、聚落、野外、地下城、NPC、怪物、委託與奇遇。",
   "changelog": [
+    "依既有 POL-016／REG-16 霜角高地核心地理，新增首批可玩酋邦核心領：2處聚落、2處野外、2處地下城及互通道路；其餘谷地仍標為待續建。",
+    "加入4種霜角NPC原型與文化命名對話、4種在地魔物、3項區域委託及2項地區奇遇；地城探索索引、遭遇棲地與道路資料彼此連結。",
+    "區域包以相容性追加方式寫入 App 啟動資料層，具冪等保護；不修改原始資料庫、不變更存檔格式。",
     "政體地圖依既有 core_region_id 顯示核心地理區域名稱與地形，標明這不是行省且不提供下鑽；維持行省空缺提示、不新增行政關係、不解鎖未歸屬地點。",
     "政體尚無行省節點時，地圖顯示狀態說明與世界地圖返回入口；不虛構行政區，也不修改唯讀來源資料。",
     "五層導覽中的政體、行省及當地地圖依既有區域名稱套用八種原創地景，保留原行政區、道路、地標與探索狀態。",
@@ -67,7 +70,7 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.11",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.2",
-  "pwa_cache_revision": "v33",
+  "pwa_cache_revision": "v34",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.6",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -76,5 +79,6 @@
   "character_equipment_revision": "EQUIPMENT-DETAIL-1.0",
   "regional_portrait_revision": "REGIONAL-PORTRAIT-1.0",
   "regional_map_revision": "REGIONAL-MAP-SCENES-1.0",
-  "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0"
+  "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0",
+  "political_region_revision": "FROSTHORN-REGION-PACK-1.0"
 }

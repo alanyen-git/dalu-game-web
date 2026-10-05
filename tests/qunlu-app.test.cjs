@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -101,7 +101,7 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v33"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v34"'), "new illustrated scene assets must be deployed with a fresh offline cache");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
@@ -120,7 +120,7 @@ const mapControls=fs.readFileSync(path.join(app,"src/map-controls.js"),"utf8");
 assert.ok(html.includes('src/map-controls.js'),"map controls must load in the standalone app");
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v33"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
+assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v34"')&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
 assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.11");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.0");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
@@ -160,3 +160,70 @@ assert.equal(version.named_dialogue_npc_revision,"REGIONAL-NPC-JOURNAL-1.2");
 assert.ok(mapTheme.includes("REGIONAL-NPC-SPEAKER-1.0"),"regional speaker labels must stay readable on mobile");
 
 assert.ok(portraitSource.includes('/・對話$/.test(title)'),"named identities must only be created in facility dialogue windows");
+
+
+const regionPackSource = fs.readFileSync(path.join(app,"src/political-region-pack-v1.js"),"utf8");
+const regionIndexText = fs.readFileSync(path.join(app,"index.html"),"utf8");
+const regionSwText = fs.readFileSync(path.join(app,"sw.js"),"utf8");
+assert.ok(regionIndexText.indexOf("src/asdail-depth-v2.js") < regionIndexText.indexOf("src/political-region-pack-v1.js"),"region pack must load before runtime indexing");
+assert.ok(regionSwText.includes("CACHE_NAME=CACHE_PREFIX+\"v34\"")&&regionSwText.includes("./src/political-region-pack-v1.js"),"the new region pack must be cached offline");
+assert.equal(version.political_region_revision,"FROSTHORN-REGION-PACK-1.0");
+const regionFixture = {
+  meta:{},
+  political_entities:[{id:"POL-016",name:"霜角酋邦",core_region_id:"REG-16"}],
+  world_regions:[{id:"REG-16",name:"霜角高地",political_entity_id:"POL-016",terrain:"高山谷地"}],
+  realm_region_maps:[{id:"RMAP-POL-016",name:"霜角酋邦區域地圖",political_entity_id:"POL-016",core_region_id:"REG-16",province_region_ids:[]}],
+  province_region_maps:[],settlement_region_maps:[],locations:[],regional_npc_archetypes:[],
+  dialogue_database:{records:[]},monsters:[],quest_templates:[],adventure_event_templates:[]
+};
+vm.runInNewContext(regionPackSource,{DB:regionFixture});
+const regionProvince=regionFixture.province_region_maps.find(x=>x.id==="PROV-016-FROST-VALLEY");
+assert.ok(regionProvince,"霜角核心行省級區域 must be registered");
+assert.ok(regionFixture.realm_region_maps[0].province_region_ids.includes(regionProvince.id),"realm map must link to the new province");
+assert.equal(regionFixture.world_regions[0].province_region_id,regionProvince.id,"core geography must link to its first playable province");
+const regionLocations=regionFixture.locations.filter(x=>x.political_entity_id==="POL-016");
+for(const [kind,count] of [["town",2],["wild",2],["dungeon",2]])assert.equal(regionLocations.filter(x=>x.kind===kind).length,count,"region must have "+count+" "+kind+" locations");
+const regionLocationIds=new Set(regionLocations.map(x=>x.id));
+for(const place of regionLocations){
+  for(const link of place.links||[]){
+    assert.ok(regionLocationIds.has(link.to),place.id+" route target must exist");
+    assert.ok(regionFixture.locations.find(x=>x.id===link.to).links.some(x=>x.to===place.id),place.id+" route must be reciprocal");
+  }
+  if(place.settlement_region_id)assert.ok(regionFixture.settlement_region_maps.some(x=>x.id===place.settlement_region_id),"place must link to its local area");
+}
+for(const id of [...regionProvince.all_settlement_ids,...regionProvince.wild_location_ids,...regionProvince.dungeon_location_ids])assert.ok(regionLocationIds.has(id),"province index must reference a registered location");
+for(const area of regionFixture.settlement_region_maps)for(const id of area.location_ids)assert.ok(regionLocationIds.has(id),"local area must reference registered locations");
+for(const npc of regionFixture.regional_npc_archetypes)assert.ok(regionLocationIds.has(npc.location_id),"NPC archetype must have a local location");
+assert.ok(!Array.isArray(regionFixture.dialogue_database)&&regionFixture.dialogue_database.records.length===4,"regional dialogue must append without replacing the dialogue database object");
+for(const dialogue of regionFixture.dialogue_database.records)assert.ok(regionFixture.regional_npc_archetypes.some(x=>x.id===dialogue.speaker_id),"dialogue speaker must resolve to an NPC archetype");
+for(const monster of regionFixture.monsters)assert.ok(regionLocations.some(x=>(x.encounter_tags||[]).some(tag=>(monster.habitats||[]).includes(tag))),"regional monster habitats must match a local encounter tag");
+for(const quest of regionFixture.quest_templates)assert.ok((quest.recommended_locations||[]).every(id=>regionLocationIds.has(id)),"regional quest targets must exist");
+for(const event of regionFixture.adventure_event_templates)assert.ok((event.location_ids||[]).every(id=>regionLocationIds.has(id)),"regional event targets must exist");
+const onceCounts=[regionFixture.locations.length,regionFixture.regional_npc_archetypes.length,regionFixture.dialogue_database.records.length,regionFixture.quest_templates.length,regionFixture.adventure_event_templates.length];
+vm.runInNewContext(regionPackSource,{DB:regionFixture});
+assert.deepEqual([regionFixture.locations.length,regionFixture.regional_npc_archetypes.length,regionFixture.dialogue_database.records.length,regionFixture.quest_templates.length,regionFixture.adventure_event_templates.length],onceCounts,"loading the region pack twice must not duplicate data");
+const regionMapUiSource=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
+const mapContext={
+  DB:regionFixture,rendered:null,
+  realmRegionMap:id=>regionFixture.realm_region_maps.find(x=>x.id===id),
+  provinceRegion:id=>regionFixture.province_region_maps.find(x=>x.id===id),
+  politicalEntity:id=>regionFixture.political_entities.find(x=>x.id===id),
+  worldRegion:id=>regionFixture.world_regions.find(x=>x.id===id),
+  areas:id=>regionFixture.settlement_region_maps.filter(x=>x.parent_province_region_id===id),
+  getLoc:id=>regionFixture.locations.find(x=>x.id===id),
+  provinceCategoryLocations:(p,k)=>regionFixture.locations.filter(x=>x.province_region_id===p.id&&x.kind===(k==="town"?"town":k==="wild"?"wild":"dungeon")),
+  exploreState:()=>"未探索",esc:x=>String(x),
+  call:(name,id)=>name+"("+id+")",crumb:(name)=>"<b>"+name+"</b>",
+  node:(name,meta,action,kind)=>"<button data-kind='"+kind+"'>"+name+" "+meta+"</button>",
+  frame:(name,crumbs,body)=>"<main>"+crumbs+body+"</main>",
+  board:(kind,body)=>"<section data-map='"+kind+"'>"+body+"</section>",
+  regionalScene:()=>""
+};
+mapContext.window=mapContext;
+mapContext.showModal=(title,html)=>{mapContext.rendered={title,html}};
+vm.createContext(mapContext);
+vm.runInContext(regionMapUiSource,mapContext);
+mapContext.xuRealm("RMAP-POL-016");
+assert.match(mapContext.rendered.html,/霜角高地會盟領/,"realm map must expose the new province node");
+mapContext.xuProvince("PROV-016-FROST-VALLEY");
+for(const name of ["霜角石圈","白角溪寨","雪羊牧道","裂風隘口","祖靈石環下層","冰脈舊礦"])assert.ok(mapContext.rendered.html.includes(name),"province map must expose "+name);
