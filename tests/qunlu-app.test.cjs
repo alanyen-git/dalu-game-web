@@ -163,9 +163,9 @@ assert.ok(portraitSource.includes("art-dialogue-speaker")&&portraitSource.includ
 assert.ok(portraitSource.includes("identity?.visualStyle")&&portraitSource.includes("culture-"),"regional dialogue portraits must receive a source culture style");
 const portraitAssets=fs.readFileSync(path.join(app,"assets/art/npc-portrait-sprites.svg"),"utf8");
 for(const style of ["asdale_west","valrek_imperial","free_city","elven","dwarven","beast_steppe","dark_elf"])assert.ok(portraitAssets.includes("culture-"+style),"regional portrait art must exist for "+style);
-assert.equal(version.regional_portrait_revision,"REGIONAL-PORTRAIT-1.0");
+assert.equal(version.regional_portrait_revision,"REGIONAL-PORTRAIT-1.1");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-SPEAKER-1.0"),"speaker role captions must use responsive original styling");
-assert.equal(version.dialogue_portrait_revision,"DIALOGUE-PORTRAIT-1.0");
+assert.equal(version.dialogue_portrait_revision,"DIALOGUE-PORTRAIT-1.1");
 
 const npcSpeakerSource=fs.readFileSync(path.join(app,"src/npc-speaker.js"),"utf8");
 assert.ok(npcSpeakerSource.includes("DB.regional_npc_archetypes")&&npcSpeakerSource.includes("generateWorldName"),"dialogue identities must use source archetypes and the existing naming AI");
