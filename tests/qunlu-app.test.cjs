@@ -124,7 +124,7 @@ assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse 
 assert.ok(mapTheme.includes("XUANYUAN-DATA-UI-1.0"), "data screens must share the antique interface style");
 assert.ok(mapTheme.includes("XUANYUAN-DIALOGUE-ART-1.0"), "event and character artwork styling must be present");
 assert.ok(mapTheme.includes("XUANYUAN-ARTKIT-0.1"), "original scene art styles must be present");
-assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.6");
+assert.equal(version.scene_art_revision, "ORIGINAL-MAP-SCENES-1.7");
 assert.ok(mapSource.includes('?"mountain":') && mapSource.includes('?"river":'), "wilderness map selects terrain art by location context");
 require("./qunlu-apk-update.test.cjs");
 require("./map-controls.test.cjs");
@@ -137,8 +137,8 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.11");
-assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.0");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.12");
+assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.1");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);
 assert.ok(mapSource.includes("function regionalScene(text)")&&mapSource.includes('region-atlas.svg#"+sceneId'),"admin maps must resolve data-based regional scene art");
