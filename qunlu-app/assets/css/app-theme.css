@@ -551,3 +551,140 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-map-canvas.is-town .town-map-building b{display:block;max-width:100%;margin-top:-3px;padding:3px 7px;border:1px solid #d6c18aaa;border-radius:8px;background:#101b1aed;color:#fff0c9;font-size:clamp(9px,1vw,11px);line-height:1.1;white-space:nowrap;text-align:center;text-shadow:0 1px 2px #000}
 .town-map-canvas.is-town .town-map-building-icon{display:none!important}
 @media(max-width:700px){.town-map-canvas.is-town .town-map-building{width:clamp(76px,23vw,104px)}.town-map-building-art{height:60px}}
+
+/* FACILITY-SHOP-SCREEN-1.0 */
+.xu-store-screen{display:grid;gap:10px;padding:2px 0 14px;color:#e9e4d6}
+.xu-store-scene{--store-accent:#e3ca8b;--store-glow:#eea847;position:relative;height:clamp(225px,34vh,310px);overflow:hidden;border:2px solid var(--store-accent);border-radius:12px;background:#171d20;box-shadow:0 8px 22px #02091088,inset 0 1px #fff5}
+.xu-store-scene>svg{display:block;width:100%;height:100%;object-fit:cover;filter:brightness(.86) saturate(.92)}
+.xu-store-scene:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#071019aa 0%,transparent 34%,transparent 55%,#07101999 100%),radial-gradient(ellipse at 50% 35%,transparent 28%,#09101877 100%)}
+.xu-store-sign{position:absolute;z-index:1;top:10px;left:50%;transform:translateX(-50%);width:min(78%,380px);display:grid;gap:3px;text-align:center;padding:8px 12px 9px;border:2px solid var(--store-accent);border-radius:7px;background:linear-gradient(180deg,#26282bfa,#171b20f5);box-shadow:0 4px 0 #080d12,0 0 16px #0008,inset 0 1px #fff3;color:#fff1ce}
+.xu-store-sign span{font-size:clamp(10px,2.3vw,13px);font-weight:900;letter-spacing:.18em;color:var(--store-accent)}
+.xu-store-sign strong{font:700 clamp(15px,3.8vw,21px) Georgia,"Noto Serif TC",serif;line-height:1.25;text-shadow:0 2px #000}
+.xu-store-sign small{font-size:clamp(10px,2.6vw,12px);line-height:1.45;color:#eee4cf;text-shadow:0 1px #000}
+.xu-store-caption{position:absolute;z-index:1;left:10px;right:10px;bottom:9px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border:1px solid var(--store-accent);border-radius:7px;background:linear-gradient(90deg,#121d22ed,#16212be0);box-shadow:0 3px 9px #0008;color:#fff0ca;text-shadow:0 1px #000}
+.xu-store-caption b{font:700 15px Georgia,"Noto Serif TC",serif}.xu-store-caption span{font-size:11px;color:var(--store-accent)}
+.xu-store-summary{display:grid;grid-template-columns:1fr auto;align-items:center;gap:3px 8px;padding:8px 10px;border:1px solid #87959a66;border-radius:8px;background:linear-gradient(110deg,#172a31,#15212c);box-shadow:inset 0 1px #ffffff0c}
+.xu-store-summary>b{font-size:15px;color:#f0d996}.xu-store-summary>span{font-size:11px;color:#c5d0d1}
+.xu-store-summary>small{grid-column:1/-1;font-size:10px;color:#9eb0b4}
+.xu-store-actions-primary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.xu-store-action{min-width:0;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:7px 4px;border:1px solid #829396;border-radius:10px;background:linear-gradient(155deg,#19323a,#101f28 70%);color:#f1ead6;text-align:center;box-shadow:0 4px 0 #08121b, inset 0 1px #fff2;cursor:pointer;touch-action:manipulation;transition:transform .12s ease,border-color .12s ease,filter .12s ease}
+.xu-store-action:active{transform:translateY(2px);box-shadow:0 2px 0 #08121b,inset 0 1px #fff2;filter:brightness(1.12)}
+.xu-store-action:focus-visible{outline:2px solid #fff0b7;outline-offset:2px}
+.xu-store-action-icon{width:39px;height:39px;display:grid;place-items:center;border:1px solid #cbb779;border-radius:50%;background:radial-gradient(circle at 35% 25%,#dbc78d,#8f754b 72%,#493d2d);box-shadow:0 2px 5px #0008,inset 0 1px #fff8}
+.xu-store-action-icon svg{width:30px;height:30px;fill:#18252a;filter:drop-shadow(0 1px #fff5)}
+.xu-store-action-label{display:grid;justify-items:center;gap:2px;max-width:100%}
+.xu-store-action-label strong{font-size:clamp(12px,3.2vw,14px);line-height:1.25;white-space:normal}
+.xu-store-action-label small{max-width:100%;font-size:9px;line-height:1.25;color:#aebfc1;overflow-wrap:anywhere}
+.xu-store-more{padding:9px;border:1px solid #75858a88;border-radius:9px;background:linear-gradient(145deg,#142931,#12202a)}
+.xu-store-more>header{display:flex;justify-content:space-between;gap:8px;align-items:baseline;margin:0 0 8px;color:#ead99f}
+.xu-store-more>header b{font-size:14px}.xu-store-more>header span{font-size:10px;color:#aebfc1}
+.xu-store-actions-secondary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.xu-store-action-secondary{min-height:75px;flex-direction:row;justify-content:flex-start;padding:7px;text-align:left;border-color:#53676e;background:linear-gradient(145deg,#1b3037,#14222a)}
+.xu-store-action-secondary .xu-store-action-icon{flex:none;width:32px;height:32px}
+.xu-store-action-secondary .xu-store-action-icon svg{width:25px;height:25px}
+.xu-store-action-secondary .xu-store-action-label{justify-items:start}
+.xu-store-action-secondary .xu-store-action-label strong{font-size:12px}
+.xu-store-action-secondary .xu-store-action-label small{text-align:left}
+.xu-store-record{padding:7px 9px;border-top:1px dashed #75858a66;color:#9eafb3;font-size:10px}
+.store-blacksmith .xu-store-scene,.store-enchanter .xu-store-scene{--store-accent:#e2ae70;--store-glow:#ff813b}
+.store-alchemy .xu-store-scene,.store-clinic .xu-store-scene{--store-accent:#a9cf9f;--store-glow:#94dc88}
+.store-tailor .xu-store-scene{--store-accent:#e4a5a0;--store-glow:#db8f9a}
+.store-guild .xu-store-scene,.store-mageguild .xu-store-scene{--store-accent:#c8c3e4;--store-glow:#8bb8ff}
+.store-church .xu-store-scene{--store-accent:#f0dc9b;--store-glow:#c6e6e5}
+.store-tavern .xu-store-scene,.store-inn .xu-store-scene{--store-accent:#e6bd7d;--store-glow:#f6a94f}
+.store-alchemy .xu-store-scene:before,.store-church .xu-store-scene:before,.store-mageguild .xu-store-scene:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 52% 63%,#dca87333,transparent 45%)}
+.xu-store-action-primary[data-action="buy"] .xu-store-action-icon,.xu-store-action-primary[data-action="craft"] .xu-store-action-icon,.xu-store-action-primary[data-action="heal"] .xu-store-action-icon{border-color:var(--store-accent,#d8bd78)}
+@media(min-width:560px){.xu-store-actions-primary{grid-template-columns:repeat(5,minmax(0,1fr))}.xu-store-scene{height:300px}}
+@media(max-width:400px){.xu-store-screen{gap:8px}.xu-store-scene{height:225px}.xu-store-actions-primary{gap:5px}.xu-store-action{min-height:84px;padding:6px 2px}.xu-store-action-icon{width:34px;height:34px}.xu-store-action-icon svg{width:27px;height:27px}.xu-store-action-label small{font-size:8px}.xu-store-actions-secondary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.xu-store-action{transition:none}}
+
+/* XUANYUAN-BATTLE-COMMAND-SCENE-1.0 */
+#battleBack .battlebox.xuan-battlebox{position:relative;display:flex;flex-direction:column;width:min(1120px,100%);height:min(97dvh,980px);max-height:none;overflow:hidden;padding:12px;color:#fff2d2;background:linear-gradient(160deg,#08162f,#071326 62%,#050c19);border:2px solid #d0d6dc;border-radius:13px;box-shadow:inset 0 0 0 4px #d6ba6a25,0 24px 70px #000d}
+#battleBack .battlebox.xuan-battlebox:before{inset:5px;border-color:#d6c27a80;pointer-events:none;z-index:9}
+.xuan-battlebox #battleTitle{flex:0 0 auto;margin:0 0 7px;padding:8px 12px;border:2px solid #d3dce6;border-radius:6px;background:linear-gradient(180deg,#3d4fe0,#1e2a9d 70%,#111c6b);box-shadow:inset 0 0 0 2px #758be288,0 4px 0 #081126;color:#fff;font:700 clamp(17px,3.4vw,23px) "Noto Serif TC",serif;letter-spacing:.08em;text-align:center;text-shadow:0 2px 2px #000}
+#battleBack .xuan-battlebox #battleBody{position:relative;display:grid;flex:1;min-height:0;grid-template-columns:minmax(0,1.17fr) minmax(0,.83fr);grid-template-rows:minmax(250px,1fr) minmax(132px,23%) minmax(145px,25%);gap:6px;overflow:hidden}
+.xuan-battle-stage{grid-area:1/1/2/3;display:grid;grid-template-columns:1fr 1fr;min-height:0;overflow:hidden;isolation:isolate;border:1px solid #b7c2d2;border-radius:4px;background:#343e42;box-shadow:inset 0 0 0 3px #111a27aa,0 3px 8px #0008}
+.xuan-battle-stage:before{content:"";position:absolute;z-index:0;inset:0;background:linear-gradient(180deg,#070b1588 0%,transparent 33%,#10152222 55%,#070b18aa 100%),url("../art/maps/painterly-forest-v1.webp") center/cover no-repeat;filter:saturate(.85) contrast(1.08) brightness(.72)}
+.xuan-battle-stage:after{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(90deg,#080d1b88,transparent 22%,transparent 78%,#080d1b88),radial-gradient(ellipse at center,transparent 42%,#080d1688 100%)}
+#battleBack .xuan-battlebox[data-scene="town"] .xuan-battle-stage:before{background-image:linear-gradient(180deg,#070b1588,transparent 33%,#10152222 55%,#070b18aa),url("../art/maps/painterly-town-v1.webp")}
+#battleBack .xuan-battlebox[data-scene="dungeon"] .xuan-battle-stage:before{background-image:linear-gradient(180deg,#070b1588,transparent 33%,#10152222 55%,#070b18aa),url("../art/maps/painterly-dungeon-v1.webp")}
+#battleBack .xuan-battlebox[data-scene="mountain"] .xuan-battle-stage:before{background-image:linear-gradient(180deg,#070b1588,transparent 33%,#10152222 55%,#070b18aa),url("../art/maps/painterly-highland-v1.webp")}
+#battleBack .xuan-battlebox[data-scene="river"] .xuan-battle-stage:before{background-image:linear-gradient(180deg,#070b1588,transparent 33%,#10152222 55%,#070b18aa),url("../art/maps/painterly-coast-v1.webp")}
+.xuan-battle-side{position:relative;z-index:2;display:flex;flex-direction:column;min-width:0;height:100%;padding:6px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.xuan-side-heading{z-index:3;margin:0;padding:1px 5px 3px;border:0;color:#fff1bd;font-size:clamp(10px,2vw,14px);text-shadow:0 2px 3px #000}
+.xuan-side-heading small{color:#d8e2ef;font-size:9px}
+.xuan-allies .xuan-side-heading{justify-content:flex-end;gap:8px}
+.xuan-stage-figures{display:grid;flex:1;min-height:0;align-items:end;justify-items:center;gap:2px}
+.xuan-ally-figures{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));align-content:end}
+.xuan-enemy-figures{grid-template-columns:repeat(auto-fit,minmax(70px,1fr));grid-auto-rows:1fr;align-content:center;justify-content:center}
+.xuan-enemy-figures-single{display:flex;align-items:flex-end;justify-content:center}
+.xuan-stage-figure{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;align-self:end;min-width:0;max-width:100%;height:100%;margin:0;padding:0 2px 3px;text-align:center;filter:drop-shadow(0 3px 3px #0009)}
+.xuan-stage-figure .xuan-sd-portrait{width:clamp(48px,8.5vw,104px);height:clamp(66px,12vh,112px);flex:0 0 auto;overflow:visible;border:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 3px #0009)}
+.xuan-stage-figure .xuan-painted-sprite{background-color:transparent}
+.xuan-stage-figure .xuan-stage-name{max-width:100%;overflow:hidden;color:#fff1c6;font-size:clamp(9px,1.8vw,12px);line-height:1.1;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 3px #000,0 0 4px #000}
+.xuan-stage-figure .xuan-stage-detail{max-width:100%;overflow:hidden;color:#dbe2e9;font-size:8px;line-height:1.1;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 3px #000}
+.xuan-stage-figure .hpbar{width:80%;height:4px;margin:2px 0 0;border:1px solid #d9d7d2;background:#161c29}
+.xuan-stage-figure .hpbar i{background:linear-gradient(90deg,#6ee08e,#c1eb7b)}
+.xuan-enemy-figure .xuan-sd-portrait{width:clamp(90px,17vw,190px);height:clamp(125px,26vh,248px)}
+.xuan-enemy-figure .hpbar i{background:linear-gradient(90deg,#ec635d,#ffc36f)}
+.xuan-party-figure:nth-child(5){grid-column:1/3}
+.xuan-battle-info{display:contents}
+.xuan-party-status{grid-area:2/1/3/2;min-width:0;min-height:0;overflow:hidden;margin:0;padding:5px;border:2px solid #d2d9df;border-radius:4px;background:linear-gradient(150deg,#354ce0,#1d2999 58%,#111b67);box-shadow:inset 0 0 0 2px #98a9ef66,0 3px 7px #0009}
+.xuan-party-status .xuan-party-strip{display:grid;grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(0,1fr);gap:1px;height:100%;margin:0}
+.xuan-party-status .party-mini{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;align-content:center;min-width:0;min-height:0;padding:1px 4px;border:0;border-bottom:1px solid #cdd9ff44;border-radius:0;background:transparent;box-shadow:none}
+.xuan-party-status .xuan-sd-portrait{display:none}
+.xuan-party-status .party-mini>b{grid-column:1;grid-row:1;max-width:100%;color:#fff;font-size:clamp(10px,2vw,14px);text-align:left}
+.xuan-party-status .party-mini>span{grid-column:1;grid-row:2;color:#dce5ff;font-size:8px;text-align:left}
+.xuan-party-status .party-mini>div:not(.hpbar){grid-column:2;grid-row:1/3;max-width:100%;overflow:hidden;color:#fff;font-size:clamp(8px,1.7vw,11px);text-align:right;white-space:nowrap}
+.xuan-party-status .party-mini>.hpbar{grid-column:1/-1;grid-row:3;height:3px;margin:1px 0 0;border:0;background:#172064}
+.xuan-party-status .party-mini>.hpbar i{background:#75d89c}
+.xuan-party-status .party-mini.ko{opacity:.5;filter:grayscale(1)}
+.xuan-battlebox .battlelog{grid-area:2/2/3/3;min-width:0;min-height:0;max-height:none;overflow:auto;margin:0;padding:7px;border:2px solid #d2d9df;border-radius:4px;background:linear-gradient(150deg,#344bd8,#1d288c 62%,#10185c);box-shadow:inset 0 0 0 2px #98a9ef55,0 3px 7px #0009;color:#fff;font-size:clamp(10px,1.8vw,13px);line-height:1.4}
+.xuan-battlebox .battlelog>div{padding:2px 0;border-bottom:1px solid #bfcaff30}
+.xuan-command-panel{position:relative;grid-area:3/1/4/3;display:grid;grid-template-columns:minmax(0,1fr) minmax(125px,20%);align-items:stretch;min-width:0;min-height:0;overflow:hidden;padding:5px;border:2px solid #d2d9df;border-radius:4px;background:linear-gradient(150deg,#3147d5,#18277e 65%,#10184d);box-shadow:inset 0 0 0 2px #96a6e866,0 3px 8px #0009}
+.xuan-command-art{position:absolute;z-index:0;inset:4px 22% 4px 4px;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;justify-items:center;overflow:hidden;pointer-events:none}
+.xuan-command-art>span{display:grid;place-items:center;width:100%;height:100%;opacity:.16;filter:grayscale(.2) brightness(1.3)}
+.xuan-command-art svg{width:min(78%,92px);height:min(78%,92px);fill:#d5dfff}
+.xuan-command-heading{display:none}
+.xuan-battlebox .battleactions{position:relative;z-index:2;grid-column:2;display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0;margin:0;padding:0;border:0;background:transparent}
+.xuan-battlebox .battleactions button{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;min-height:30px;padding:2px 7px;border:1px solid transparent;border-radius:4px;background:linear-gradient(90deg,#24379a88,#111c6688);box-shadow:none;color:#fff4d0;font-size:clamp(11px,2vw,14px);font-weight:750;text-align:left;text-shadow:0 1px #000;cursor:pointer}
+.xuan-battlebox .battleactions button svg{width:24px;height:24px;flex:none;fill:#f0d787;filter:drop-shadow(0 1px #000)}
+.xuan-battlebox .battleactions button:hover:not(:disabled),.xuan-battlebox .battleactions button:focus-visible{border-color:#e9d494;background:linear-gradient(90deg,#5572ed,#263db2);outline:0}
+.xuan-battlebox .battleactions button.good{background:linear-gradient(90deg,#3853c5,#203a9b)}
+.xuan-battlebox .battleactions button.warn{background:linear-gradient(90deg,#7d4652,#482a4c)}
+#battleBack .xuan-battlebox #battleChoice:not(:empty){position:absolute;z-index:8;left:7px;right:7px;bottom:7px;max-height:55%;overflow:auto;padding:8px;border:2px solid #d1dbe5;border-radius:6px;background:linear-gradient(145deg,#384bdbf5,#151f79f5);box-shadow:0 8px 22px #000c}
+.xuan-battlebox .battlechoice:empty{display:none}
+#battleBack .battle-skill-sheet{border-color:#d0d8e2;background:linear-gradient(145deg,#233db2,#10194f)}
+#battleBack .battle-skill-head{background:linear-gradient(#425de0,#1a2c8b)}
+@media(max-width:620px){
+ #battleBack .battlebox.xuan-battlebox{width:100%;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));max-height:none;padding:calc(7px + env(safe-area-inset-top)) 6px calc(6px + env(safe-area-inset-bottom));border-radius:0}
+ .xuan-battlebox #battleTitle{margin-bottom:5px;padding:6px 8px;font-size:17px}
+ #battleBack .xuan-battlebox #battleBody{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);grid-template-rows:minmax(245px,1fr) minmax(122px,23%) minmax(136px,25%);gap:5px}
+ .xuan-battle-side{padding:2px}
+ .xuan-side-heading{padding:1px 3px 2px;font-size:10px}
+ .xuan-side-heading small{font-size:8px}
+ .xuan-stage-figure .xuan-sd-portrait{width:clamp(43px,13vw,65px);height:clamp(61px,10vh,78px)}
+ .xuan-enemy-figure .xuan-sd-portrait{width:clamp(78px,22vw,112px);height:clamp(110px,19vh,150px)}
+ .xuan-stage-figure .xuan-stage-name{font-size:9px}
+ .xuan-stage-figure .xuan-stage-detail{font-size:7px}
+ .xuan-party-status{padding:3px}
+ .xuan-party-status .party-mini>b{font-size:10px}
+ .xuan-party-status .party-mini>div:not(.hpbar){font-size:8px}
+ .xuan-party-status .party-mini>span{font-size:7px}
+ .xuan-battlebox .battlelog{padding:5px;font-size:10px;line-height:1.3}
+ .xuan-command-panel{grid-template-columns:minmax(0,1fr) 112px;padding:3px}
+ .xuan-command-art{inset:2px 25% 2px 1px}
+ .xuan-command-art svg{width:min(72%,70px);height:min(72%,70px)}
+ .xuan-battlebox .battleactions{gap:0}
+ .xuan-battlebox .battleactions button{min-height:29px;gap:5px;padding:1px 5px;font-size:11px}
+ .xuan-battlebox .battleactions button svg{width:20px;height:20px}
+}
+@media(max-width:380px){
+ #battleBack .xuan-battlebox #battleBody{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-rows:minmax(230px,1fr) minmax(114px,22%) minmax(130px,25%)}
+ .xuan-command-panel{grid-template-columns:minmax(0,1fr) 100px}
+}
+@media(max-height:720px) and (max-width:620px){
+ #battleBack .xuan-battlebox #battleBody{grid-template-rows:minmax(210px,1fr) minmax(108px,22%) minmax(122px,25%)}
+ .xuan-stage-figure .xuan-sd-portrait{height:clamp(55px,9vh,68px)}
+ .xuan-enemy-figure .xuan-sd-portrait{height:clamp(94px,17vh,122px)}
+}

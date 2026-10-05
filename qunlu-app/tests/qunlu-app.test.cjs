@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/facility-shop-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -108,7 +108,8 @@ assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").incl
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 assert.ok(battleTheme.includes("document.body||document.getElementById(\"battleBody\")"),"battle styling observes dynamically opened encounters");
 assert.ok(!battleTheme.includes('classList.add("xuan-unit-card",extra)'),"battle class tokens are applied individually");
-assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.7");
+assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.8");
+assert.ok(battleTheme.includes("xuan-stage-figures")&&battleTheme.includes("xuan-command-panel"),"battle scene arranges SD units and illustrated commands");
 assert.equal(version.home_ui_revision,"TOWN-MAP-HOME-1.2");
 assert.ok(battleTheme.includes("xuan-battle-stage")&&battleTheme.includes("xuan-party-status"), "battle uses side-by-side combatants and a bottom party status strip");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-FIELD-LAYOUT-1.0"), "battle scene follows the reference field layout");
@@ -269,7 +270,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v50"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v51"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -281,5 +282,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v50"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v51"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);

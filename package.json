@@ -16,7 +16,7 @@
     "test:character-growth": "node tests/character-growth.test.cjs",
     "test:region-content": "node tests/region-content.test.cjs",
     "prepare:qunlu": "node scripts/prepare-qunlu-app.cjs",
-    "test:qunlu-app": "node tests/qunlu-app.test.cjs",
+    "test:qunlu-app": "node tests/qunlu-app.test.cjs && node tests/facility-shop-ui.test.cjs",
     "test:qunlu-bundle": "node tests/qunlu-app-bundle.test.cjs"
   },
   "dependencies": {

@@ -1,11 +1,15 @@
 {
-  "version": "CURRENT-1.106.0",
-  "previous_version": "CURRENT-1.105.0",
+  "version": "CURRENT-1.107.0",
+  "previous_version": "CURRENT-1.106.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "修正戰鬥立繪的類別套用，讓動態遭遇正確顯示三頭身戰場。",
+  "summary": "依設施種類改造室內互動面板，並重設軒轅式回合戰場與指令配置。",
   "changelog": [
+    "商鋪、公會、教會等設施改用場景式互動面板；室內陳設、色彩、招牌與服務圖示依設施種類變化，保留既有服務功能。",
+    "重繪設施室內共用場景底層，加入石牆、木梁、地板與暖色光影，並加強鍛造、裁縫、煉金、教會等專屬陳設。",
+    "戰鬥介面改為完整場景戰場，敵我 SD 角色直接站在場景中，隊伍狀態與戰鬥紀錄並列，指令改為直列圖示選單。",
+    "戰場底景依城鎮、地城、山地、河岸與森林切換；既有戰鬥選項、技能、隊伍狀態與存檔格式維持相容。",
     "修正戰場人物與怪物的多重樣式類別套用，確保三頭身編隊與地形戰場在遭遇視窗顯示。",
     "戰鬥畫面載入時自動套用軒轅式戰場與三頭身敵我編隊，避免遭遇視窗仍停留在舊卡片佈局。",
     "城鎮首頁的商鋪、公會、酒館等設施直接顯示各自的建築插圖；點擊後仍開啟原設施互動。",
@@ -103,8 +107,8 @@
   "netlify_dependency": false,
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.18",
-  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.7",
-  "pwa_cache_revision": "v50",
+  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.8",
+  "pwa_cache_revision": "v51",
   "home_ui_revision": "TOWN-MAP-HOME-1.2",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-2.0",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -117,5 +121,6 @@
   "political_region_revision": "FROSTHORN-REGION-PACK-1.0",
   "class_art_revision": "CLASS-ARCHETYPE-PORTRAITS-1.0",
   "portrait_ui_scope_revision": "GENERAL-PORTRAIT-SCOPE-1.0",
-  "party_portrait_revision": "PAINTED-PARTY-PORTRAITS-1.0"
+  "party_portrait_revision": "PAINTED-PARTY-PORTRAITS-1.0",
+  "facility_shop_ui_revision": "FACILITY-SHOP-SCREEN-1.0"
 }
