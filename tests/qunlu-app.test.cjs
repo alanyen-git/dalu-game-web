@@ -100,12 +100,6 @@ assert.ok(runtimeSource.includes("xu-party-formation"), "character data must sho
 assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must have a dedicated illustration");
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
-const paintedTheme=fs.readFileSync(path.join(app,"assets/css/polish-v1.css"),"utf8");
-assert.ok(html.includes("assets/css/polish-v1.css"),"painted sprite styling must load");
-for(const asset of ["characters-three-head-v1.webp","monsters-three-head-v1.webp"])assert.ok(sw.includes(asset),"painted sprite sheets must be cached offline: "+asset);
-assert.ok(battleTheme.includes("xuan-painted-sprite")&&battleTheme.includes('["monsters",3]'),"battle roles and common monsters must use detailed sprite sheets");
-assert.ok(portraitUI.includes("art-dialogue-painted"),"dialogue roles must render the painted three-head art");
-assert.ok(paintedTheme.includes("characters-three-head-v1.webp")&&paintedTheme.includes("monsters-three-head-v1.webp"),"painted sprite sheets must use their intended CSS crops");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 const cacheMarker = 'CACHE_NAME=CACHE_PREFIX+"v';
 const cacheOffset = sw.indexOf(cacheMarker);
@@ -118,6 +112,12 @@ for (const role of ["healer","guardian","mage","innkeeper"]) {
   assert.ok(portraitArt.includes(`<symbol id="${role}"`), `${role} portrait art must exist`);
   assert.ok(portraitUI.includes(`id:"${role}"`), `${role} must be selectable from dialogue`);
 }
+const paintedTheme=fs.readFileSync(path.join(app,"assets/css/polish-v1.css"),"utf8");
+assert.ok(html.includes("assets/css/polish-v1.css"),"painted sprite styling must load");
+for(const asset of ["characters-three-head-v1.webp","monsters-three-head-v1.webp"])assert.ok(sw.includes(asset),"painted sprite sheets must be cached offline: "+asset);
+assert.ok(battleTheme.includes("xuan-painted-sprite")&&battleTheme.includes('["monsters",3]'),"battle roles and common monsters must use detailed sprite sheets");
+assert.ok(portraitUI.includes("art-dialogue-painted"),"dialogue roles must render the painted three-head art");
+assert.ok(paintedTheme.includes("characters-three-head-v1.webp")&&paintedTheme.includes("monsters-three-head-v1.webp"),"painted sprite sheets must use their intended CSS crops");
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
