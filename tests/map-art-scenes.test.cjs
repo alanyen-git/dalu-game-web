@@ -19,7 +19,7 @@ for(const [pattern,label] of [["(?:region-)?(?:forest|windspring)","forest and w
 for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp","painterly-forest-v1.webp","painterly-coast-v1.webp","painterly-highland-v1.webp","painterly-desert-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
 assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v51"/,"map cache revision");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.106.0");
+assert.equal(version.version,"CURRENT-1.107.0");
 assert.equal(version.pwa_cache_revision,"v50");
 assert.match(sw,/facility-buildings\.svg/,"illustrated storefronts are cached");
 assert.ok(fs.existsSync(path.join(app,"assets","art","town","facility-buildings.svg")),"facility art file exists");
