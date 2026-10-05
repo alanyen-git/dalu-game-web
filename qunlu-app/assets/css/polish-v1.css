@@ -57,6 +57,7 @@ body:before{opacity:.11;background-image:radial-gradient(circle at 1px 1px,#e9d7
 .xuan-painted-sprite[data-sheet="characters"],.art-dialogue-painted[data-sheet="characters"]{background-image:url("../art/three-head/characters-three-head-v1.webp")}
 .xuan-painted-sprite[data-sheet="monsters"]{background-image:url("../art/three-head/monsters-three-head-v1.webp")}
 .xuan-painted-sprite[data-sheet="monstersExpanded"]{background-image:url("../art/three-head/monsters-expanded-three-head-v1.webp")}
+.xuan-painted-sprite[data-sheet="classes"]{background-image:url("../art/three-head/classes-three-head-v1.webp")}
 .xuan-painted-sprite[data-sheet="npcs"],.art-dialogue-painted[data-sheet="npcs"]{background-image:url("../art/three-head/npcs-three-head-v1.webp")}
 .xuan-painted-sprite[data-index="1"],.art-dialogue-painted[data-index="1"]{background-position:33.333% center}
 .xuan-painted-sprite[data-index="2"],.art-dialogue-painted[data-index="2"]{background-position:66.667% center}

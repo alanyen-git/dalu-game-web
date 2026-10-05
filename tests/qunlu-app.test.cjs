@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -253,3 +253,14 @@ assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{s
 assert.match(serviceWorker, /CACHE_PREFIX\+"v37"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
+
+const classPickerMatch = battleArt.match(/const classPick=.*?};/);
+assert.ok(classPickerMatch, "party and player portraits must use a role-aware class mapper");
+const classPicker = vm.runInNewContext("(" + classPickerMatch[0].replace(/^const classPick=/, "").replace(/;$/, "") + ")");
+const classCatalog = require(path.join(root, "character-data.js"));
+assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must track the complete combat class catalog");
+const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
+assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
+assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v38"/);
+assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);

@@ -1,11 +1,13 @@
 {
-  "version": "CURRENT-1.93.0",
-  "previous_version": "CURRENT-1.92.0",
+  "version": "CURRENT-1.94.0",
+  "previous_version": "CURRENT-1.93.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "擴充三頭身 NPC 與魔物立繪、職務頭像，完成角色與敵人類型映射及離線快取。",
+  "summary": "擴充八類職業立繪映射，新增騎士、暗行者、自然術者與魔劍士三頭身原創造型。",
   "changelog": [
+    "新增騎士、暗行者、自然術者與魔劍士四款原創三頭身立繪，對應護衛近戰、潛行雙刃、自然神職及混合職業。",
+    "依職業目錄完整的 100 種戰鬥職業新增八類立繪分流；玩家角色與隊員依職業名稱配圖，龍系職業不再誤用敵方龍族肖像。",
     "新增公會長、商旅、工匠、學者四款高細節三頭身人物立繪與對話頭像；守衛、旅店等職務套用對應原創人物素材。",
     "補上龍、石像魔像、地精襲擊者、冰元素戰鬥立繪；依敵人名稱分型，既有野獸、亡靈、史萊姆、惡魔及職業角色沿用各自圖集。素材採手繪質感、透明底，不使用像素拼接。",
     "擴充 PWA 離線快取並新增立繪回歸檢查；人物及敵人資料、戰鬥規則與存檔格式相容。",
@@ -79,8 +81,8 @@
   "netlify_dependency": false,
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.11",
-  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.3",
-  "pwa_cache_revision": "v37",
+  "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.4",
+  "pwa_cache_revision": "v38",
   "home_ui_revision": "TOWN-MAP-HOME-1.0",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-1.6",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -90,5 +92,6 @@
   "regional_portrait_revision": "REGIONAL-PORTRAIT-1.1",
   "regional_map_revision": "REGIONAL-MAP-SCENES-1.0",
   "item_skill_icon_revision": "ITEM-SKILL-ICONS-2.0",
-  "political_region_revision": "FROSTHORN-REGION-PACK-1.0"
+  "political_region_revision": "FROSTHORN-REGION-PACK-1.0",
+  "class_art_revision": "CLASS-ARCHETYPE-PORTRAITS-1.0"
 }
