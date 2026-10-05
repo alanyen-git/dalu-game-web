@@ -101,7 +101,9 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-const cacheVersion = Number(sw.match(/CACHE_NAME=CACHE_PREFIX+"v(\\d+)"/)?.[1] || 0);
+const cacheMarker = 'CACHE_NAME=CACHE_PREFIX+"v';
+const cacheOffset = sw.indexOf(cacheMarker);
+const cacheVersion = cacheOffset < 0 ? 0 : Number(sw.slice(cacheOffset + cacheMarker.length).split('"')[0]);
 assert.ok(cacheVersion > 34, "illustrated App updates must advance the offline cache");
 assert.ok(sw.includes('"./assets/css/polish-v1.css"'), "the refined App skin must be included in the offline cache");
 const portraitArt = fs.readFileSync(path.join(app,"assets/art/npc-portrait-sprites.svg"),"utf8");
