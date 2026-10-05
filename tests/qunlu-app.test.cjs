@@ -101,7 +101,15 @@ assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must 
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 const sw = fs.readFileSync(path.join(app, "sw.js"), "utf8");
-assert.ok(sw.includes('CACHE_NAME=CACHE_PREFIX+"v34"'), "new illustrated scene assets must be deployed with a fresh offline cache");
+const cacheVersion = Number(sw.match(/CACHE_NAME=CACHE_PREFIX+"v(\\d+)"/)?.[1] || 0);
+assert.ok(cacheVersion > 34, "illustrated App updates must advance the offline cache");
+assert.ok(sw.includes('"./assets/css/polish-v1.css"'), "the refined App skin must be included in the offline cache");
+const portraitArt = fs.readFileSync(path.join(app,"assets/art/npc-portrait-sprites.svg"),"utf8");
+const portraitUI = fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8");
+for (const role of ["healer","guardian","mage","innkeeper"]) {
+  assert.ok(portraitArt.includes(`<symbol id="${role}"`), `${role} portrait art must exist`);
+  assert.ok(portraitUI.includes(`id:"${role}"`), `${role} must be selectable from dialogue`);
+}
 for (const art of ["willow-town.svg", "old-forest.svg", "stone-vault.svg", "mountain-pass.svg", "river-valley.svg", "npc-portrait-sprites.svg", "item-skill-icons.svg", "region-atlas.svg", "facility-interiors.svg", "terrain-scenes.svg", "event-scenes.svg", "equipment-display.svg"]) assert.ok(sw.includes(art), "scene artwork must be included in the offline cache");
 assert.ok(battleTheme.includes("dataset.scene"), "battle background art must follow the current game region");
 assert.ok(mapTheme.includes("XUANYUAN-BATTLE-SCENE-1.0"), "battle UI must reuse region scene artwork");
