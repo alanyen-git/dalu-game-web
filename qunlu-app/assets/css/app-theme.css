@@ -385,3 +385,14 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-town-board.windspring-village:before{opacity:.14}
 .xu-town-board.windspring-village .xu-town-center{background:radial-gradient(circle,#ead8a555,transparent 70%)}
 .xu-town-board.windspring-village .xu-town-street{background:#bd9e6c99}
+
+/* XUANYUAN-PAINTERLY-MAP-LAYERS-1.0 */
+.xu-map-painting{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;filter:saturate(.95) contrast(1.02)}
+.xu-board.has-painting .xu-map-art,.xu-board.has-painting .xu-terrain,.xu-board.has-painting .xu-river{display:none}
+.xu-board.has-painting:before{opacity:.17}
+.xu-board.has-painting.time-night .xu-map-painting{filter:brightness(.48) saturate(.72)}
+.xu-board.has-painting.time-dusk .xu-map-painting{filter:sepia(.18) brightness(.8) saturate(.8)}
+.xu-board.has-painting.time-dawn .xu-map-painting{filter:sepia(.1) brightness(1.06) saturate(.9)}
+.xu-town-board.painterly-town:before{z-index:1;opacity:.1}
+.xu-town-board.painterly-town .xu-town-illustration{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;opacity:1}
+.xu-town-board.painterly-town .xu-town-street,.xu-town-board.painterly-town .xu-town-center{display:none}

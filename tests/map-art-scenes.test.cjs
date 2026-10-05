@@ -11,9 +11,10 @@ for(const id of ["world","realm","province","local","region-islands","region-ste
 assert.equal((atlas.match(/fill="url\(#atlas-etching\)"/g)||[]).length,16,"each zoom level and scene receives engraved terrain texture");
 for(const selector of ["風泉村","鹽潮荒野","沉砂遺跡","霧港村"])assert.ok(ui.includes(selector),"scene selector "+selector);
 for(const id of ["region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.ok(ui.includes('"'+id+'"'),"wild/dungeon scene route "+id);
-assert.match(ui,/town-illustration/,"Wind Spring town uses its scene art");
-assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v40"/,"map cache revision");
+assert.match(ui,/town-illustration/,"town uses painterly scene art");
+for(const asset of ["painterly-overworld-v1.webp","painterly-region-v1.webp","painterly-town-v1.webp","painterly-dungeon-v1.webp"]){assert.ok(ui.includes(asset),"map layer selects "+asset);assert.ok(sw.includes("./assets/art/maps/"+asset),"offline cache includes "+asset);assert.ok(fs.existsSync(path.join(app,"assets","art","maps",asset)),"map asset exists "+asset);}
+assert.match(sw,/CACHE_NAME=CACHE_PREFIX\+"v41"/,"map cache revision");
 assert.match(sw,/\.\/assets\/art\/maps\/region-atlas\.svg/,"map scene asset is cached");
-assert.equal(version.version,"CURRENT-1.96.0");
-assert.equal(version.pwa_cache_revision,"v40");
+assert.equal(version.version,"CURRENT-1.97.0");
+assert.equal(version.pwa_cache_revision,"v41");
 console.log("PASS original regional map scenes, location selectors, town illustration, and offline cache");
