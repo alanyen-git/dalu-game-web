@@ -34,8 +34,9 @@
   "web_distribution": {
     "source": "qunlu-app",
     "mode": "exact-app-mirror",
-    "entry": "game/",
+    "entry": "app/",
     "ui_transform": false,
-    "legacy_play_removed": true
+    "old_game_path_removed": true,
+    "old_play_path_removed": true
   }
 }
