@@ -40,7 +40,15 @@ async function json(url){return JSON.parse(await text(url))}
    assert.ok(!gameHtml.includes('class="web2"'));
    assert.ok(!gameHtml.includes("冒險指揮台"));
    assert.ok(!gameHtml.includes("WEB 2.0"));
+   assert.ok(!gameHtml.includes("NEW WEB"));
+   assert.ok(!gameHtml.includes("web-build-badge"));
    assert.ok(gameHtml.includes("<title>異界旅人 "+localVersion.version+"</title>"));
+   const townHome=await text(new URL("game/src/town-home-ui.js"+q,base));
+   const runtime=await text(new URL("game/src/runtime.js"+q,base));
+   assert.ok(townHome.includes("異界旅人・旅途據點"));
+   assert.ok(townHome.includes("當地地圖"));
+   assert.ok(townHome.includes("ensureTownHome"));
+   assert.ok(runtime.includes('if(typeof window.renderTownHome==="function")window.renderTownHome()'));
    assert.equal(play.status,404);
    console.log("Verified public exact App mirror: "+new URL("game/",base)+" version="+localVersion.version);
    return;
