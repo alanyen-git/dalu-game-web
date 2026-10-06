@@ -51,5 +51,16 @@ assert.ok(!gameHtml.includes("web-v2.css"));
 assert.ok(!gameHtml.includes('class="web2"'));
 assert.ok(!gameHtml.includes("冒險指揮台"));
 assert.ok(!gameHtml.includes("WEB 2.0"));
+assert.ok(!gameHtml.includes("NEW WEB"));
+assert.ok(!gameHtml.includes("web-build-badge"));
+const appTownHome=fs.readFileSync(path.join(app,"src/town-home-ui.js"),"utf8");
+const webTownHome=fs.readFileSync(path.join(game,"src/town-home-ui.js"),"utf8");
+assert.equal(digest(path.join(game,"src/town-home-ui.js")),digest(path.join(app,"src/town-home-ui.js")),"town-home UI must be identical to App");
+assert.ok(appTownHome.includes("異界旅人・旅途據點"));
+assert.ok(appTownHome.includes("當地地圖"));
+assert.ok(appTownHome.includes("世界地圖"));
+assert.ok(appTownHome.includes("ensureTownHome"));
+const runtimeSource=fs.readFileSync(path.join(app,"src/runtime.js"),"utf8");
+assert.ok(runtimeSource.includes('if(typeof window.renderTownHome==="function")window.renderTownHome()'),"enterGame must explicitly enter App town-home UI");
 
 console.log("PASS /game/ is byte-identical to current 異界旅人 App UI/core.");
