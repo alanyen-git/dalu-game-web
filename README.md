@@ -1,104 +1,39 @@
-# 大陸旅誌
+# 異界旅人
 
+《異界旅人》是手機優先的單人回合制 RPG，Android App 與網頁版共用 `qunlu-app/` 同一套遊戲來源。
 
+## 正式建置來源
 
+- 遊戲名稱：異界旅人
+- App／Web 共用來源：`qunlu-app/`
+- Android：Capacitor 封裝 `www/`
+- Web：GitHub Pages 部署 `www/`
+- PWA：支援離線快取與本機存檔
+- 舊版根目錄網頁遊戲已移除，不再參與任何建置或部署
 
-手機優先、單人、回合制的原創日式 RPG。
+## CURRENT-1.120.0
 
+- HP、MP、SP、攻擊、魔攻、防禦、魔防等核心絕對戰鬥數值提高 100%。
+- 敵方、隊友、寵物、召喚獸與固定技能消耗／治療／道具傷害同步等比例調整。
+- 命中、閃避、爆擊率、格擋率、抗性、速度、破甲、射程等比例或機率型數值維持原值。
+- 100 種戰鬥職業與目前 214 筆怪物資料皆綁定獨立立繪資料。
+- 新網頁版每次部署前會先刪除舊 `www/` 產物，再由目前 App 原始碼乾淨重建。
 
-
-
-## 專案定位
-
-
-
-
-- 正式遊戲名稱：大陸旅誌
-- 專案代號：Dalu Game Web
-- 目標平台：Android App、手機瀏覽器與可離線遊玩的 PWA
-- 事件設計：自由事件與分支事件至少占可玩事件 60%
-- 原創原則：世界、角色、美術、介面、劇情與數值皆獨立設計，不複製其他作品的角色、名稱、素材或劇情表達
-- 種族、出身、職業及天賦由本專案內的角色目錄提供，不在建置時讀取其他專案
-
-
-
-
-## 第一階段垂直切片
-
-
-
-
-目前骨架先驗證：
-
-
-
-
-1. 手機版主畫面與底部導覽
-2. 旅誌事件與選擇結果
-3. 區域地圖入口
-4. 冒險團資料入口
-5. 本機存檔與離線啟動
-6. 可持續擴充的事件資料格式
-
-
-
-
-## 第二階段：非中心主角與世界時鐘
-
-
-
-
-- 玩家可選擇承接主線成為英雄、遠離紛爭成為隱士，或遊歷大陸成為旅人。
-- 世界日、季節與威脅值會獨立推進；主線不會因玩家不接任務而停止。
-- 當玩家沒有成為英雄且世界時鐘推進，候選 NPC 會承接天命，主線改由 NPC 推進。
-- 角色路線、世界狀態與 NPC 英雄會寫入本機存檔，之後可擴充為事件條件與地圖回寫。
-
-
-
-
-
-## 第四階段：戰鬥核心垂直切片
-
-- 版本 0.4.0 加入可操作的鐘丘遭遇戰：回合時間軸、行動排序與敵我生命值。
-- 戰鬥介面區分前排、後排與 Boss 中央欄位，並保留寵物／召喚獸位置。
-- 第一批技能驗證同列攻擊、十字範圍、亂數治療與前排援護；流程採先選技能、再選目標，避免技能卡住。
-- 戰鬥狀態可保留至本機存檔；正式技能庫、陣形效果、連攜攻擊與 Android 建置列入後續階段。
-
-## 製作原則
-
-
-
-
-- 美術與介面採單一視覺設定，不使用拼湊式元件。
-
-
-## Android debug build
-
-
-GitHub Actions builds an installable debug APK with the game files bundled for offline startup. Download the latest successful “Android Debug APK” artifact from Actions and sideload app-debug.apk on an Android device. The artifact is retained for 30 days. This debug-signed APK is for device QA, not a Google Play release.
-
-For a local build, install Node.js 22, Java 21, and the Android SDK. Run:
+## 建置
 
 ```sh
 npm install
-npm test
-npm run test:pwa
-npm run prepare:android
-npm run test:android-bundle
-npx cap add android
-npx cap sync android
-cd android && ./gradlew assembleDebug
+npm run test:qunlu-app
+npm run prepare:web
+npm run test:qunlu-bundle
 ```
 
+Android debug APK：
 
-## 正確專案定位（2026-10-04）
-
-本專案是《群陸旅誌》的獨立手機 App 介面／包裝專案，不是重新創作另一套世界與規則。
-
-- 唯讀來源：alanyen-git/qunlu-game
-- 來源用途：既有資料庫、Runtime、角色、職業、戰鬥、任務、地圖、製作、市場、世界自治與存檔模組
-- 獨立 App 顯示名稱：異界旅人\n- 本專案用途：提供獨立 App 的手機 UI、FF5 類職業／隊伍／指令操作流程，以及原創 RO 類明亮奇幻美術
-- 原始《群陸旅誌》不在本專案中修改
-- 所有匯入資料都必須固定來源 revision，並可離線執行
-
-「FF5 類」只代表職業配置、能力組合、隊伍指令與回合制遊戲流程；美術採原創 RO 類風格，不使用官方角色、立繪或素材。
+```sh
+npm run prepare:android
+npx cap add android
+npx cap sync android
+cd android
+./gradlew assembleDebug
+```
