@@ -1,22 +1,14 @@
 {
   "name": "dalu-game-web",
   "private": true,
-  "version": "0.4.24",
-  "description": "大陸旅誌 Android debug package builder",
+  "version": "1.120.0",
+  "description": "異界旅人 App／Web 共用建置專案",
   "scripts": {
-    "test": "npm run test:update && npm run test:save && npm run test:combat && npm run test:story && npm run test:character-growth && npm run test:pwa && node tests/history-retention.test.cjs && node tests/audit-free-events.test.js && node tests/map-navigation.test.js && node tests/map-route-canvas.test.cjs && npm run test:region-content && node tests/map-controls.test.cjs && node tests/map-art-scenes.test.cjs && node tests/runtime-stability.test.cjs && node tests/build-safety.test.cjs",
-    "import:qunlu": "node scripts/import-qunlu-character-catalog.cjs",
-    "test:pwa": "node tests/pwa-installability.test.js",
-    "prepare:android": "node scripts/prepare-android-web.cjs",
-    "test:android-bundle": "node tests/android-bundle.test.cjs",
-    "test:save": "node tests/save-system.test.cjs",
-    "test:combat": "node tests/battle-regression.test.js",
-    "test:update": "node tests/app-update.test.cjs",
-    "test:story": "node tests/story-progression.test.cjs",
-    "test:character-growth": "node tests/character-growth.test.cjs",
-    "test:region-content": "node tests/region-content.test.cjs",
-    "prepare:qunlu": "node scripts/prepare-qunlu-app.cjs",
+    "test": "npm run test:qunlu-app",
     "test:qunlu-app": "node tests/qunlu-app.test.cjs && node tests/history-retention.test.cjs && node tests/runtime-stability.test.cjs && node tests/facility-shop-ui.test.cjs",
+    "prepare:web": "node scripts/prepare-qunlu-app.cjs",
+    "prepare:qunlu": "node scripts/prepare-qunlu-app.cjs",
+    "prepare:android": "node scripts/prepare-qunlu-app.cjs",
     "test:qunlu-bundle": "node tests/qunlu-app-bundle.test.cjs"
   },
   "dependencies": {
