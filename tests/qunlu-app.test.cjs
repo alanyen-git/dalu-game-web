@@ -288,3 +288,5 @@ assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "m
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
 
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);
+
+require("./gather-regression.test.cjs");
