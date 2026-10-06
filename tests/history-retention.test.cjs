@@ -5,14 +5,14 @@ const path = require("node:path");
 
 const root = path.join(__dirname, "..");
 const runtimeSource = fs.readFileSync(path.join(root, "qunlu-app/src/runtime.js"), "utf8");
-const retentionLimit = Number(runtimeSource.match(/HISTORY_RETENTION_LIMIT=(\\d+)/)?.[1]);
-const displayLimit = Number(runtimeSource.match(/HISTORY_DISPLAY_LIMIT=(\\d+)/)?.[1]);
+const retentionLimit = Number(runtimeSource.match(/HISTORY_RETENTION_LIMIT=(\d+)/)?.[1]);
+const displayLimit = Number(runtimeSource.match(/HISTORY_DISPLAY_LIMIT=(\d+)/)?.[1]);
 assert.ok(retentionLimit > 0, "history retention must have a positive cap");
 assert.ok(displayLimit > 0, "visible history must have a positive cap");
-assert.match(runtimeSource, /function migrateSave\\(\\)\\{\\s*if\\(G\\)G\\.history=retainRecentHistory\\(G\\.history\\);/, "legacy saves must be trimmed during load");
-assert.match(runtimeSource, /if\\(G\\)G\\.history=retainRecentHistory\\(G\\.history,\\{turn:G\\.turn/, "new log entries must use bounded retention");
-assert.match(runtimeSource, /el\\.appendChild\\(d\\);trimHistoryLog\\(el\\);/, "live log elements must be trimmed after append");
-assert.match(runtimeSource, /slice\\(-HISTORY_DISPLAY_LIMIT\\)/, "redrawn history must honor the visible cap");
+assert.ok(runtimeSource.includes("function migrateSave(){\n if(G)G.history=retainRecentHistory(G.history);"), "legacy saves must be trimmed during load");
+assert.ok(runtimeSource.includes("if(G)G.history=retainRecentHistory(G.history,{turn:G.turn"), "new log entries must use bounded retention");
+assert.ok(runtimeSource.includes("el.appendChild(d);trimHistoryLog(el);"), "live log elements must be trimmed after append");
+assert.ok(runtimeSource.includes("slice(-HISTORY_DISPLAY_LIMIT)"), "redrawn history must honor the visible cap");
 
 function extractFunction(name) {
   const start = runtimeSource.indexOf("function " + name + "(");
@@ -28,9 +28,9 @@ function extractFunction(name) {
 
 const context = vm.createContext({});
 vm.runInContext(
-  "const HISTORY_RETENTION_LIMIT=" + retentionLimit + "; const HISTORY_DISPLAY_LIMIT=" + displayLimit + ";\\n" +
-    extractFunction("retainRecentHistory") + "\\n" +
-    extractFunction("trimHistoryLog") + "\\n" +
+  "const HISTORY_RETENTION_LIMIT=" + retentionLimit + "; const HISTORY_DISPLAY_LIMIT=" + displayLimit + ";\n" +
+    extractFunction("retainRecentHistory") + "\n" +
+    extractFunction("trimHistoryLog") + "\n" +
     "globalThis.retainRecentHistory=retainRecentHistory; globalThis.trimHistoryLog=trimHistoryLog;",
   context
 );
@@ -64,3 +64,4 @@ assert.equal(logElement.children.length, displayLimit, "live DOM history must st
 assert.equal(logElement.children[0].id, 1000 - displayLimit, "live DOM must keep the newest entries");
 
 console.log("History retention regression passed.");
+
