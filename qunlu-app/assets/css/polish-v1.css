@@ -70,3 +70,28 @@ body:before{opacity:.11;background-image:radial-gradient(circle at 1px 1px,#e9d7
 .xu-store-scene{isolation:isolate;background:#171b1e}
 .xu-store-scene>svg{filter:brightness(1.02) saturate(1.05)}
 .xu-store-scene:after{background:linear-gradient(180deg,#07101955 0%,transparent 34%,transparent 72%,#07101933 100%),radial-gradient(ellipse at 50% 38%,transparent 32%,#09101833 100%)}
+
+/* CURRENT-1.109.0: original illustrated shop interiors with compact service controls */
+.xu-store-screen{gap:8px}
+.xu-store-scene{height:clamp(230px,34vh,300px);background:#171b1e}
+.xu-store-scene>img.xu-store-art{display:block;width:100%;height:100%;object-fit:cover;filter:brightness(1.04) saturate(1.04)}
+.xu-store-scene:after{background:linear-gradient(180deg,#07101944 0%,transparent 27%,transparent 72%,#09101844 100%),radial-gradient(ellipse at 50% 42%,transparent 42%,#09101822 100%)}
+.xu-store-plaque{position:absolute;z-index:2;top:9px;left:50%;transform:translateX(-50%);max-width:80%;padding:6px 18px;border:2px solid var(--store-accent,#e3ca8b);border-radius:7px;background:linear-gradient(180deg,#242528f2,#17191df2);box-shadow:0 3px 0 #080d12,0 4px 14px #0007,inset 0 1px #fff3;color:#fff1ce;text-align:center}
+.xu-store-plaque span{font-size:clamp(10px,2.7vw,13px);font-weight:900;letter-spacing:.16em;white-space:nowrap;text-shadow:0 1px #000}
+.xu-store-summary,.xu-store-caption,.xu-store-record{display:none!important}
+.xu-store-actions-primary{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.xu-store-action{min-height:76px;gap:3px;padding:6px 3px}
+.xu-store-action-icon{width:35px;height:35px}
+.xu-store-action-icon svg{width:27px;height:27px}
+.xu-store-action-label{gap:0}
+.xu-store-action-label strong{font-size:clamp(12px,3.3vw,14px)}
+.xu-store-action-label small{display:none!important}
+.xu-store-more{padding:8px}
+.xu-store-more>header{margin-bottom:6px}
+.xu-store-more>header span{display:none}
+.xu-store-actions-secondary{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.xu-store-action-secondary{min-height:58px;padding:5px}
+.xu-store-action-secondary .xu-store-action-icon{width:29px;height:29px}
+.xu-store-action-secondary .xu-store-action-icon svg{width:22px;height:22px}
+.xu-store-action-secondary .xu-store-action-label strong{font-size:11px}
+@media(max-width:400px){.xu-store-scene{height:220px}.xu-store-action{min-height:70px}.xu-store-action-icon{width:32px;height:32px}.xu-store-action-icon svg{width:25px;height:25px}.xu-store-actions-secondary{grid-template-columns:repeat(2,minmax(0,1fr))}}

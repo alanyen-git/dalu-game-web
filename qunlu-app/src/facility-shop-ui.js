@@ -39,7 +39,6 @@ function renderFacility(fid){
   if(!f)return;
   const location=typeof loc==="function"?loc(G.character.locationId):null;
   const profile=profiles[fid]||{scene:"general",environment:"設施室內",english:"FACILITY",headline:"旅人服務",subline:"與此處的店主交談，了解可用服務。",primary:["talk","info"],buyIcon:"ration",sellIcon:"accessory"};
-  const integration=typeof facilityIntegration==="function"?facilityIntegration(fid):{organization_ids:[],intel_record_ids:[],dialogue_record_ids:[],subjob_ids:[]};
   const actions=[];
   const add=function(key,title,hint,icon,call){
     actions.push({key:key,title:title,hint:hint||hintText[key]||"",icon:icon||iconFor[key]||"mark",call:call});
@@ -93,20 +92,16 @@ function renderFacility(fid){
   const more=actions.filter(function(a){return !primaryKeys.has(a.key)});
   const renderAction=function(a,featured){
     const classes="xu-store-action "+(featured?"xu-store-action-primary":"xu-store-action-secondary");
-    return '<button type="button" class="'+classes+'" data-action="'+attr(a.key)+'" data-icon="'+attr(a.icon)+'" aria-label="'+attr(a.title+"："+a.hint)+'" onclick="'+attr(a.call)+'"><span class="xu-store-action-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/art/item-skill-icons.svg#'+attr(a.icon)+'"></use></svg></span><span class="xu-store-action-label"><strong>'+esc(a.title)+'</strong><small>'+esc(a.hint)+'</small></span></button>';
+    return '<button type="button" class="'+classes+'" data-action="'+attr(a.key)+'" data-icon="'+attr(a.icon)+'" aria-label="'+attr(a.title+"："+a.hint)+'" onclick="'+attr(a.call)+'"><span class="xu-store-action-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/art/item-skill-icons.svg#'+attr(a.icon)+'"></use></svg></span><span class="xu-store-action-label"><strong>'+esc(a.title)+'</strong></span></button>';
   };
-  const place=(location?location.name:"當地")+(location&&location.tier?"・"+location.tier+"階":"");
-  const room=profile.scene||"general";
+  const room=profile.scene||fid||"general";
   const html='<section class="xu-store-screen store-'+attr(fid)+'" data-facility="'+attr(fid)+'" data-environment="'+attr(room)+'">'+
-    '<div class="xu-store-scene" role="img" aria-label="'+attr(f.name+"的"+profile.environment)+'">'+
-      '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="./assets/art/town/facility-interiors.svg#'+attr(room)+'"></use></svg>'+
-      '<div class="xu-store-sign"><span>'+esc(profile.english)+'</span><strong>'+esc(profile.headline)+'</strong><small>'+esc(profile.subline)+'</small></div>'+
-      '<div class="xu-store-caption"><b>'+esc(f.name)+'</b><span>'+esc(profile.environment)+'</span></div>'+
+    '<div class="xu-store-scene" role="group" aria-label="'+attr(f.name+"的"+profile.environment)+'">'+
+      '<img class="xu-store-art" src="./assets/art/town/shops/'+attr(room)+'.webp" alt="'+attr(f.name+"的"+profile.environment)+'" decoding="async">'+
+      '<div class="xu-store-plaque" aria-hidden="true"><span>'+esc(profile.english)+'</span></div>'+
     '</div>'+
-    '<div class="xu-store-summary"><b>店內服務</b><span>'+esc(place)+'</span><small>店面、室內陳設與服務圖示依設施種類配置</small></div>'+
     '<div class="xu-store-actions-primary" aria-label="主要服務">'+ordered.map(function(a){return renderAction(a,true)}).join("")+'</div>'+
-    (more.length?'<section class="xu-store-more"><header><b>更多服務</b><span>可用互動 '+more.length+' 項</span></header><div class="xu-store-actions-secondary">'+more.map(function(a){return renderAction(a,false)}).join("")+'</div></section>':"")+
-    '<div class="xu-store-record small">關聯組織 '+(integration.organization_ids||[]).length+' ・ 店內情報 '+(integration.intel_record_ids||[]).length+' ・ 對話 '+(integration.dialogue_record_ids||[]).length+(integration.subjob_ids&&integration.subjob_ids.length?" ・ 可學副職 "+integration.subjob_ids.length:"")+'</div>'+
+    (more.length?'<section class="xu-store-more"><header><b>更多服務</b></header><div class="xu-store-actions-secondary">'+more.map(function(a){return renderAction(a,false)}).join("")+'</div></section>':"")+
   '</section>';
   showModal(f.name,html,"renderFacility('"+fid+"')");
 }
