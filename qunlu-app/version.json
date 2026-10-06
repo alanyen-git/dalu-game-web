@@ -1,18 +1,15 @@
 {
-  "version": "CURRENT-1.122.0",
-  "previous_version": "CURRENT-1.121.0",
+  "version": "CURRENT-1.123.0",
+  "previous_version": "CURRENT-1.122.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "建立真正獨立的新網頁遊戲版：刪除舊 /play/ 入口，改以 /game/ 發布 WEB 2.0 專用介面；核心內容仍同步最新異界旅人 App。",
+  "summary": "取消 WEB 2.0 的「冒險指揮台」區塊，保留新 /game/ 路徑與獨立網頁介面。",
   "changelog": [
-    "舊 /play/ 網頁遊戲不再發布；GitHub Pages 每次從空白 www 重建，因此舊 /play/ 檔案會從部署產物消失。",
-    "新網頁遊戲改用獨立 /game/ 路徑，根網址會清除同網域舊 Service Worker 與 Cache 後導向 /game/。",
-    "網頁版新增 WEB 2.0 專用 UI 層：移除舊『旅途未竟，群陸在前』首頁橫幅，改為全新的冒險指揮台版面。",
-    "網頁 UI 與 Android App 來源分離呈現，但遊戲資料、角色、怪物、戰鬥公式與存檔格式仍來自同一個 qunlu-app 核心。",
-    "保留 IJ-COMBAT-SCALE-2.0：HP、MP、SP、攻擊、魔攻、防禦、魔防等核心絕對數值同步提高100%。",
-    "保留 IJ-ART-CATALOG-2.0：100種職業與目前214筆怪物完整綁定立繪。",
-    "PWA Cache 更新至 v72，Service Worker 僅控制新 /game/ 路徑。"
+    "取消新網頁版首頁的「冒險指揮台」區塊與相關標題／狀態晶片。",
+    "保留 /game/ 新網頁路徑與 WEB 2.0 獨立介面樣式。",
+    "遊戲核心、100職業立繪、214怪物立繪與戰鬥數值×2系統維持不變。",
+    "PWA Cache 更新至 v73。"
   ],
   "content_revision": "ASDAIL-DEPTH-2.0",
   "market_economy_revision": "MARKET-PRICE-SYNC-2.0",
@@ -24,7 +21,7 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.21",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.8",
-  "pwa_cache_revision": "v72",
+  "pwa_cache_revision": "v73",
   "home_ui_revision": "TOWN-MAP-HOME-1.6",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-3.0",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -51,7 +48,7 @@
     "mode": "web-2.0-independent-shell",
     "path": "game/",
     "source": "qunlu-app",
-    "legacy_play_removed": true,
-    "legacy_root_behavior": "cache-reset-and-redirect"
+    "adventure_command_center": false,
+    "legacy_play_removed": true
   }
 }
