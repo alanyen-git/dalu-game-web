@@ -721,3 +721,8 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 /* MAP-POINTER-PASSTHROUGH-1.0 */
 .town-map-canvas.map-gesture-stage,.xu-town-board.map-gesture-stage{pointer-events:none}
 .town-map-canvas.map-gesture-stage>.town-map-transform,.xu-town-board.map-gesture-stage>.xu-town-map-surface,.town-map-canvas.map-gesture-stage>.map-zoom-controls,.xu-town-board.map-gesture-stage>.map-zoom-controls{pointer-events:auto}
+
+
+/* FORGED-SHOP-BADGES-1.0 */
+.town-map-building-badge{position:absolute;z-index:3;top:-3px;right:-3px;width:clamp(28px,4.8vw,38px);aspect-ratio:1;background-image:url("../art/town/shop-badges-v1.webp");background-repeat:no-repeat;background-size:400% 300%;background-position:var(--badge-position,0 0);pointer-events:none;filter:drop-shadow(0 2px 2px #050806cc)}
+@media(max-width:560px){.town-map-building-badge{width:30px;top:-2px;right:-2px}}

@@ -37,4 +37,14 @@ assert.match(css,/\.town-map-routes\{[^}]*z-index:7;pointer-events:none/,"route 
 assert.match(css,/\.xu-route-marker\{[^}]*pointer-events:auto/,"road pins accept clicks");
 assert.match(css,/\.town-map-canvas\.map-gesture-stage,\.xu-town-board\.map-gesture-stage\{pointer-events:none\}/,"map stage background passes pointer events through");
 assert.match(css,/\.town-map-canvas\.map-gesture-stage>\.town-map-transform,\.xu-town-board\.map-gesture-stage>\.xu-town-map-surface/,"map surfaces remain available for dragging and pin clicks");
+const badgeAsset="./assets/art/town/shop-badges-v1.webp";
+assert.ok(home.includes("const badgePositions={"),"town facilities use a badge sprite atlas");
+assert.match(home,/class="town-map-building-badge"/,"town pins render illustrated shop badges");
+assert.ok(!home.includes("const icons="),"legacy Unicode facility icon map is removed");
+for(const id of ["guild","general","blacksmith","tavern","inn","church","clinic","tailor","alchemy","enchanter","mageguild"])assert.match(home,new RegExp("(?:^|,)"+id+":"),"badge position exists for "+id);
+assert.ok(css.includes("shop-badges-v1.webp"),"town map CSS uses the badge atlas");
+assert.ok(css.includes("background-size:400% 300%"),"town map selects the correct atlas cells");
+assert.ok(sw.includes(badgeAsset),"shop badge atlas is cached for offline play");
+assert.ok(fs.existsSync(path.join(app,badgeAsset.replace("./",""))),"shop badge atlas exists");
+assert.equal(version.shop_badge_revision,"FORGED-SHOP-BADGES-1.0","badge art revision is recorded");
 console.log("PASS four detailed map layers, interactive location pins, town illustration, and offline cache");
