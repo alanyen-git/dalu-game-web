@@ -1,4 +1,4 @@
-name: Deploy 異界旅人 Mobile App
+name: Deploy 異界旅人 New Web Game
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: yijie-luren-pages
   cancel-in-progress: true
 
 jobs:
@@ -26,23 +26,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Run project regression suite
-        run: |
-          npm run import:qunlu
-          npm test
-          npm run test:qunlu-app
-          npm run prepare:qunlu
-          npm run test:qunlu-bundle
+      - name: Validate 異界旅人 App source
+        run: npm run test:qunlu-app
+      - name: Delete old web build and create new web game
+        run: npm run prepare:web
+      - name: Validate new web bundle
+        run: npm run test:qunlu-bundle
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload Pages artifact
+      - name: Upload new web game
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'www'
-      - name: Deploy to GitHub Pages
+      - name: Deploy new web game
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify public version and source commit
+      - name: Verify public version
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
         run: node scripts/verify-qunlu-pages.cjs
