@@ -20,7 +20,6 @@ async function main() {
   const version = JSON.parse(await fs.readFile(path.join(source, "version.json"), "utf8"));
   if (!String(version.version || "").startsWith("CURRENT-")) throw new Error("異界旅人版本格式錯誤");
 
-  // Clean rebuild: the previous web game bundle is removed before the new App-derived web build is created.
   await fs.rm(web, { recursive: true, force: true });
   await copyTree(source, web);
 
