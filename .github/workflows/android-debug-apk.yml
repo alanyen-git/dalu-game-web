@@ -6,7 +6,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: yijie-luren-apk-release
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -43,3 +47,20 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
+      - name: Publish direct APK download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          APK_PATH=android/app/build/outputs/apk/debug/app-debug.apk
+          VERSION="$(node -e 'const value=require("./qunlu-app/version.json").version; const match=value.match(/^CURRENT-(\\d+\\.\\d+\\.\\d+)$/); if(!match) process.exit(1); process.stdout.write(match[1])')"
+          RELEASE_TAG=android-apk-latest
+          RELEASE_ASSET=yijie-luren-latest.apk
+          cp "$APK_PATH" "$RELEASE_ASSET"
+          RELEASE_TITLE="異界旅人 Android APK ${VERSION}"
+          RELEASE_NOTES="$(printf '版本：CURRENT-%s\\n來源 commit：%s\\n\\nAndroid debug APK，可直接安裝。' "$VERSION" "$GITHUB_SHA")"
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$RELEASE_ASSET" --clobber --repo "$GITHUB_REPOSITORY"
+            gh release edit "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$RELEASE_TAG" "$RELEASE_ASSET" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --prerelease --repo "$GITHUB_REPOSITORY"
+          fi
