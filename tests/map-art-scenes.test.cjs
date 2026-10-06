@@ -42,6 +42,7 @@ assert.ok(home.includes("const badgePositions={"),"town facilities use a badge s
 assert.match(home,/class="town-map-building-badge"/,"town pins render illustrated shop badges");
 assert.ok(!home.includes("const icons="),"legacy Unicode facility icon map is removed");
 assert.ok(!home.includes("town-map-building-art"),"shop badges replace the old town facility icon art");
+assert.ok(ui.includes('class="xu-facility-badge"')&&!ui.includes("facility-buildings.svg#")&&css.includes(".xu-facility-badge"),"layered town map replaces storefront icons with shop badges");
 for(const id of ["guild","general","blacksmith","tavern","inn","church","clinic","tailor","alchemy","enchanter","mageguild"])assert.match(home,new RegExp("[{,]"+id+":"),"badge position exists for "+id);
 assert.ok(css.includes("shop-badges-v1.webp"),"town map CSS uses the badge atlas");
 assert.ok(css.includes("background-size:400% 300%"),"town map selects the correct atlas cells");

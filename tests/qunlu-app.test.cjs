@@ -95,7 +95,7 @@ assert.ok(townHome.includes("xuRouteMapForLocation"),"town and wilderness exits 
 assert.ok(townHome.includes("town-map-building-badge")&&!townHome.includes("facility-buildings.svg#")&&mapTheme.includes(".town-map-building-badge"),"town home replaces old storefront icons with forged shop badges");
 assert.ok(mapSource.includes('call("travel",l.id,Number(route.hours)||1)')&&mapSource.includes("routeCanvas(nodes,edges"),"road pins must pass the destination and route duration into travel");
 assert.ok(mapSource.includes("window.xuFacility=function(id)"),"town building taps must be connected to facility interactions");
-assert.ok(mapSource.includes("facility-buildings.svg#")&&mapTheme.includes("xu-facility-art"),"town shops must use individual storefront artwork");
+assert.ok(mapSource.includes("xu-facility-badge")&&!mapSource.includes("facility-buildings.svg#")&&mapTheme.includes(".xu-facility-badge"),"layered town map replaces storefront icons with forged shop badges");
 assert.ok(runtimeSource.includes("arrivalRoute")&&runtimeSource.includes("前往此地"),"an adjacent map destination must offer a direct travel action");
 assert.ok(runtimeSource.includes('data-sheet="characters"')&&runtimeSource.includes("xuan-painted-sprite")&&!runtimeSource.includes("battle-sd-portraits.svg#"),"party profile must use detailed painted character portraits");
 assert.ok(!townHome.includes("town-home-shortcuts"),"duplicate character shortcuts must be removed from the town-map page");
