@@ -305,7 +305,8 @@ assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/)
 const classPickerMatch = battleArt.match(/const classPick=.*?};/);
 assert.ok(classPickerMatch, "party and player portraits must use a role-aware class mapper");
 const classPicker = vm.runInNewContext("(" + classPickerMatch[0].replace(/^const classPick=/, "").replace(/;$/, "") + ")");
-const classCatalog = require(path.join(root, "character-data.js"));
+const classDataSource = fs.readFileSync(path.join(app, "src/game-data.js"), "utf8");
+const classCatalog = JSON.parse(classDataSource.slice(classDataSource.indexOf("=")+1,classDataSource.lastIndexOf(";")));
 assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must track the complete combat class catalog");
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
