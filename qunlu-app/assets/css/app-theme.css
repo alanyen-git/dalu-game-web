@@ -432,7 +432,7 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .xu-town-board .xu-town-street{z-index:1}
 .xu-town-board .xu-town-center{z-index:2}
 .xu-town-board .xu-map-footer{z-index:9}
-.town-map-routes{position:absolute;inset:0;z-index:5;display:block;left:0;right:0;bottom:auto;gap:0;overflow:visible;padding:0;border:0;border-radius:0;background:transparent}
+.town-map-routes{position:absolute;inset:0;z-index:7;pointer-events:none;display:block;left:0;right:0;bottom:auto;gap:0;overflow:visible;padding:0;border:0;border-radius:0;background:transparent}
 .town-map-routes>.xu-route-map{inset:0}
 .town-map-buildings{display:block;inset:0;z-index:6;padding:0;pointer-events:none}
 .town-map-building{position:absolute;left:var(--fx);top:var(--fy);transform:translate(-50%,-50%);width:clamp(72px,17vw,112px);min-height:58px;display:grid;justify-items:center;align-content:center;gap:2px;padding:4px 6px;pointer-events:auto}
