@@ -1,5 +1,5 @@
 
-const CURRENT_VERSION="CURRENT-1.124.0";
+const CURRENT_VERSION="CURRENT-1.125.0";
 const AUDIT_INTERVAL_TURNS=20;
 const HISTORY_RETENTION_LIMIT=500,HISTORY_DISPLAY_LIMIT=80;
 DB.meta.current_version=CURRENT_VERSION;
@@ -339,7 +339,7 @@ function createCharacter(){
  log("世界誌",`已載入西境河谷、洛文邊侯領、${r.name}與${cc.name}的起始歷史文化記錄，共${G.character.knownLoreIds.length}筆。`,"ok");
  if(cc.sealed)log("職業",`高階職業能力保持封印：${cc.gate}`,"warnText")
 }
-function enterGame(resume){$("#createPanel").classList.add("hide");$("#gamePanel").classList.remove("hide");$("#fixedNav").classList.remove("hide");if(resume)log("系統",`已讀取存檔並更新至${CURRENT_VERSION}。`,"save");renderAll()}
+function enterGame(resume){$("#createPanel").classList.add("hide");$("#gamePanel").classList.remove("hide");$("#fixedNav").classList.remove("hide");if(resume)log("系統",`已讀取存檔並更新至${CURRENT_VERSION}。`,"save");renderAll();if(typeof window.renderTownHome==="function")window.renderTownHome()}
 function displayRace(){const r=by(DB.races,G.character.raceId);return r.name+(G.character.raceSubtype?`（${G.character.raceSubtype}）`:"")}
 function timeText(){const t=G.worldTime;return `紀元${t.year}年・${t.season}・第${t.day}日 ${String(t.hour).padStart(2,"0")}:${String(t.minute).padStart(2,"0")}`}
 function totalHours(){return (G.worldTime.day-1)*24+G.worldTime.hour+G.worldTime.minute/60}
