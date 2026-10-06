@@ -98,7 +98,8 @@ assert.ok(mapSource.includes("window.xuFacility=function(id)"),"town building ta
 assert.ok(mapSource.includes("facility-buildings.svg#")&&mapTheme.includes("xu-facility-art"),"town shops must use individual storefront artwork");
 assert.ok(runtimeSource.includes("arrivalRoute")&&runtimeSource.includes("前往此地"),"an adjacent map destination must offer a direct travel action");
 assert.ok(runtimeSource.includes('data-sheet="characters"')&&runtimeSource.includes("xuan-painted-sprite")&&!runtimeSource.includes("battle-sd-portraits.svg#"),"party profile must use detailed painted character portraits");
-assert.ok(townHome.includes("角色資料"), "character shortcuts must appear on the town-map page");
+assert.ok(!townHome.includes("town-home-shortcuts"),"duplicate character shortcuts must be removed from the town-map page");
+assert.ok(["character","inventory","quest","more"].every(key=>html.includes('data-nav="'+key+'"')),"fixed bottom navigation must retain character, inventory, quest, and more entries");
 assert.equal(runtimeSource.includes('add("城鎮設施","openFacilities()")'), false, "generic town-facilities action must be removed");
 assert.ok(fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8").includes("XUANYUAN-HOME-1.0"));
 assert.ok(mapTheme.includes("XUANYUAN-REGION-ATLAS-1.0"), "new regional map art styles must be present");
