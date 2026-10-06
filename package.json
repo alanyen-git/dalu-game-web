@@ -1,8 +1,8 @@
 {
   "name": "dalu-game-web",
   "private": true,
-  "version": "1.123.0",
-  "description": "異界旅人 App 核心與 WEB 2.0 獨立網頁介面建置專案",
+  "version": "1.124.0",
+  "description": "異界旅人 App 與 Web 1:1 共用建置專案",
   "scripts": {
     "test": "npm run test:qunlu-app",
     "test:qunlu-app": "node tests/qunlu-app.test.cjs && node tests/history-retention.test.cjs && node tests/runtime-stability.test.cjs && node tests/facility-shop-ui.test.cjs",
