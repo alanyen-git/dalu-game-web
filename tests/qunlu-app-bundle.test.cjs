@@ -38,12 +38,8 @@ for (const file of [
 const html = fs.readFileSync(path.join(game, "index.html"), "utf8");
 assert.ok(html.includes("<title>異界旅人 " + version.version + "</title>"));
 assert.ok(html.includes('body class="web2"'));
-assert.ok(html.includes("異界旅人・WEB 2.0"));
-assert.ok(html.includes("冒險指揮台"));
-assert.ok(html.includes("戰鬥核心 ×2"));
-assert.ok(html.includes("100 職業立繪"));
-assert.ok(html.includes("214 怪物立繪"));
 assert.ok(!html.includes("旅途未竟，群陸在前"), "legacy web hero must be gone");
+assert.ok(!html.includes("冒險指揮台"), "adventure command center must be removed");
 assert.ok(html.includes("assets/css/web-v2.css"));
 assert.ok(html.includes("src/combat-scale-v2.js"));
 assert.ok(html.includes("src/battle-art-catalog-v2.js"));
