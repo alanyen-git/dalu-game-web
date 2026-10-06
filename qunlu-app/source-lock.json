@@ -26,5 +26,14 @@
     "preserve source IDs and runtime contracts",
     "adapt UI and packaging only"
   ],
-  "ui_direction": "FFV-like job and command flow with original RO-inspired bright fantasy art"
+  "ui_direction": "FFV-like job and command flow with original RO-inspired bright fantasy art",
+  "local_extensions": [
+    "src/combat-scale-v2.js",
+    "src/battle-art-catalog-v2.js"
+  ],
+  "web_distribution": {
+    "source": "qunlu-app",
+    "mode": "clean-rebuild",
+    "legacy_root_web_removed": true
+  }
 }
