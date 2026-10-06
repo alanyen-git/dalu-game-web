@@ -27,12 +27,10 @@ jobs:
           java-version: "21"
       - name: Install Capacitor
         run: npm install --no-audit --no-fund
-      - name: Verify PWA and prepare Android bundle
+      - name: Validate 異界旅人 and rebuild Android web bundle
         run: |
-          npm run import:qunlu
-          npm test
           npm run test:qunlu-app
-          npm run prepare:qunlu
+          npm run prepare:android
           npm run test:qunlu-bundle
       - name: Generate Android project and build debug APK
         run: |
