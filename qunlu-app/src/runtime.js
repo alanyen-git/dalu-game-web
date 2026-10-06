@@ -1024,7 +1024,7 @@ function actGather(){
    if(!pool.length){
      const hasLocked=ids.some(id=>item(id)?.gather_tool);
      log("採集",hasLocked?"此處資源需要對應採集工具。":"此處缺乏可直接採集的自然資源。");
-     endTurn(.5);return
+     maybeGatherEncounter(l);endTurn(.5);return
    }
    const t=checkRoll("意志","採集"),n=t>=16?3:t>=10?2:1,got=[],target=activeGatherTarget(l,pool);
    for(let i=0;i<n;i++){
@@ -1037,7 +1037,7 @@ function actGather(){
      addItem(id,q,{skipQuestProgress:true});got.push(`${d.name||id}×${q}`)
    }
    syncAllQuestInventoryProgress(false);
-   log("採集",got.join("、")||"沒有取得可用資源。","ok");maybeEncounter("採集");endTurn(1)
+   log("採集",got.join("、")||"沒有取得可用資源。","ok");maybeGatherEncounter(l);endTurn(1)
  }catch(error){
    console.error("[採集] 採集流程已中止並保留目前畫面。",error);
    try{log("採集","採集流程遇到錯誤，已安全停止；請重新載入後再試。","danger")}catch(logError){console.error("[採集] 無法新增錯誤紀錄。",logError)}
