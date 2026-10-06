@@ -1,17 +1,17 @@
 {
-  "version": "CURRENT-1.125.0",
-  "previous_version": "CURRENT-1.124.0",
+  "version": "CURRENT-1.126.0",
+  "previous_version": "CURRENT-1.125.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "修正 Web 啟動沒有進入 App 城鎮主畫面的問題；移除 NEW WEB 標記，並強制 App/Web 共同啟動柳橋鎮 town-home UI。",
+  "summary": "以全新 /app/ 公開路徑發布異界旅人 App 1:1 鏡像，徹底避開舊 /game/ Service Worker / Cache；舊 /game/ 不再部署。",
   "changelog": [
-    "完全移除頁首 NEW WEB／APP同步版標記，頁首恢復 App 原版。",
-    "修正 enterGame：完成讀檔與 renderAll 後，明確呼叫 App 的 renderTownHome()。",
-    "town-home-ui 新增 load、pageshow 與 gamePanel 顯示狀態同步機制，避免瀏覽器啟動時序不同而停在舊旅誌首頁。",
-    "網頁與 App 仍使用相同 qunlu-app index、runtime、town-home-ui 與 CSS，不建立額外 Web UI。",
-    "柳橋鎮首頁應顯示 App 相同的『異界旅人・旅途據點／柳橋鎮／世界地圖／設定／當地地圖』結構。",
-    "PWA Cache 更新至 v75。"
+    "新增全新 /app/ 網址，直接鏡像目前 qunlu-app，避免任何舊 /game/ Service Worker 或瀏覽器快取介入。",
+    "每次 Web 部署先刪除整個 www，再只建立 /app/；舊 /game/ 與 /play/ 會從 Pages 產物消失。",
+    "根網址清除舊 Service Worker 與 Cache 後導向 /app/。",
+    "網頁版不注入 NEW WEB、APP同步版、WEB 2.0、冒險指揮台或其他 Web 專用 UI。",
+    "enterGame 與 town-home-ui 保留 App 的柳橋鎮主畫面啟動流程：柳橋鎮、世界地圖、設定、當地地圖。",
+    "PWA Cache 更新至 v76。"
   ],
   "content_revision": "ASDAIL-DEPTH-2.0",
   "market_economy_revision": "MARKET-PRICE-SYNC-2.0",
@@ -23,7 +23,7 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.21",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.8",
-  "pwa_cache_revision": "v75",
+  "pwa_cache_revision": "v76",
   "home_ui_revision": "TOWN-MAP-HOME-1.6",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-3.0",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -48,11 +48,11 @@
   "battle_art_revision": "IJ-ART-CATALOG-2.0",
   "web_build": {
     "mode": "exact-app-mirror",
-    "path": "game/",
+    "path": "app/",
     "source": "qunlu-app",
     "ui_transform": false,
-    "startup_ui": "town-home",
-    "new_web_badge": false,
-    "legacy_play_removed": true
+    "old_game_path_removed": true,
+    "old_play_path_removed": true,
+    "startup_ui": "town-home"
   }
 }
