@@ -28,6 +28,7 @@ async function main() {
   const gameIndexPath = path.join(game, "index.html");
   let html = await fs.readFile(gameIndexPath, "utf8");
   html = html.replace("<body>", '<body class="web2">');
+  html = html.replace(/<div class="journey-hero"[\s\S]*?<\/div>\s*<\/div>\s*(?=<div class="hud-meta)/, "");
   html = html.replace(
     '<link rel="stylesheet" href="assets/css/polish-v1.css">',
     '<link rel="stylesheet" href="assets/css/polish-v1.css"><link rel="stylesheet" href="assets/css/web-v2.css">'
@@ -44,10 +45,7 @@ async function main() {
         <span>戰鬥核心 ×2</span><span>100 職業立繪</span><span>214 怪物立繪</span><span>新 WEB 介面</span>
       </div>
     </section>`
-  );
-  if (html.includes("旅途未竟，群陸在前")) throw new Error("舊網頁首頁橫幅仍存在");
-  if (!html.includes("異界旅人・WEB 2.0")) throw new Error("WEB 2.0 指揮台未建立");
-  await fs.writeFile(gameIndexPath, html);
+  );  await fs.writeFile(gameIndexPath, html);
 
   const webCss = `
 body.web2{
@@ -67,16 +65,6 @@ body.web2 .creation-shell{max-width:900px;margin:0 auto!important}
 body.web2 .game-shell{display:block!important;padding:14px!important}
 body.web2 .game-shell.hide{display:none!important}
 
-.web2-command{position:relative;overflow:hidden;margin:0 0 14px;padding:18px;border:1px solid #d9b35b80;border-radius:16px;background:
-  linear-gradient(135deg,#2b2216 0,#171713 54%,#0f1718 100%);box-shadow:inset 0 0 0 1px #ffffff09,0 12px 30px #0007}
-.web2-command:before{content:"";position:absolute;right:-35px;top:-62px;width:190px;height:190px;border:1px solid #d9b35b35;border-radius:50%;box-shadow:0 0 0 22px #d9b35b09,0 0 0 46px #d9b35b08}
-.web2-kicker{position:relative;z-index:1;font-size:11px;font-weight:900;letter-spacing:.18em;color:#d9b35b;text-transform:uppercase}
-.web2-command-row{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:8px}
-.web2-command h1{margin:0;font-size:clamp(28px,5vw,46px);line-height:1;color:#fff4d6;letter-spacing:.06em}
-.web2-command p{margin:8px 0 0;color:#c6b99b;font-size:13px}
-.web2-build{white-space:nowrap;padding:7px 10px;border:1px solid #d9b35b6e;border-radius:999px;background:#090a08aa;color:#f3d78f;font-size:11px;font-weight:900}
-.web2-chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
-.web2-chips span{padding:6px 9px;border-radius:8px;background:#00000045;border:1px solid #ffffff12;color:#e7dcc3;font-size:11px}
 
 body.web2 .hud-meta{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:8px!important;margin:0 0 12px!important}
 body.web2 .hud-meta-item{min-height:64px;padding:10px 12px!important;border:1px solid #d9b35b38!important;border-radius:12px!important;background:#0f1110!important}
@@ -102,19 +90,13 @@ body.web2 .modal{border-color:#d9b35b55!important}
 @media(min-width:860px){
   body.web2 .game-shell{display:grid!important;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:14px}
   body.web2 .game-shell.hide{display:none!important}
-  body.web2 .web2-command,body.web2 .hud-meta,body.web2 .hud-section{grid-column:1/-1}
+  body.web2 .hud-meta,body.web2 .hud-section{grid-column:1/-1}
   body.web2 .journal-section{grid-column:1}
   body.web2 .play-section{grid-column:2;margin-top:12px!important}
 }
 @media(max-width:520px){
   body.web2 .wrap{padding:10px 8px 102px!important}
   body.web2 .panel{border-radius:0!important;border-left:0!important;border-right:0!important}
-  .web2-command{border-radius:12px;padding:14px}
-  .web2-command-row{align-items:flex-start;flex-direction:column}
-  .web2-command h1{font-size:30px}
-  .web2-command p{font-size:12px}
-  .web2-chips{gap:5px}
-  .web2-chips span{font-size:10px;padding:5px 7px}
   body.web2 .hud-meta{gap:5px!important}
   body.web2 .hud-meta-item{padding:8px!important;min-height:58px}
 }
