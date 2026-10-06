@@ -25,7 +25,7 @@ assert.ok(index.includes("<title>異界旅人 "+version.version+"</title>"),"pag
 assert.ok(index.includes('<meta name="app-version" content="'+version.version+'">'),"page metadata matches release version");
 assert.match(sw,/facility-buildings\.svg/,"illustrated storefronts are cached");
 assert.ok(fs.existsSync(path.join(app,"assets","art","town","facility-buildings.svg")),"facility art file exists");
-assert.equal(version.version,"CURRENT-1.111.0","four-map release version");
+assert.equal(version.version,"CURRENT-1.112.0","four-map release version");
 assert.match(ui,/key==="realm"\|\|key==="province"\?"kingdom-map-v1\.png"/,"realm and province use kingdom scale art");
 assert.match(ui,/call\("travel",l\.id,Number\(route\.hours\)\|\|1\)/,"travel remains connected to existing roads");
 console.log("PASS four detailed map layers, interactive location pins, town illustration, and offline cache");
