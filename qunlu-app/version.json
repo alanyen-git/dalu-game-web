@@ -1,20 +1,18 @@
 {
-  "version": "CURRENT-1.119.0",
-  "previous_version": "CURRENT-1.118.0",
+  "version": "CURRENT-1.120.0",
+  "previous_version": "CURRENT-1.119.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
-  "summary": "異界旅人戰鬥核心絕對數值等比例提高100%，並為全部職業與怪物建立資料庫綁定立繪，同步發布網頁版。",
+  "summary": "以異界旅人 App CURRENT-1.119.0 的戰鬥倍率與完整立繪資料庫為基礎，刪除舊版網頁遊戲來源並重建單一正式網頁遊戲版本。",
   "changelog": [
-    "HP、MP、SP、攻擊力、魔法攻擊、防禦力、魔法防禦與固定回復量提高100%。",
-    "怪物、隊友、寵物與召喚獸的核心絕對戰鬥數值同步提高100%，避免只強化玩家。",
-    "技能固定MP／SP消耗、固定藥劑回復與固定戰鬥道具傷害同步提高100%，維持資源效率與平均戰鬥回合數。",
-    "命中、閃避、爆擊率、爆擊傷害百分比、攻速、施法速度、格擋率、抗性、破甲、射程與負重維持原值，避免百分比型數值溢位。",
-    "加入 IJ-COMBAT-SCALE-2.0 合理性規則：核心傷害與HP同步×2，線性傷害公式下平均擊殺回合數近似不變。",
-    "新增 IJ-ART-CATALOG-2.0：依職業武器／定位與怪物生態分類，為全部職業與怪物建立原創三頭身奇幻JRPG向量立繪。",
-    "職業資料與怪物資料新增 art_profile、portrait_uri、battle_sprite_uri，並提供覆蓋率稽核。",
-    "創角自選職業介面直接顯示該職業資料庫立繪；戰鬥中的玩家與敵方改讀取角色／怪物資料庫對應立繪。",
-    "PWA離線快取加入新戰鬥數值與立繪模組；網頁版同步發布至GitHub Pages。"
+    "正式以異界旅人 App 為唯一遊戲來源；舊版大陸旅誌網頁遊戲不再參與建置或部署。",
+    "新網頁版從 qunlu-app 乾淨重建，每次部署會先刪除舊 www 產物，再完整複製目前 App 版本。",
+    "保留 IJ-COMBAT-SCALE-2.0：HP、MP、SP、攻擊、魔攻、防禦、魔防與固定回復/傷害同步提高100%，機率與百分比型數值維持原值。",
+    "保留 IJ-ART-CATALOG-2.0：全部100種戰鬥職業與目前214筆怪物資料皆綁定獨立立繪資料。",
+    "創角職業選擇與戰鬥角色/怪物顯示直接使用資料庫 portrait_uri / battle_sprite_uri。",
+    "Android App 與網頁版共用同一份 qunlu-app 原始碼、版本號與離線快取，避免雙版本分歧。",
+    "PWA 離線快取更新至 v70。"
   ],
   "content_revision": "ASDAIL-DEPTH-2.0",
   "market_economy_revision": "MARKET-PRICE-SYNC-2.0",
@@ -26,7 +24,7 @@
   "save_compatible": true,
   "map_ui_revision": "XUANYUAN-MAP-UI-1.21",
   "battle_ui_revision": "XUANYUAN-BATTLE-SD-1.8",
-  "pwa_cache_revision": "v69",
+  "pwa_cache_revision": "v70",
   "home_ui_revision": "TOWN-MAP-HOME-1.6",
   "scene_art_revision": "ORIGINAL-MAP-SCENES-3.0",
   "dungeon_index_revision": "DUNGEON-INDEX-1.0",
@@ -48,5 +46,10 @@
     "balanced": true,
     "percent_stats_preserved": true
   },
-  "battle_art_revision": "IJ-ART-CATALOG-2.0"
+  "battle_art_revision": "IJ-ART-CATALOG-2.0",
+  "web_build": {
+    "mode": "clean-rebuild-from-app",
+    "source": "qunlu-app",
+    "legacy_root_web_removed": true
+  }
 }
