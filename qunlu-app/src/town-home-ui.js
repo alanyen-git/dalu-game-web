@@ -30,7 +30,7 @@ function renderMap(){
  $("#townHomePlace").textContent=l.name||"旅人所在之地";
  $("#townHomeSubtitle").textContent=town?"街道、委託與冒險都從此處展開":dungeon?"地城探索・入口與周邊道路":"野外探索・地標與道路";
  const points=[[23,39],[50,34],[77,39],[26,69],[52,72],[78,66],[16,54],[38,55],[62,54],[84,54]];
- pins.innerHTML=town?(l.facilities||[]).map((id,i)=>{const pt=points[i%points.length],badge=badgePositions[id]||"0% 0%";return DB.facilities&&DB.facilities[id]?'<button type="button" class="town-map-building '+esc(id)+'" style="--fx:'+pt[0]+'%;--fy:'+pt[1]+'%" aria-label="前往'+esc(names[id]||DB.facilities[id].name||id)+'" onclick="'+esc(call("xuFacility",id))+'"><svg class="town-map-building-art" viewBox="0 0 160 130" aria-hidden="true"><use href="./assets/art/town/facility-buildings.svg#'+esc(id)+'"></use></svg><span class="town-map-building-badge" aria-hidden="true" style="--badge-position:'+badge+'"></span><b>'+esc(names[id]||DB.facilities[id].name||id)+'</b></button>':""}).join():"";
+ pins.innerHTML=town?(l.facilities||[]).map((id,i)=>{const pt=points[i%points.length],badge=badgePositions[id]||"0% 0%";return DB.facilities&&DB.facilities[id]?'<button type="button" class="town-map-building '+esc(id)+'" style="--fx:'+pt[0]+'%;--fy:'+pt[1]+'%" aria-label="前往'+esc(names[id]||DB.facilities[id].name||id)+'" onclick="'+esc(call("xuFacility",id))+'"><span class="town-map-building-badge" aria-hidden="true" style="--badge-position:'+badge+'"></span><b>'+esc(names[id]||DB.facilities[id].name||id)+'</b></button>':""}).join():"";
  $("#townMapRoutes").innerHTML=typeof xuRouteMapForLocation==="function"?xuRouteMapForLocation(l.id,!town):"";
  $("#townHomeFlavor").textContent=town?"可用行動與旅人資料已整合於城鎮地圖；點選地標開啟互動。":dungeon?"地城入口及道路依既有世界資料顯示。":"野外地點、道路與探索入口依既有世界資料顯示。";
 }
