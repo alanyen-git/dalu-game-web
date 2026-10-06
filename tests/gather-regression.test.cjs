@@ -15,7 +15,9 @@ function extract(name) {
 
 const runAudit = extract("runAudit");
 assert.doesNotMatch(runAudit, /runGeneratorAudit\s*\(/,
-  "the five-turn gameplay audit must not rescan static world content during an action");
+  "the twenty-turn gameplay audit must not rescan static world content during an action");
+assert.match(source, /const AUDIT_INTERVAL_TURNS=20;/,
+  "the lightweight gameplay audit must run every twenty turns");
 
 const inventory = new Map([[
   "HERB", { id: "HERB", name: "藥草", type: "材料", wild_gather_eligible: true, acquisition_sources: [] }
