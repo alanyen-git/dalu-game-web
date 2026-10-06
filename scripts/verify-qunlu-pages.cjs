@@ -46,8 +46,7 @@ async function json(url) { return JSON.parse(await text(url)); }
       assert.equal(gameVersion.version, localVersion.version);
       assert.ok(rootHtml.includes("./game/"), "public root must redirect to /game/");
       assert.ok(rootHtml.includes("getRegistrations"), "public root must clear old service workers");
-      assert.ok(gameHtml.includes("異界旅人・WEB 2.0"), "public /game/ must be WEB 2.0");
-      assert.ok(gameHtml.includes("冒險指揮台"), "public /game/ must show the new interface");
+            assert.ok(!gameHtml.includes("冒險指揮台"), "public /game/ must not show the adventure command center");
       assert.ok(!gameHtml.includes("旅途未竟，群陸在前"), "public /game/ must not contain the old hero");
       assert.equal(playResponse.status, 404, "old /play/ must be physically removed from Pages");
 
