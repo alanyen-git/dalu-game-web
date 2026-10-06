@@ -21,8 +21,11 @@ function renderMap(){
  const terrainText=[l.name,l.description,l.summary].join(" ");
  const terrain=/海|港|灘|海岸/.test(terrainText)?"coast":/沼|濕地|泥灘|鹽潮/.test(terrainText)?"marsh":/草原|平原|原野/.test(terrainText)?"grassland":/墓|陵|墳|沉砂|遺跡|廢墟/.test(terrainText)?"crypt":/水|潮|淹|河/.test(terrainText)&&dungeon?"flooded-vault":/山|峰|嶺|峽|雪/.test(terrainText)?"mountain":/河|湖|溪|水道/.test(terrainText)?"river":dungeon?"vault":"forest";
  canvas.className="town-map-canvas "+(town?"is-town":dungeon?"is-dungeon":"is-wild is-"+terrain);
- const scene=(!town)?'<svg class="town-travel-scene" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="./assets/art/maps/terrain-scenes.svg#'+terrain+'"></use></svg>':"";
- const mapBorder=$("#townMapCanvas .town-map-border");let scenery=mapBorder?.querySelector(".town-travel-scene");if(scenery)scenery.remove();if(scene)mapBorder?.insertAdjacentHTML("afterbegin",scene);
+ const mapArt=town?"town-map-v1.png":"local-map-v1.png";
+ const mapBorder=$("#townMapCanvas .town-map-border");
+ let scenery=mapBorder?.querySelector(".town-home-art");
+ if(scenery&&scenery.dataset.mapArt!==mapArt){scenery.remove();scenery=null}
+ if(!scenery&&mapBorder)mapBorder.insertAdjacentHTML("afterbegin",'<img class="town-home-art" data-map-art="'+mapArt+'" src="./assets/art/maps/'+mapArt+'" alt="" aria-hidden="true">');
  canvas.dataset.locationId=l.id||"";
  $("#townHomePlace").textContent=l.name||"旅人所在之地";
  $("#townHomeSubtitle").textContent=town?"街道、委託與冒險都從此處展開":dungeon?"地城探索・入口與周邊道路":"野外探索・地標與道路";

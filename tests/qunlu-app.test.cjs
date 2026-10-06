@@ -48,8 +48,8 @@ assert.match(emptyRealmResult.html, /地形：山地/);
 assert.match(emptyRealmResult.html, /地理區域不代表行政區/);
 assert.doesNotMatch(emptyRealmResult.html, /遠海群島/);
 assert.doesNotMatch(emptyRealmResult.html, /xuProvince\(/);
-assert.ok(mapSource.includes("region-atlas.svg#"), "map layers must render the new illustrated terrain atlas");
-assert.ok(mapSource.includes("terrain-scenes.svg#"), "outdoor and dungeon locations must render distinct scene art");
+assert.ok(mapSource.includes("world-map-v1.png")&&mapSource.includes("kingdom-map-v1.png")&&mapSource.includes("local-map-v1.png"), "world, kingdom, province and local maps use original detailed map art");
+assert.ok(mapSource.includes('"local-map-v1.png"'), "outdoor and dungeon locations render the detailed local map");
 assert.ok(mapSource.includes("exploreState"), "map locations must reflect current and previously visited places");
 assert.ok(mapSource.includes("openMapLocationDetail"), "wild and dungeon map nodes must retain location details");
 assert.ok(mapTheme.includes("XUANYUAN-MAP-UI-1.2"), "five-layer map art and exploration layout must be present");
@@ -154,11 +154,11 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.18");
-assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.4");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.19");
+assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.5");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);
-assert.ok(mapSource.includes("function regionalScene(text)")&&mapSource.includes('region-atlas.svg#"+sceneId'),"admin maps must resolve data-based regional scene art");
+assert.ok(mapSource.includes("function regionalScene(text)")&&mapSource.includes("kingdom-map-v1.png"),"administrative maps use the kingdom scale illustration");
 
 const dungeonMap=fs.readFileSync(path.join(app,"src/xuanyuan-map-ui.js"),"utf8");
 assert.ok(dungeonMap.includes("function dungeonIndex(l)")&&dungeonMap.includes("G.explorationIntel"),"dungeon map must reflect saved exploration records");
