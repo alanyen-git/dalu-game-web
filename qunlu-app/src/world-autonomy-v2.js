@@ -51,6 +51,7 @@
     "ASD2-WILD-SEABREAKREEF":["ITEM-ASD2-REEF-SALT"],
     "ASD2-WILD-NIGHTMARSH":["ITEM-ASD2-MIRROR-MUD"]
   };
+  let resourcePairsCache=null,gatherPatchesApplied=false,heartbeatTimer=null,pendingHeartbeatReason="";
 
   const NPC_SCHEDULES={
     "NPC-ASD2-001":[[0,6,"ASD-CAPITAL","休息"],[6,10,"ASD2-WILD-CROWNFALLOW","道路巡查"],[10,19,"ASD-CAPITAL","道路監理"],[19,24,"ASD-CAPITAL","整理公文"]],
@@ -119,17 +120,20 @@
   }
 
   function applyGatherPatches(){
+    if(gatherPatchesApplied)return false;
+    let changed=false;
     for(const [locationId,itemIds] of Object.entries(GATHER_PATCHES)){
       const l=getLoc(locationId);if(!l)continue;
       l.gather=Array.isArray(l.gather)?l.gather:[];
       for(const itemId of itemIds){
-        if(!l.gather.includes(itemId))l.gather.push(itemId);
+        if(!l.gather.includes(itemId)){l.gather.push(itemId);changed=true}
         const d=getItem(itemId);if(!d)continue;
-        d.wild_gather_eligible=true;
+        if(!d.wild_gather_eligible){d.wild_gather_eligible=true;changed=true}
         d.acquisition_sources=Array.isArray(d.acquisition_sources)?d.acquisition_sources:[];
-        if(!d.acquisition_sources.includes("foraging"))d.acquisition_sources.push("foraging");
+        if(!d.acquisition_sources.includes("foraging")){d.acquisition_sources.push("foraging");changed=true}
       }
     }
+    gatherPatchesApplied=true;if(changed)resourcePairsCache=null;return changed;
   }
 
   function scheduleEntry(npcId,hour=worldHourOfDay()){
@@ -205,7 +209,7 @@
     if(!s.resourceNodes[key])s.resourceNodes[key]={locationId,itemId,current:cfg.max,max:cfg.max,regenHoursPerUnit:cfg.regen_hours_per_unit,lastHour:current,regenCarry:0};
     const node=s.resourceNodes[key];node.max=cfg.max;node.regenHoursPerUnit=cfg.regen_hours_per_unit;if(!Number.isFinite(Number(node.current)))node.current=cfg.max;if(!Number.isFinite(Number(node.lastHour)))node.lastHour=current;if(!Number.isFinite(Number(node.regenCarry)))node.regenCarry=0;return node;
   }
-  function allResourcePairs(){const pairs=[];for(const l of (DB.locations||[]))for(const itemId of (l.gather||[]))if(getItem(itemId)?.wild_gather_eligible)pairs.push([l.id,itemId]);return pairs}
+  function allResourcePairs(){if(resourcePairsCache)return resourcePairsCache;const pairs=[];for(const l of (DB.locations||[]))for(const itemId of (l.gather||[]))if(getItem(itemId)?.wild_gather_eligible)pairs.push([l.id,itemId]);resourcePairsCache=pairs;return resourcePairsCache}
   function syncResourceNodes(force=false){
     const s=phase2State();if(!s)return false;const current=nowHour(),elapsed=Math.max(0,current-Number(s.lastResourceHour||current));if(!force&&elapsed<CFG.resource_tick_hours)return false;
     for(const [locationId,itemId] of allResourcePairs()){
@@ -216,6 +220,7 @@
   }
   function worldResourceNodeState(locationId,itemId){syncResourceNodes(false);return ensureResourceNode(locationId,itemId)}
   function resourceAvailable(locationId,itemId){return Number(worldResourceNodeState(locationId,itemId)?.current||0)>0}
+  function resourceAvailableAfterSync(locationId,itemId){return Number(ensureResourceNode(locationId,itemId)?.current||0)>0}
   function consumeResource(locationId,itemId,qty){const node=worldResourceNodeState(locationId,itemId);if(!node)return 0;const take=Math.max(0,Math.min(Number(qty||0),Number(node.current||0)));node.current-=take;node.lastHarvestHour=nowHour();if(node.current<=0)pushWorldEvent("resource_depleted",`${getLoc(locationId)?.name||locationId}的${getItem(itemId)?.name||itemId}暫時採盡，等待自然恢復。`,{locationId,itemId});return take}
 
   function dungeonRespawnHours(tier){return ({F:24,E:30,D:36,C:48,B:72,A:120,S:240})[tier]||48}
@@ -250,7 +255,7 @@
   function inventoryQtyLocal(id){return (G?.character?.inventory||[]).filter(x=>x.id===id).reduce((n,x)=>n+Number(x.qty||1),0)}
   function patchGatherRuntime(){
     if(globalThis.__WORLD_AUTONOMY2_GATHER_PATCHED)return;
-    if(typeof globalThis.gatherEligiblePool==="function"){const originalPool=globalThis.gatherEligiblePool;globalThis.gatherEligiblePool=function(l){syncResourceNodes(false);return originalPool.apply(this,arguments).filter(id=>resourceAvailable(l?.id,id))}}
+    if(typeof globalThis.gatherEligiblePool==="function"){const originalPool=globalThis.gatherEligiblePool;globalThis.gatherEligiblePool=function(l){syncResourceNodes(false);return originalPool.apply(this,arguments).filter(id=>resourceAvailableAfterSync(l?.id,id))}}
     if(typeof globalThis.actGather==="function"){const originalActGather=globalThis.actGather;globalThis.actGather=function(){const l=getLoc(G?.character?.locationId),ids=Array.isArray(l?.gather)?l.gather.slice():[],before=new Map(ids.map(id=>[id,inventoryQtyLocal(id)]));const result=originalActGather.apply(this,arguments);if(l)for(const id of ids){const gained=Math.max(0,inventoryQtyLocal(id)-Number(before.get(id)||0));if(gained>0)consumeResource(l.id,id,gained)}return result}}
     globalThis.__WORLD_AUTONOMY2_GATHER_PATCHED=true;
   }
@@ -270,11 +275,11 @@
     if(typeof showModal==="function")showModal("世界動態",`<div class="card"><b>所在地天候</b><br><span class="small">${esc(weather?.weather||G?.worldState?.weather||"未知")}${weather?.front?`｜${esc(weather.front)}`:""}</span></div><div class="card"><b>目前在此地的固定NPC</b>${npcHtml}</div><div class="card"><b>商隊物流</b>${caravanHtml}</div><div class="card"><b>當地資源</b>${resourceHtml}</div><div class="card"><b>本行省地下城</b>${dungeonHtml}</div><div class="card"><b>阿斯戴爾跨區天候</b>${regional||"<div class='small'>尚未建立。</div>"}</div><div class="card"><b>近期世界事件</b>${recent}</div>`);
   }
   function patchMoreMenu(){if(globalThis.__WORLD_AUTONOMY2_MENU_PATCHED||typeof globalThis.openMoreMenu!=="function")return;const original=globalThis.openMoreMenu;globalThis.openMoreMenu=function(){const result=original.apply(this,arguments);setTimeout(()=>{const grid=document.querySelector("#modalBody .more-grid");if(grid&&!grid.querySelector("[data-world-autonomy2]")){const b=document.createElement("button");b.className="more-card";b.dataset.worldAutonomy2="1";b.innerHTML='<span class="more-icon">◌</span><span>世界動態</span>';b.addEventListener("click",openWorldAutonomyPanel);grid.appendChild(b)}},0);return result};globalThis.__WORLD_AUTONOMY2_MENU_PATCHED=true}
-  function patchActionTimeTrigger(){if(globalThis.__WORLD_AUTONOMY2_ENDTURN_PATCHED||typeof globalThis.endTurn!=="function")return;const original=globalThis.endTurn;globalThis.endTurn=function(){const result=original.apply(this,arguments);setTimeout(()=>phase2Heartbeat("action"),0);return result};globalThis.__WORLD_AUTONOMY2_ENDTURN_PATCHED=true}
+  function schedulePhase2Heartbeat(reason="scheduled",delay=0){pendingHeartbeatReason=pendingHeartbeatReason||reason;if(heartbeatTimer!==null)return;heartbeatTimer=setTimeout(()=>{const nextReason=pendingHeartbeatReason||reason;heartbeatTimer=null;pendingHeartbeatReason="";phase2Heartbeat(nextReason)},Math.max(0,Number(delay)||0))}
   function initializePhase2(){
     if(typeof G==="undefined"||!G?.worldState)return false;G.meta=G.meta||{};G.meta.version=RELEASE;applyGatherPatches();const s=phase2State();
     if(!s.initialized){s.initialized=true;s.initializedHour=nowHour();updateNpcSchedules(true);syncResourceNodes(true);syncDungeonStates(true);ensureWeatherFronts();rebuildRegionalWeather(nowHour());syncLocalWeather();for(const route of CARAVAN_ROUTES)if(routeValid(route))ensureCaravanState(route);pushWorldEvent("phase2_init","自主世界第二階段已啟動：NPC、商隊、資源、地下城與區域天候開始依世界時間運作。",{})}
-    patchGatherRuntime();patchDungeonKillRuntime();patchMoreMenu();patchActionTimeTrigger();return true;
+    patchGatherRuntime();patchDungeonKillRuntime();patchMoreMenu();return true;
   }
   function phase2Heartbeat(reason="interval"){
     if(typeof G==="undefined"||!G?.worldState||!G?.worldTime)return false;initializePhase2();const s=phase2State(),changed=[updateNpcSchedules(false),processCaravans(),syncResourceNodes(false),syncDungeonStates(false),processWeatherFronts(false)].some(Boolean);
@@ -289,8 +294,8 @@
   globalThis.worldCaravanStates=()=>phase2State()?.caravans||{};
   globalThis.openWorldAutonomyPanel=openWorldAutonomyPanel;
   globalThis.WORLD_AUTONOMY_PHASE2_CONFIG=Object.freeze({...CFG});
-  if(typeof document!=="undefined")document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")setTimeout(()=>phase2Heartbeat("visible"),40)});
-  if(typeof window!=="undefined")window.addEventListener("focus",()=>setTimeout(()=>phase2Heartbeat("focus"),40));
+  if(typeof document!=="undefined")document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")schedulePhase2Heartbeat("visible",40)});
+  if(typeof window!=="undefined")window.addEventListener("focus",()=>schedulePhase2Heartbeat("focus",40));
   setInterval(()=>phase2Heartbeat("interval"),CFG.heartbeat_ms);
-  setTimeout(()=>phase2Heartbeat("startup"),50);
+  schedulePhase2Heartbeat("startup",50);
 })();
