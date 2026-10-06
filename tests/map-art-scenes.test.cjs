@@ -41,7 +41,7 @@ const badgeAsset="./assets/art/town/shop-badges-v1.webp";
 assert.ok(home.includes("const badgePositions={"),"town facilities use a badge sprite atlas");
 assert.match(home,/class="town-map-building-badge"/,"town pins render illustrated shop badges");
 assert.ok(!home.includes("const icons="),"legacy Unicode facility icon map is removed");
-for(const id of ["guild","general","blacksmith","tavern","inn","church","clinic","tailor","alchemy","enchanter","mageguild"])assert.match(home,new RegExp("(?:^|,)"+id+":"),"badge position exists for "+id);
+for(const id of ["guild","general","blacksmith","tavern","inn","church","clinic","tailor","alchemy","enchanter","mageguild"])assert.match(home,new RegExp("[{,]"+id+":"),"badge position exists for "+id);
 assert.ok(css.includes("shop-badges-v1.webp"),"town map CSS uses the badge atlas");
 assert.ok(css.includes("background-size:400% 300%"),"town map selects the correct atlas cells");
 assert.ok(sw.includes(badgeAsset),"shop badge atlas is cached for offline play");
