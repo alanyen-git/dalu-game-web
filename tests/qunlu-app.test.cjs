@@ -111,7 +111,7 @@ assert.ok(battleTheme.includes("document.body||document.getElementById(\"battleB
 assert.ok(!battleTheme.includes('classList.add("xuan-unit-card",extra)'),"battle class tokens are applied individually");
 assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.8");
 assert.ok(battleTheme.includes("xuan-stage-figures")&&battleTheme.includes("xuan-command-panel"),"battle scene arranges SD units and illustrated commands");
-assert.equal(version.home_ui_revision,"TOWN-MAP-HOME-1.3");
+assert.equal(version.home_ui_revision,"TOWN-MAP-HOME-1.4");
 assert.match(version.facility_shop_ui_revision,/^FACILITY-[A-Z-]+-\d+\.\d+$/,"facility UI revision must remain versioned");
 const facilityUiSource=fs.readFileSync(path.join(app,"src/facility-shop-ui.js"),"utf8");
 assert.ok(html.indexOf("src/runtime.js")<html.indexOf("src/facility-shop-ui.js"),"facility interaction override must load after the game runtime");
@@ -154,7 +154,7 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設地圖縮放"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.19");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.20");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.5");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);

@@ -700,3 +700,14 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-map-canvas.is-town:before,.town-map-canvas.is-wild:before,.town-map-canvas.is-dungeon:before{display:none}
 .town-map-canvas .town-home-art{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;object-fit:cover;pointer-events:none}
 @media(min-width:760px){.xu-board.has-painting{height:460px}.xu-town-board.painterly-town{height:470px}.town-map-canvas.is-town,.town-map-canvas.is-wild,.town-map-canvas.is-dungeon{height:470px}}
+
+/* MAP INITIAL ZOOM AND DRAG SURFACE 1.0 */
+.town-map-canvas .town-map-transform{position:absolute;inset:0;transform-origin:center;will-change:transform;touch-action:none}
+.map-gesture-stage{cursor:grab;user-select:none;-webkit-user-select:none}
+.map-gesture-stage.is-map-dragging{cursor:grabbing}
+.map-gesture-stage img,.map-gesture-stage svg{-webkit-user-drag:none;user-select:none}
+.map-gesture-stage .xu-route-marker{transform:translate(-50%,-50%) scale(var(--map-marker-scale,1))}
+.map-gesture-stage .xu-facility-map .xu-facility{transform:translate(-50%,-50%) scale(var(--map-marker-scale,1))}
+.map-gesture-stage .xu-facility-map .xu-facility:hover{transform:translate(-50%,-56%) scale(var(--map-marker-scale,1))}
+.map-gesture-stage .town-map-building{transform:translate(-50%,-50%) scale(var(--map-marker-scale,1))}
+.map-gesture-stage .town-map-building:hover{transform:translate(-50%,-56%) scale(var(--map-marker-scale,1))}
