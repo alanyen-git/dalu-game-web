@@ -155,7 +155,7 @@ assert.ok(html.includes('src/map-controls.js'),"map controls must load in the st
 assert.ok(mapControls.includes("放大地圖")&&mapControls.includes("縮小地圖")&&mapControls.includes("重設為初始 3 倍視野"),"map controls must be accessible");
 assert.ok(mapControls.includes("pointermove")&&mapControls.includes("translate("),"map must support touch panning");
 assert.ok(cacheVersion > 34&&sw.includes("map-controls.js"),"map controls must ship in a fresh offline cache");
-assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.20");
+assert.equal(version.map_ui_revision,"XUANYUAN-MAP-UI-1.21");
 assert.equal(version.regional_map_revision,"REGIONAL-MAP-SCENES-1.5");
 const regionAtlas=fs.readFileSync(path.join(app,"assets/art/maps/region-atlas.svg"),"utf8");
 for(const scene of ["region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.ok(regionAtlas.includes(`symbol id="${scene}"`),"regional scene art must exist for "+scene);
