@@ -194,6 +194,12 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-home-status .hud-meta-item{padding:6px 8px;border:1px solid #c6af7855;border-radius:7px;background:#07172280}
 .town-home-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(240px,.75fr);gap:12px;align-items:start}
 .town-home-main,.town-home-side{display:grid;gap:11px;min-width:0}
+.town-home-map{display:grid;gap:7px;min-width:0}
+.town-home-map>summary{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:42px;padding:7px 12px;border:1px solid #d1b875;border-radius:9px;background:linear-gradient(145deg,#1c3a4d,#112735);color:#f1d59b;font-size:13px;font-weight:700;cursor:pointer;list-style:none;box-shadow:inset 0 1px #fff2}
+.town-home-map>summary::-webkit-details-marker{display:none}
+.town-home-map>summary:focus-visible{outline:3px solid #8de0cd;outline-offset:2px}
+.town-home-map-state{color:#c9dadb;font-size:11px;font-weight:600}
+.town-home-map:not([open]) .map-open-label,.town-home-map[open] .map-closed-label{display:none}
 .town-map-canvas{position:relative;min-height:570px;overflow:hidden;border:2px solid #d1b875;border-radius:10px;background:radial-gradient(ellipse at 18% 20%,#84936b 0 12%,transparent 29%),radial-gradient(ellipse at 82% 77%,#687d5c 0 15%,transparent 32%),linear-gradient(150deg,#9d956c,#687c62 49%,#4f6d70);box-shadow:inset 0 0 0 5px #263a2f99,0 12px 26px #02081788}
 .town-map-canvas:before{content:"";position:absolute;inset:12px;opacity:.78;background:repeating-radial-gradient(ellipse at 31% 39%,transparent 0 22px,#e2d49a44 23px 25px,transparent 26px 48px),radial-gradient(#263a2c44 1px,transparent 2px);background-size:auto,17px 17px;pointer-events:none}
 .town-map-border{position:absolute;inset:15px;border:14px solid #b9a77b;border-radius:13px;box-shadow:inset 0 0 0 2px #f1dfad99,0 0 0 2px #352f27aa}
@@ -239,7 +245,7 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .town-profile-bars>div i{grid-column:1/-1;height:6px;overflow:hidden;border:1px solid #b6c9c866;border-radius:5px;background:#091722}
 .town-profile-bars em{display:block;height:100%;background:linear-gradient(90deg,#c75e55,#e8ad71)}.town-profile-bars em.sp{background:linear-gradient(90deg,#51a87f,#afe09a)}.town-profile-bars em.mp{background:linear-gradient(90deg,#557bc3,#afc9ef)}
 .town-profile-resources{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;color:#b9cacd;font-size:9px}.town-profile-resources span{padding:5px;border-radius:4px;background:#07192388}.town-profile-resources b{float:right;color:#e9d49f}
-.town-home-shortcuts{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.town-home-shortcuts button{min-height:38px;font-size:10px}
+
 #townHomeStatusSummary #statusSummary{margin:0;padding:6px;border:1px solid #d5bd7a55;border-radius:6px;background:#081b2788}
 .town-home-note{color:#dfd8c2;font-size:11px}.town-home-note b{color:#f1d59b}.town-home-note p{line-height:1.6}
 .town-home-journal summary{color:#f1d59b;font-size:12px;cursor:pointer}
