@@ -1,6 +1,6 @@
 {
   "version": "CURRENT-1.120.0",
-  "previous_version": "CURRENT-1.119.0",
+  "previous_version": "CURRENT-1.120.0",
   "channel": "web",
   "distribution_mode": "static_web",
   "entrypoint": "index.html",
