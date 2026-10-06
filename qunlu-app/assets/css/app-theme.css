@@ -728,3 +728,9 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 @media(max-width:560px){.town-map-building-badge{width:58px;height:58px}}
 .xu-facility-badge{display:block;width:clamp(52px,7vw,64px);height:clamp(52px,7vw,64px);flex:0 0 auto;background-image:url("../art/town/shop-badges-v1.webp");background-repeat:no-repeat;background-size:400% 300%;background-position:var(--badge-position,0 0);pointer-events:none;filter:drop-shadow(0 2px 2px #050806cc)}
 @media(max-width:560px){.xu-facility-badge{width:54px;height:54px}}
+
+/* CURRENT-1.117.2: stack mobile list labels above full-width actions. */
+@media(max-width:720px){
+  .modalbody .itemrow{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;row-gap:7px}
+  .modalbody .itemrow>button{width:100%;min-width:0;white-space:normal}
+}
