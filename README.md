@@ -1,32 +1,15 @@
 # 異界旅人
 
-《異界旅人》Android App 與 WEB 2.0 共用同一套遊戲核心資料，但網頁版使用獨立介面。
+Android App 與網頁版現在使用同一套 `qunlu-app/` 原始碼與同一套介面。
 
-## CURRENT-1.122.0
+## CURRENT-1.124.0
 
-- Android App 核心來源：`qunlu-app/`
-- 新網頁遊戲：GitHub Pages `/game/`
-- 舊網頁遊戲 `/play/`：已從部署產物移除
-- 根網址：只負責清除舊 Service Worker / Cache 並導向 `/game/`
-- WEB 2.0：獨立 UI，不再使用舊「旅途未竟，群陸在前」首頁版型
-- 戰鬥核心：HP、MP、SP、攻擊、魔攻、防禦、魔防等絕對值 ×2；機率與百分比型數值維持原比例
-- 立繪資料庫：100 種職業、目前 214 筆怪物完整綁定立繪
+- App 原始碼：`qunlu-app/`
+- 網頁遊戲：`/game/`
+- Web 建置模式：**1:1 App Mirror**
+- 網頁版不再注入任何 WEB 2.0 專用 UI 或 CSS
+- `index.html`、`runtime.js`、`game-data.js`、主要 CSS 皆以 SHA-256 測試確認與 App 原始碼完全一致
+- 舊 `/play/` 已移除
+- 根網址只負責清除舊 Service Worker / Cache 後導向 `/game/`
 
-## 建置
-
-```sh
-npm install
-npm run test:qunlu-app
-npm run prepare:web
-npm run test:qunlu-bundle
-```
-
-Android：
-
-```sh
-npm run prepare:android
-npx cap add android
-npx cap sync android
-cd android
-./gradlew assembleDebug
-```
+戰鬥倍率與立繪資料皆沿用 App：HP／MP／SP／攻防等核心絕對值 ×2；100 種戰鬥職業與目前 214 筆怪物完整綁定立繪。
