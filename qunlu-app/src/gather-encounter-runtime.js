@@ -86,6 +86,8 @@
   };
 
   root.beginTurn=function(reason){
+    // A battle owns the interaction layer. Ignore taps that land on actions behind it.
+    if(root.G?.battle?.active)return false;
     const result=originalBeginTurn.apply(this,arguments);
     if(result&&reason!=="採集"){
       const pressure=root.G?.worldState?.gatherEncounterPressure;

@@ -50,7 +50,7 @@ const context = {
   clamp: (n, low, high) => Math.max(low, Math.min(high, n)),
   rand: () => 0,
   totalHours: () => 0,
-  beginTurn: () => { calls.turnStarts++; if (G.battle?.active) return false; G.turn++; return true; },
+  beginTurn: () => { calls.turnStarts++; G.turn++; return true; },
   checkRoll: () => 16,
   updateQuestProgress: () => { calls.legacyProgress++; },
   syncAllQuestInventoryProgress: () => {
@@ -70,9 +70,11 @@ vm.runInContext("window=globalThis", context);
 vm.runInContext([
   extract("gatherResourceIds"), extract("activeGatherTarget"), extract("addItem"), extract("actGather"), encounterPatch
 ].join("\n"), context);
-for (let i = 0; i < 20; i++) vm.runInContext("actGather()", context);
+let harvestTaps = 0;
+for (let i = 0; i < 20; i++) { harvestTaps++; vm.runInContext("actGather()", context); }
 const herb = G.character.inventory.find(row => row.id === "HERB");
-assert.equal(calls.turnStarts, 20, "the regression should attempt twenty consecutive harvest actions");
+assert.equal(harvestTaps, 20, "the regression should attempt twenty consecutive harvest taps");
+assert.equal(calls.turnStarts, 12, "the runtime should reject harvest actions while the forced battle is active");
 assert.equal(G.turn, 12, "a forced encounter should stop further harvesting after twelve completed turns");
 assert.equal(herb.qty, 9, "the first three stocked harvests should keep their three-item yield");
 assert.equal(quest.status, "ready", "gather quest progress must still update after the batch");
