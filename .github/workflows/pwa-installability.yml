@@ -1,4 +1,4 @@
-name: PWA Installability
+name: 異界旅人 PWA Bundle
 
 on:
   push:
@@ -12,6 +12,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Run project regression suite
-        run: npm test
+          node-version: 22
+      - name: Validate App source
+        run: npm run test:qunlu-app
+      - name: Clean rebuild web game
+        run: npm run prepare:web
+      - name: Validate PWA bundle
+        run: npm run test:qunlu-bundle
