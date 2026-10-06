@@ -734,3 +734,7 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
   .modalbody .itemrow{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;row-gap:7px}
   .modalbody .itemrow>button{width:100%;min-width:0;white-space:normal}
 }
+
+/* RUNTIME-STABILITY-1.0: reject queued action taps while the current turn commits. */
+body.runtime-action-busy #actionButtons button,
+body.runtime-action-busy .modalbody button{pointer-events:none}
