@@ -1,6 +1,6 @@
 
 const CURRENT_VERSION="CURRENT-1.57.0";
-const AUDIT_INTERVAL_TURNS=5;
+const AUDIT_INTERVAL_TURNS=20;
 const HISTORY_RETENTION_LIMIT=500,HISTORY_DISPLAY_LIMIT=80;
 DB.meta.current_version=CURRENT_VERSION;
 DB.hard_rules.audit_every_turns=AUDIT_INTERVAL_TURNS;
@@ -17,11 +17,11 @@ Object.assign(DB.status_system.definitions,{
 });
 DB.quality_audit_system={version:"QUALITY-AUDIT-1.0",scope:["介面","內容","程序"],rules:["所有物品狀態引用必須有定義與runtime。","製作每次嘗試都消耗完整配方材料，成功與否不影響扣料。","戰鬥行動須先驗證道具與資源，再推進角色狀態回合。","窄螢幕不得因角色摘要造成水平溢位。"],save_schema_changed:false,canonical_world_content_changed:false};
 DB.ui_runtime_system={version:"UI-RUNTIME-1.0",features:["連線中靜態DOM快取","相同HTML略過重寫","行動列依狀態簽章更新","動態按鈕補齊button型別","彈窗Tab焦點循環","目前導覽aria-current","存檔失敗可視提示"],rules:["快取只保存DOM參照與顯示字串，不寫入存檔。","戰鬥與首頁共用同一次combatStats結果。","介面重構不得改變角色數值、世界內容或存檔schema。"],save_schema_changed:false,canonical_world_content_changed:false};
-DB.management_ai[7].responsibility="每回合自動存檔、每5回合自檢";
-DB.management_ai[7].validations[1]="每5回合稽核";
-DB.generation_pipeline.steps[11]="五回合績效與一致性稽核";
-DB.system_orchestrator.domains[11].responsibility="每回合寫回、五回合自檢與整合健康度";
-DB.integration_registry.optimization_notes.push("RUNTIME-OPT-1.1：移除戰鬥流程重複DOM繪製、合併本機初始化事件，並恢復每5回合自檢；不改canonical世界內容與存檔結構。");
+DB.management_ai[7].responsibility="每回合自動存檔、每20回合自檢";
+DB.management_ai[7].validations[1]="每20回合稽核";
+DB.generation_pipeline.steps[11]="二十回合績效與一致性稽核";
+DB.system_orchestrator.domains[11].responsibility="每回合寫回、二十回合自檢與整合健康度";
+DB.integration_registry.optimization_notes.push("RUNTIME-STABILITY-1.0：每次玩家行動合併為一次存檔與一次畫面繪製，並將角色動態自檢調整為每20回合；不改canonical世界內容與存檔結構。");
 DB.integration_registry.optimization_notes.push("CURRENT-1.52.0／QUALITY-AUDIT-1.0：修正製作扣料、戰鬥行動驗證、狀態引用/runtime與窄螢幕可讀性；不改canonical世界內容與存檔結構。");
 DB.integration_registry.optimization_notes.push("CURRENT-1.53.0／UI-RUNTIME-1.0：快取靜態DOM、略過相同介面重寫、批次同步背包型委託、共用戰鬥數值，並補齊彈窗鍵盤焦點；不改canonical世界內容與存檔結構。");
 DB.integration_registry.optimization_notes.push("CURRENT-1.54.0／RUNTIME-OPT-1.4：補齊能力點與技能XP舊存檔正規化、三次教會復活、商店每日庫存及每日收購資金；不改canonical世界內容與既有角色資料。");
@@ -141,7 +141,7 @@ function renderSaveHealth(error=null){
 function persist(){
  try{
    if(!window.localStorage)throw new Error("瀏覽器未提供本機儲存空間。");
-   localStorage.setItem("chronicle_save",JSON.stringify(G));
+   const serialized=JSON.stringify(G);localStorage.setItem("chronicle_save",serialized);globalThis.__LAST_SAVE_BYTES=serialized.length;
    if(lastPersistError){lastPersistError=null;renderSaveHealth(null)}
    return true
  }catch(e){
@@ -359,7 +359,7 @@ function advance(h){
  G.character.toxicity=clamp((G.character.toxicity||0)-h*4,0,100);
  decayFood();applySurvival()
 }
-function endTurn(h){advance(h);updateQuestDeadlines();runWorldDynamics();if(G.character.alive&&G.turn>0&&G.turn%AUDIT_INTERVAL_TURNS===0)runAudit();persist();renderAll()}
+function endTurn(h){advance(h);updateQuestDeadlines();runWorldDynamics();if(typeof phase2Heartbeat==="function")try{phase2Heartbeat("turn")}catch(error){console.warn("world phase2 turn update failed",error)}if(G.character.alive&&G.turn>0&&G.turn%AUDIT_INTERVAL_TURNS===0)runAudit();persist();renderAll()}
 
 function decayFood(){const now=totalHours();G.character.inventory.forEach(x=>{const d=item(x.id);if(d?.fresh_hours)x.freshness=clamp(Math.round(100-(now-(x.acquiredHour??now))/d.fresh_hours*100),0,100)})}
 function applySurvival(){
@@ -1041,8 +1041,8 @@ function actGather(){
  }catch(error){
    console.error("[採集] 採集流程已中止並保留目前畫面。",error);
    try{log("採集","採集流程遇到錯誤，已安全停止；請重新載入後再試。","danger")}catch(logError){console.error("[採集] 無法新增錯誤紀錄。",logError)}
-   try{persist()}catch(saveError){console.error("[採集] 無法保存目前狀態。",saveError)}
-   try{renderAll()}catch(renderError){console.error("[採集] 畫面復原失敗。",renderError)}
+   let recovered=false;try{recovered=typeof abortRuntimeAction==="function"&&abortRuntimeAction(error)}catch(recoveryError){console.error("[採集] 穩定層復原失敗。",recoveryError)}
+   if(!recovered){try{persist()}catch(saveError){console.error("[採集] 無法保存目前狀態。",saveError)}try{renderAll()}catch(renderError){console.error("[採集] 畫面復原失敗。",renderError)}}
  }
 }
 function actHunt(){
@@ -5121,7 +5121,7 @@ function runAudit(){
  for(const {eq} of equippedEntries())if(eq&&(eq.durability<0||eq.durability>eq.maxDurability))issues.push("裝備耐久異常");
  const caps=resourceCaps();if(c.maxHp!==caps.hp||c.maxStamina!==caps.stamina||c.maxMana!==caps.mana)issues.push("資源上限未同步");
  G.lastAudit={turn:G.turn,time:timeText(),issues};
- log("五回合自檢",issues.length?issues.join("、"):"通過：角色狀態、裝備、技能、資源與旅誌結構一致。",issues.length?"danger":"ok")
+ log("二十回合自檢",issues.length?issues.join("、"):"通過：角色狀態、裝備、技能、資源與旅誌結構一致。",issues.length?"danger":"ok")
 }
 let modalLastFocus=null;
 function modalKindFromTitle(t){
