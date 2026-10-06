@@ -51,5 +51,18 @@ const render=window.renderAll;
 if(typeof render==="function")window.renderAll=function(){const result=render.apply(this,arguments);renderTownHome();return result};
 const adventure=window.showAdventure;
 if(typeof adventure==="function")window.showAdventure=function(){adventure.apply(this,arguments);renderTownHome()};
-if($("#gamePanel")&&!$("#gamePanel").classList.contains("hide")&&typeof G!=="undefined"&&G.character)renderTownHome();
+function ensureTownHome(){
+ const game=$("#gamePanel");
+ if(!game||game.classList.contains("hide")||typeof G==="undefined"||!G?.character)return false;
+ try{renderTownHome();return !!$("#townHomeScreen")}catch(error){console.warn("town home sync failed",error);return false}
+}
+window.ensureTownHome=ensureTownHome;
+if($("#gamePanel")&&!$("#gamePanel").classList.contains("hide")&&typeof G!=="undefined"&&G.character)ensureTownHome();
+window.addEventListener("load",()=>{ensureTownHome();setTimeout(ensureTownHome,0);setTimeout(ensureTownHome,120)},{once:true});
+window.addEventListener("pageshow",()=>setTimeout(ensureTownHome,0));
+const gamePanel=$("#gamePanel");
+if(gamePanel&&typeof MutationObserver==="function"){
+ const observer=new MutationObserver(()=>{if(!gamePanel.classList.contains("hide"))setTimeout(ensureTownHome,0)});
+ observer.observe(gamePanel,{attributes:true,attributeFilter:["class"]});
+}
 })();
