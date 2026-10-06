@@ -1,23 +1,16 @@
 # 異界旅人
 
-《異界旅人》是手機優先的單人回合制 RPG，Android App 與網頁版共用 `qunlu-app/` 同一套遊戲來源。
+《異界旅人》Android App 與 WEB 2.0 共用同一套遊戲核心資料，但網頁版使用獨立介面。
 
-## 正式建置來源
+## CURRENT-1.122.0
 
-- 遊戲名稱：異界旅人
-- App／Web 共用來源：`qunlu-app/`
-- Android：Capacitor 封裝 `www/`
-- Web：GitHub Pages 部署 `www/`
-- PWA：支援離線快取與本機存檔
-- 舊版根目錄網頁遊戲已移除，不再參與任何建置或部署
-
-## CURRENT-1.120.0
-
-- HP、MP、SP、攻擊、魔攻、防禦、魔防等核心絕對戰鬥數值提高 100%。
-- 敵方、隊友、寵物、召喚獸與固定技能消耗／治療／道具傷害同步等比例調整。
-- 命中、閃避、爆擊率、格擋率、抗性、速度、破甲、射程等比例或機率型數值維持原值。
-- 100 種戰鬥職業與目前 214 筆怪物資料皆綁定獨立立繪資料。
-- 新網頁版每次部署前會先刪除舊 `www/` 產物，再由目前 App 原始碼乾淨重建。
+- Android App 核心來源：`qunlu-app/`
+- 新網頁遊戲：GitHub Pages `/game/`
+- 舊網頁遊戲 `/play/`：已從部署產物移除
+- 根網址：只負責清除舊 Service Worker / Cache 並導向 `/game/`
+- WEB 2.0：獨立 UI，不再使用舊「旅途未竟，群陸在前」首頁版型
+- 戰鬥核心：HP、MP、SP、攻擊、魔攻、防禦、魔防等絕對值 ×2；機率與百分比型數值維持原比例
+- 立繪資料庫：100 種職業、目前 214 筆怪物完整綁定立繪
 
 ## 建置
 
@@ -28,7 +21,7 @@ npm run prepare:web
 npm run test:qunlu-bundle
 ```
 
-Android debug APK：
+Android：
 
 ```sh
 npm run prepare:android
