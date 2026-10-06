@@ -26,10 +26,12 @@ assert.ok(index.includes("<title>異界旅人 "+version.version+"</title>"),"pag
 assert.ok(index.includes('<meta name="app-version" content="'+version.version+'">'),"page metadata matches release version");
 assert.match(sw,/facility-buildings\.svg/,"illustrated storefronts are cached");
 assert.ok(fs.existsSync(path.join(app,"assets","art","town","facility-buildings.svg")),"facility art file exists");
-assert.equal(version.version,"CURRENT-1.113.1","four-map release version");
+assert.equal(version.version,"CURRENT-1.113.2","four-map release version");
 assert.match(ui,/key==="realm"\|\|key==="province"\?"kingdom-map-v1\.png"/,"realm and province use kingdom scale art");
 assert.match(ui,/call\("travel",l\.id,Number\(route\.hours\)\|\|1\)/,"travel remains connected to existing roads");
 assert.match(css,/\.xu-route-map\{[^}]*z-index:7;pointer-events:none\}/,"route overlay sits above town art without blocking empty areas");
 assert.match(css,/\.town-map-routes\{[^}]*z-index:7;pointer-events:none/,"route wrapper stacks above building art without blocking facilities");
 assert.match(css,/\.xu-route-marker\{[^}]*pointer-events:auto/,"road pins accept clicks");
+assert.match(css,/\.town-map-canvas\.map-gesture-stage,\.xu-town-board\.map-gesture-stage\{pointer-events:none\}/,"map stage background passes pointer events through");
+assert.match(css,/\.town-map-canvas\.map-gesture-stage>\.town-map-transform,\.xu-town-board\.map-gesture-stage>\.xu-town-map-surface/,"map surfaces remain available for dragging and pin clicks");
 console.log("PASS four detailed map layers, interactive location pins, town illustration, and offline cache");

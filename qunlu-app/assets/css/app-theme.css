@@ -711,3 +711,7 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 .map-gesture-stage .xu-facility-map .xu-facility:hover{transform:translate(-50%,-56%) scale(var(--map-marker-scale,1))}
 .map-gesture-stage .town-map-building{transform:translate(-50%,-50%) scale(var(--map-marker-scale,1))}
 .map-gesture-stage .town-map-building:hover{transform:translate(-50%,-56%) scale(var(--map-marker-scale,1))}
+
+/* MAP-POINTER-PASSTHROUGH-1.0 */
+.town-map-canvas.map-gesture-stage,.xu-town-board.map-gesture-stage{pointer-events:none}
+.town-map-canvas.map-gesture-stage>.town-map-transform,.xu-town-board.map-gesture-stage>.xu-town-map-surface,.town-map-canvas.map-gesture-stage>.map-zoom-controls,.xu-town-board.map-gesture-stage>.map-zoom-controls{pointer-events:auto}
