@@ -5,7 +5,7 @@ const root = path.join(__dirname, "..");
 const web = path.join(root, "www");
 const version = JSON.parse(fs.readFileSync(path.join(web, "version.json"), "utf8"));
 assert.match(version.version, /^CURRENT-/);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","src/battle-ui-theme.js","src/facility-shop-ui.js","src/game-data.js","src/runtime.js","src/runtime-stability.js","src/gather-encounter-runtime.js","src/data-patches.js","src/pwa.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","src/battle-ui-theme.js","src/facility-shop-ui.js","src/game-data.js","src/runtime.js","src/runtime-stability.js","src/gather-encounter-runtime.js","src/data-patches.js","src/combat-scale-v2.js","src/battle-art-catalog-v2.js","src/pwa.js"]) {
   assert.ok(fs.existsSync(path.join(web, file)), "Qunlu App bundle missing " + file);
 }
 const html=fs.readFileSync(path.join(web,"index.html"),"utf8");
@@ -15,6 +15,13 @@ const manifest=JSON.parse(fs.readFileSync(path.join(web,"manifest.webmanifest"),
 assert.equal(manifest.name,"異界旅人");
 assert.equal(manifest.short_name,"異界旅人");
 assert.ok(html.includes("src/runtime.js"));
+assert.ok(html.includes("src/combat-scale-v2.js"));
+assert.ok(html.includes("src/battle-art-catalog-v2.js"));
+assert.ok(fs.existsSync(path.join(web,"web-build.json")),"new web build metadata must exist");
+const webBuild=JSON.parse(fs.readFileSync(path.join(web,"web-build.json"),"utf8"));
+assert.equal(webBuild.clean_rebuild,true);
+assert.equal(webBuild.legacy_web_removed,true);
+assert.equal(webBuild.version,version.version);
 assert.ok(html.includes("src/runtime-stability.js"));
 assert.ok(html.includes("src/gather-encounter-runtime.js"));
 assert.ok(fs.readFileSync(path.join(web, "sw.js"), "utf8").includes('"./src/gather-encounter-runtime.js"'));
