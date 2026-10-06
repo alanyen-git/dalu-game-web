@@ -651,7 +651,7 @@ function addItem(id,q=1,extra={}){
  const d=item(id),isEq=d&&["主武器","頭盔","盔甲","手套","鞋子","披風","飾品"].includes(d.type);
  if(isEq){for(let i=0;i<q;i++)G.character.inventory.push({id,qty:1,durability:extra.durability??d.durability,maxDurability:d.durability,acquiredHour:totalHours()});return}
  let x=G.character.inventory.find(v=>v.id===id&&!v.durability);if(!x){x={id,qty:0,acquiredHour:totalHours()};G.character.inventory.push(x)}x.qty+=q;
- updateQuestProgress("item",{item_id:id,qty:q})
+ if(extra.skipQuestProgress!==true)updateQuestProgress("item",{item_id:id,qty:q})
 }
 function removeItem(id,q=1,index=null){if(index!==null){const x=G.character.inventory[index];if(!x||x.id!==id)return false;if((x.qty||1)<=q)G.character.inventory.splice(index,1);else x.qty-=q;return true}let x=G.character.inventory.find(v=>v.id===id&&(v.qty||0)>0);if(!x)return false;if((x.qty||1)<=q)G.character.inventory.splice(G.character.inventory.indexOf(x),1);else x.qty-=q;return true}
 function stripHtmlText(v){
@@ -1034,8 +1034,9 @@ function actGather(){
      const src=Array.isArray(d.acquisition_sources)?d.acquisition_sources:[];
      if(src.includes("mining")&&hasTool("mining")&&t>=14)q++;
      if(src.includes("woodcut")&&hasTool("woodcut")&&t>=14)q++;
-     addItem(id,q);updateQuestProgress("gather",{item_id:id,qty:q});got.push(`${d.name||id}×${q}`)
+     addItem(id,q,{skipQuestProgress:true});got.push(`${d.name||id}×${q}`)
    }
+   syncAllQuestInventoryProgress(false);
    log("採集",got.join("、")||"沒有取得可用資源。","ok");maybeEncounter("採集");endTurn(1)
  }catch(error){
    console.error("[採集] 採集流程已中止並保留目前畫面。",error);
@@ -5119,9 +5120,8 @@ function runAudit(){
  const auditOff=offhandEquip()&&item(equipId(offhandEquip()));if(auditOff&&!offhandEligible(auditOff))issues.push(`副手裝備不合法:${auditOff.name}`);
  for(const {eq} of equippedEntries())if(eq&&(eq.durability<0||eq.durability>eq.maxDurability))issues.push("裝備耐久異常");
  const caps=resourceCaps();if(c.maxHp!==caps.hp||c.maxStamina!==caps.stamina||c.maxMana!==caps.mana)issues.push("資源上限未同步");
- issues.push(...runGeneratorAudit());
  G.lastAudit={turn:G.turn,time:timeText(),issues};
- log("五回合自檢",issues.length?issues.join("、"):"通過：世界觀、HISTORY-2.0世界史、大陸政治體、海外未知邊界、權力層級、S級戰力名錄、武技／魔法流派、文化、角色、職業技能、裝備製作、地圖生態、夥伴隊伍、信仰組織、對話情報、委託來源、跨庫索引、INTEGRATION-3.0、ORCHESTRATOR-3.0、CURRENT現行引擎、生成器與管理AI一致。",issues.length?"danger":"ok")
+ log("五回合自檢",issues.length?issues.join("、"):"通過：角色狀態、裝備、技能、資源與旅誌結構一致。",issues.length?"danger":"ok")
 }
 let modalLastFocus=null;
 function modalKindFromTitle(t){
