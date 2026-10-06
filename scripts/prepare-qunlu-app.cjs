@@ -17,22 +17,17 @@ async function copyTree(from, to) {
 
 async function main() {
   await fs.access(path.join(source, "source-lock.json"));
-  const version = JSON.parse(await fs.readFile(path.join(source, "version.json"), "utf8"));
-  if (!String(version.version || "").startsWith("CURRENT-")) throw new Error("異界旅人版本格式錯誤");
-
   await fs.rm(web, { recursive: true, force: true });
   await copyTree(source, web);
-
-  await fs.writeFile(path.join(web, "web-build.json"), JSON.stringify({
+  const version = JSON.parse(await fs.readFile(path.join(source, "version.json"), "utf8"));
+  await fs.writeFile(path.join(web, "build-info.json"), JSON.stringify({
     game: "異界旅人",
+    target: "android",
     version: version.version,
     source: "qunlu-app",
-    source_commit: process.env.GITHUB_SHA || null,
-    clean_rebuild: true,
-    legacy_web_removed: true
+    source_commit: process.env.GITHUB_SHA || null
   }, null, 2) + "\n");
-
-  console.log("Removed previous web bundle and rebuilt 異界旅人 web game from " + version.version);
+  console.log("Prepared 異界旅人 Android bundle from " + version.version);
 }
 
 main().catch(error => {
