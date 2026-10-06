@@ -7,7 +7,7 @@ const app = path.join(root, "qunlu-app");
 const lock = JSON.parse(fs.readFileSync(path.join(app, "source-lock.json"), "utf8"));
 assert.equal(lock.source_repository, "alanyen-git/qunlu-game");
 assert.equal(lock.rules.includes("read-only source"), true);
-for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","assets/art/town/shop-badges-v1.webp","./assets/art/town/shops/general.webp","./assets/art/town/shops/blacksmith.webp","./assets/art/town/shops/alchemy.webp","./assets/art/town/shops/tailor.webp","./assets/art/town/shops/guild.webp","./assets/art/town/shops/church.webp","./assets/art/town/shops/tavern.webp","./assets/art/town/shops/inn.webp","./assets/art/town/shops/clinic.webp","./assets/art/town/shops/enchanter.webp","./assets/art/town/shops/mageguild.webp", "assets/art/town/facility-buildings.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/facility-shop-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/gather-encounter-runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
+for (const file of ["index.html","manifest.webmanifest","sw.js","assets/css/game.css","assets/css/app-theme.css","assets/art/qunlu-party-portraits.svg","assets/art/battle-sd-portraits.svg","assets/art/three-head/characters-three-head-v1.webp","assets/art/three-head/monsters-three-head-v1.webp","assets/art/three-head/monsters-expanded-three-head-v1.webp","assets/art/three-head/classes-three-head-v1.webp","assets/art/three-head/npcs-three-head-v1.webp","assets/art/maps/willow-town.svg","assets/art/maps/old-forest.svg","assets/art/maps/stone-vault.svg","assets/art/maps/mountain-pass.svg","assets/art/maps/river-valley.svg","assets/art/maps/region-atlas.svg","assets/art/maps/terrain-scenes.svg","assets/art/event-scenes.svg","assets/art/ui/equipment-display.svg","assets/art/town/facility-interiors.svg","assets/art/town/shop-badges-v1.webp","./assets/art/town/shops/general.webp","./assets/art/town/shops/blacksmith.webp","./assets/art/town/shops/alchemy.webp","./assets/art/town/shops/tailor.webp","./assets/art/town/shops/guild.webp","./assets/art/town/shops/church.webp","./assets/art/town/shops/tavern.webp","./assets/art/town/shops/inn.webp","./assets/art/town/shops/clinic.webp","./assets/art/town/shops/enchanter.webp","./assets/art/town/shops/mageguild.webp", "assets/art/town/facility-buildings.svg","src/battle-ui-theme.js","src/mobile-map-ui.js","src/town-home-ui.js","src/facility-shop-ui.js","src/event-portrait-ui.js","assets/art/npc-portrait-sprites.svg","src/inventory-art-ui.js","assets/art/item-skill-icons.svg","src/game-data.js","src/runtime.js","src/runtime-stability.js","src/gather-encounter-runtime.js","src/equipment-detail-ui.js","src/data-patches.js","src/pwa.js","src/political-region-pack-v1.js"]) {
   assert.ok(fs.existsSync(path.join(app, file)), "missing imported app file: " + file);
 }
 const html = fs.readFileSync(path.join(app, "index.html"), "utf8");
@@ -61,8 +61,10 @@ assert.equal(manifest.name, "異界旅人");
 assert.equal(manifest.short_name, "異界旅人");
 assert.ok(html.includes('src/game-data.js'));
 assert.ok(html.includes('src/runtime.js'));
+assert.ok(html.includes('src/runtime-stability.js'));
 assert.ok(html.includes('src/gather-encounter-runtime.js'));
 assert.ok(fs.readFileSync(path.join(app, "sw.js"), "utf8").includes('"./src/gather-encounter-runtime.js"'));
+assert.ok(fs.readFileSync(path.join(app, "sw.js"), "utf8").includes('"./src/runtime-stability.js"'));
 assert.ok(html.includes('assets/css/app-theme.css'));
 assert.ok(html.includes('src/mobile-map-ui.js'));
 assert.ok(html.includes('src/battle-ui-theme.js'));
@@ -110,7 +112,7 @@ assert.ok(runtimeSource.includes("xu-party-formation"), "character data must sho
 assert.ok(runtimeSource.includes("equipment-display.svg"), "equipment view must have a dedicated illustration");
 assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").includes("event-scenes.svg#"), "story and event scenes must use original illustrations");
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
-assert.ok(battleTheme.includes("document.body||document.getElementById(\"battleBody\")"),"battle styling observes dynamically opened encounters");
+assert.ok(battleTheme.includes('document.getElementById("battleBack")'),"battle styling observes the bounded dynamic encounter surface");
 assert.ok(!battleTheme.includes('classList.add("xuan-unit-card",extra)'),"battle class tokens are applied individually");
 assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.8");
 assert.ok(battleTheme.includes("xuan-stage-figures")&&battleTheme.includes("xuan-command-panel"),"battle scene arranges SD units and illustrated commands");
