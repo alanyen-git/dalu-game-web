@@ -399,9 +399,9 @@ input,select{background:#081a38!important;color:#fff!important;border:1px solid 
 
 
 /* MAP-TOPOLOGY-INTERACTION-1.0 */
-.xu-route-map{position:absolute;inset:58px 2% 54px;z-index:4;pointer-events:auto}
+.xu-route-map{position:absolute;inset:58px 2% 54px;z-index:7;pointer-events:none}
 .xu-route-map-home{inset:0}
-.xu-route-map-town{inset:0 0 62px;z-index:5}
+.xu-route-map-town{inset:0 0 62px;z-index:7}
 .xu-road-network{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .xu-road-shadow{fill:none;stroke:#392b20c9;stroke-width:22;stroke-linecap:round;filter:drop-shadow(0 3px 3px #0007)}
 .xu-road-center{fill:none;stroke:#e5d2a2e8;stroke-width:10;stroke-linecap:round;stroke-dasharray:2 2}

@@ -7,6 +7,7 @@ const ui=fs.readFileSync(path.join(app,"src","xuanyuan-map-ui.js"),"utf8");
 const sw=fs.readFileSync(path.join(app,"sw.js"),"utf8");
 const index=fs.readFileSync(path.join(app,"index.html"),"utf8");
 const version=JSON.parse(fs.readFileSync(path.join(app,"version.json"),"utf8"));
+const css=fs.readFileSync(path.join(app,"assets","css","app-theme.css"),"utf8");
 for(const id of ["region-windspring","region-salt-tide","region-sinking-sand","region-mist-harbor"])assert.match(atlas,new RegExp('<symbol id="'+id+'"'),"scene symbol "+id);
 for(const id of ["world","realm","province","local","region-islands","region-steppe","region-forest","region-highland","region-marsh","region-desert","region-city","region-riverland"])assert.match(atlas,new RegExp('id="atlas-detail-'+id.replace("region-","")+'"'),"illustrated terrain detail "+id);
 assert.equal((atlas.match(/fill="url\(#atlas-etching\)"/g)||[]).length,16,"each zoom level and scene receives engraved terrain texture");
@@ -25,7 +26,7 @@ assert.ok(index.includes("<title>異界旅人 "+version.version+"</title>"),"pag
 assert.ok(index.includes('<meta name="app-version" content="'+version.version+'">'),"page metadata matches release version");
 assert.match(sw,/facility-buildings\.svg/,"illustrated storefronts are cached");
 assert.ok(fs.existsSync(path.join(app,"assets","art","town","facility-buildings.svg")),"facility art file exists");
-assert.equal(version.version,"CURRENT-1.112.0","four-map release version");
+assert.equal(version.version,"CURRENT-1.113.0","four-map release version");
 assert.match(ui,/key==="realm"\|\|key==="province"\?"kingdom-map-v1\.png"/,"realm and province use kingdom scale art");
 assert.match(ui,/call\("travel",l\.id,Number\(route\.hours\)\|\|1\)/,"travel remains connected to existing roads");
 console.log("PASS four detailed map layers, interactive location pins, town illustration, and offline cache");
