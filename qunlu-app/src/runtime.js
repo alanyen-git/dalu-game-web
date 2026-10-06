@@ -1,6 +1,7 @@
 
 const CURRENT_VERSION="CURRENT-1.57.0";
 const AUDIT_INTERVAL_TURNS=5;
+const HISTORY_RETENTION_LIMIT=500,HISTORY_DISPLAY_LIMIT=80;
 DB.meta.current_version=CURRENT_VERSION;
 DB.hard_rules.audit_every_turns=AUDIT_INTERVAL_TURNS;
 DB.meta.runtime_optimization_revision="RUNTIME-OPT-1.4";
@@ -27,6 +28,16 @@ DB.integration_registry.optimization_notes.push("CURRENT-1.54.0／RUNTIME-OPT-1.
 DB.integration_registry.optimization_notes.push("CURRENT-1.55.0／CONTENT-DEPTH-1.0：西境河谷加入地點限定奇遇、F～C級委託、設施委託、地方傳聞、節慶、微歷史與民俗；既有存檔原地相容。");
 DB.integration_registry.optimization_notes.push("CURRENT-1.57.0／WEB-DEPLOY-1.0：正式版改由GitHub Pages發布，版本檢查使用相對路徑並定期偵測更新；遊玩與發布皆不依賴Netlify。");
 let G=null;
+function retainRecentHistory(history,entry){
+ const rows=Array.isArray(history)?history:[];
+ if(entry!==undefined)rows.push(entry);
+ if(rows.length>HISTORY_RETENTION_LIMIT)rows.splice(0,rows.length-HISTORY_RETENTION_LIMIT);
+ return rows
+}
+function trimHistoryLog(el){
+ if(!el)return;
+ while(el.children.length>HISTORY_DISPLAY_LIMIT)el.removeChild(el.firstElementChild)
+}
 let creation={race:null,raceSubtype:null,origin:null,element:null,classId:null,randomLeft:10};
 const DOM_CACHE=new Map(),UI_HTML_CACHE=new WeakMap();
 const $=s=>{
@@ -76,6 +87,7 @@ function equipId(v){return v&&typeof v==="object"?v.id:v}
 function makeEquip(id,dur=null){const d=item(id);return {id,durability:dur??d.durability,maxDurability:d.durability}}
 function init(){let raw=null;try{raw=window.localStorage?localStorage.getItem("chronicle_save"):null}catch(e){}if(raw){try{G=JSON.parse(raw);migrateSave();enterGame(true)}catch(e){console.warn(e)}}}
 function migrateSave(){
+ if(G)G.history=retainRecentHistory(G.history);
  const legacyOriginMap=DB.origin_system?.legacy_origin_map||{};
  const legacyRaceSubtypeMap={"獅":"獅人","虎":"虎人","狼":"狼人","狐":"狐人","貓":"貓人","牛":"獅人"};
  if(G?.character?.raceId==="R-ORC"&&legacyRaceSubtypeMap[G.character.raceSubtype])G.character.raceSubtype=legacyRaceSubtypeMap[G.character.raceSubtype];
@@ -663,7 +675,7 @@ function renderNarrative(){renderHistoryLog()}
 function renderHistoryLog(force=false){
  const el=$("#log");if(!el||!G)return;
  if(!force&&el.dataset.historyVersion===String((G.history||[]).length))return;
- const history=(G.history||[]).slice(-80);
+ const history=(G.history||[]).slice(-HISTORY_DISPLAY_LIMIT);
  el.innerHTML=history.map(h=>`<div class="entry ${h.className||""}"><span class="badge">${h.tag||"旅誌"}</span> ${h.html||String(h.text||"")}<div class="entrymeta small">${h.time||""}${h.turn!=null?`｜T${h.turn}`:""}</div></div>`).join("");
  el.dataset.historyVersion=String((G.history||[]).length);
  el.scrollTop=el.scrollHeight;
@@ -680,11 +692,11 @@ function ensureActionsVisible(){
 }
 function log(tag,msg,cl=""){
  const el=$("#log"),plain=stripHtmlText(msg);
- if(G)G.history.push({turn:G.turn,time:timeText(),tag,text:plain,html:String(msg),className:cl||""});
+ if(G)G.history=retainRecentHistory(G.history,{turn:G.turn,time:timeText(),tag,text:plain,html:String(msg),className:cl||""});
  if(el){
    const d=document.createElement("div");d.className="entry "+cl;
    d.innerHTML=`<span class="badge">${tag}</span> ${msg}<div class="entrymeta small">${timeText()}｜T${G?.turn??0}</div>`;
-   el.appendChild(d);el.dataset.historyVersion=String((G?.history||[]).length);el.scrollTop=el.scrollHeight
+   el.appendChild(d);trimHistoryLog(el);el.dataset.historyVersion=String((G?.history||[]).length);el.scrollTop=el.scrollHeight
  }
 }
 function resourceCard(kind,label,value,max,percent){
