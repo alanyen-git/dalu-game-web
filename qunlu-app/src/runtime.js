@@ -966,11 +966,18 @@ function actExplore(){
  endTurn(l.kind==="town"?.8:1.4)
 }
 function hasTool(effect){return G.character.inventory.some(x=>item(x.id)?.tool_effect===effect)}
+function gatherResourceIds(l){
+ const raw=l?.gather;
+ if(Array.isArray(raw))return raw.filter(id=>typeof id==="string"&&id.trim()).map(id=>id.trim());
+ if(typeof raw==="string")return raw.split(/[,，;；|\s]+/).map(id=>id.trim()).filter(Boolean);
+ return []
+}
 function gatherEligiblePool(l){
+ if(!l)return [];
  const out=[];
- for(const id of (l.gather||[])){
+ for(const id of gatherResourceIds(l)){
    const d=item(id);if(!d||!d.wild_gather_eligible)continue;
-   const src=d.acquisition_sources||[];
+   const src=Array.isArray(d.acquisition_sources)?d.acquisition_sources:[];
    if(src.includes("mining")&&!hasTool("mining"))continue;
    if(src.includes("woodcut")&&!hasTool("woodcut"))continue;
    out.push(id)
@@ -978,33 +985,52 @@ function gatherEligiblePool(l){
  return out
 }
 function activeGatherTarget(l,pool){
- for(const q of (G.quests||[])){
-   if(q.status!=="active"||q.objective?.kind!=="gather")continue;
-   const valid=q.viableLocationIds||questViableLocations(questTemplate(q.templateId)||q);
+ if(!l||!Array.isArray(pool)||!Array.isArray(G?.quests))return null;
+ for(const q of G.quests){
+   if(q?.status!=="active"||q.objective?.kind!=="gather")continue;
+   const template=questTemplate(q.templateId)||q;
+   let valid=Array.isArray(q.viableLocationIds)?q.viableLocationIds:null;
+   if(!valid){try{valid=questViableLocations(template)}catch{valid=[]}}
+   if(!Array.isArray(valid))valid=[];
    if(valid.length&&!valid.includes(l.id))continue;
    if(pool.includes(q.objective.item_id)){
-     const chance=q.target_spawn_boost??questTemplate(q.templateId)?.target_spawn_boost??DB.quest_system.target_information_bonus.gather_target_chance;
+     const fallback=DB.quest_system?.target_information_bonus?.gather_target_chance??.12;
+     const configured=q.target_spawn_boost??template?.target_spawn_boost??fallback;
+     const numeric=Number(configured);
+     const chance=Number.isFinite(numeric)?clamp(numeric,0,1):.12;
      return {id:q.objective.item_id,chance}
    }
  }
  return null
 }
 function actGather(){
- if(!beginTurn("採集"))return;
- const l=loc(G.character.locationId),pool=gatherEligiblePool(l);
- if(!pool.length){
-   const hasLocked=(l.gather||[]).some(id=>item(id)?.gather_tool);
-   log("採集",hasLocked?"此處資源需要對應採集工具。":"此處缺乏可直接採集的自然資源。");
-   endTurn(.5);return
+ try{
+   if(!beginTurn("採集"))return;
+   const l=loc(G?.character?.locationId);
+   if(!l){log("採集","目前位置資料未載入，採集已安全停止。","danger");persist();return}
+   const ids=gatherResourceIds(l),pool=gatherEligiblePool(l);
+   if(!pool.length){
+     const hasLocked=ids.some(id=>item(id)?.gather_tool);
+     log("採集",hasLocked?"此處資源需要對應採集工具。":"此處缺乏可直接採集的自然資源。");
+     endTurn(.5);return
+   }
+   const t=checkRoll("意志","採集"),n=t>=16?3:t>=10?2:1,got=[],target=activeGatherTarget(l,pool);
+   for(let i=0;i<n;i++){
+     const id=target&&Math.random()<target.chance?target.id:pool[rand(pool.length)],d=item(id);
+     if(!d)continue;
+     let q=1;
+     const src=Array.isArray(d.acquisition_sources)?d.acquisition_sources:[];
+     if(src.includes("mining")&&hasTool("mining")&&t>=14)q++;
+     if(src.includes("woodcut")&&hasTool("woodcut")&&t>=14)q++;
+     addItem(id,q);updateQuestProgress("gather",{item_id:id,qty:q});got.push(`${d.name||id}×${q}`)
+   }
+   log("採集",got.join("、")||"沒有取得可用資源。","ok");maybeEncounter("採集");endTurn(1)
+ }catch(error){
+   console.error("[採集] 採集流程已中止並保留目前畫面。",error);
+   try{log("採集","採集流程遇到錯誤，已安全停止；請重新載入後再試。","danger")}catch(logError){console.error("[採集] 無法新增錯誤紀錄。",logError)}
+   try{persist()}catch(saveError){console.error("[採集] 無法保存目前狀態。",saveError)}
+   try{renderAll()}catch(renderError){console.error("[採集] 畫面復原失敗。",renderError)}
  }
- const t=checkRoll("意志","採集"),n=t>=16?3:t>=10?2:1,got=[],target=activeGatherTarget(l,pool);
- for(let i=0;i<n;i++){
-   const id=target&&Math.random()<target.chance?target.id:pool[rand(pool.length)],d=item(id);let q=1;
-   if(d?.acquisition_sources?.includes("mining")&&hasTool("mining")&&t>=14)q++;
-   if(d?.acquisition_sources?.includes("woodcut")&&hasTool("woodcut")&&t>=14)q++;
-   addItem(id,q);updateQuestProgress("gather",{item_id:id,qty:q});got.push(`${d.name}×${q}`)
- }
- log("採集",got.join("、"),"ok");maybeEncounter("採集");endTurn(1)
 }
 function actHunt(){
  if(!beginTurn("打獵"))return;

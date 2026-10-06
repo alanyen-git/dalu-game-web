@@ -28,7 +28,7 @@ function decorate(){
  const sceneText=[location?.name,location?.description,location?.summary].join(" ");
  box.dataset.scene=location?.kind==="dungeon"?"dungeon":/山|峰|嶺|峽|雪/.test(sceneText)?"mountain":/河|湖|溪|海|港/.test(sceneText)?"river":location?.kind==="town"?"town":"forest";
  const banner=document.getElementById("battleTitle");
- if(banner&&typeof G!=="undefined"&&G.battle)banner.textContent="「"+(G.character.name||"旅人")+"」的回合・選擇指令";
+ if(banner&&typeof G!=="undefined"&&G&&G.battle)banner.textContent="「"+(G.character.name||"旅人")+"」的回合・選擇指令";
  const head=body.querySelector(".battlehead");
  if(head&&!head.dataset.xuanStyled){
   const player=head.querySelector(":scope > .battleunit:not(.enemy):not(.companion)"),party=head.querySelector(":scope > .party-battle-strip"),comp=head.querySelector(":scope > .battleunit.companion"),vs=head.querySelector(":scope > .battleversus"),enemy=head.querySelector(":scope > .battleunit.enemy");

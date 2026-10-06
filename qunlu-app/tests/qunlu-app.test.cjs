@@ -19,9 +19,68 @@ assert.ok(packagedVersion, "standalone app must expose its packaged version");
 assert.equal(packagedVersion[1], version.version, "packaged version must match version.json");
 const runtimeSource = fs.readFileSync(path.join(app, "src/runtime.js"), "utf8");
 assert.ok(runtimeSource.includes('meta[name="app-version"]'), "web updater must compare against packaged app version");
+const gatherStart = runtimeSource.indexOf("function gatherResourceIds(l)");
+const gatherEnd = runtimeSource.indexOf("\nfunction actHunt()", gatherStart);
+assert.ok(gatherStart >= 0 && gatherEnd > gatherStart, "gather action functions must be available for regression coverage");
+const gatherState = {
+  location: { id: "wild-test", kind: "wild", gather: ["wild-berry"] },
+  gathered: [],
+  messages: [],
+  ended: [],
+  errors: [],
+  roll: 8
+};
+const gatherContext = {
+  G: { character: { locationId: "wild-test" }, quests: [] },
+  DB: { quest_system: { target_information_bonus: { gather_target_chance: .2 } } },
+  console: { error: (...args) => gatherState.errors.push(args) },
+  loc: () => gatherState.location,
+  item: id => id === "wild-berry" ? { name: "野莓", wild_gather_eligible: true, acquisition_sources: [] } : null,
+  hasTool: () => false,
+  beginTurn: () => true,
+  checkRoll: () => gatherState.roll,
+  rand: () => 0,
+  addItem: (id, qty) => gatherState.gathered.push({ id, qty }),
+  updateQuestProgress: () => {},
+  log: (...args) => gatherState.messages.push(args),
+  maybeEncounter: () => false,
+  endTurn: hours => gatherState.ended.push(hours),
+  persist: () => { gatherState.persisted = true; },
+  renderAll: () => { gatherState.rendered = true; },
+  questTemplate: () => null,
+  questViableLocations: () => ["wild-test"],
+  clamp: (n, a, b) => Math.max(a, Math.min(b, n))
+};
+vm.createContext(gatherContext);
+vm.runInContext(runtimeSource.slice(gatherStart, gatherEnd) + "\nthis.__actGather=actGather; this.__gatherTarget=activeGatherTarget;", gatherContext);
+gatherContext.__actGather();
+assert.deepEqual(gatherState.gathered, [{ id: "wild-berry", qty: 1 }], "gathering on a wild map awards the eligible resource");
+assert.deepEqual(gatherState.ended, [1], "successful gathering advances its normal action duration");
+gatherState.location = { id: "wild-test", kind: "wild", gather: { malformed: true } };
+gatherState.gathered = [];
+gatherState.messages = [];
+gatherState.ended = [];
+assert.doesNotThrow(() => gatherContext.__actGather(), "malformed legacy gather data must not crash the game");
+assert.ok(gatherState.messages.some(row => /缺乏可直接採集/.test(row[1])), "malformed gather data produces a safe empty-resource result");
+gatherState.location = { id: "wild-test", kind: "wild", gather: ["wild-berry"] };
+gatherContext.G.quests = [{ status: "active", objective: { kind: "gather", item_id: "wild-berry" }, viableLocationIds: "invalid" }];
+const target = gatherContext.__gatherTarget(gatherState.location, ["wild-berry"]);
+assert.equal(target.chance, .2, "malformed quest location data falls back to a bounded target chance");
+gatherContext.G.quests = [];
+gatherContext.checkRoll = () => { throw new Error("simulated gather failure"); };
+gatherState.messages = [];
+gatherState.persisted = false;
+gatherState.rendered = false;
+assert.doesNotThrow(() => gatherContext.__actGather(), "unexpected gathering errors are contained");
+assert.ok(gatherState.errors.length > 0 && gatherState.messages.some(row => /安全停止/.test(row[1])), "unexpected gathering errors are reported without terminating the page");
+assert.ok(gatherState.persisted && gatherState.rendered, "gather recovery persists state and restores the screen");
+
 const mapSource = fs.readFileSync(path.join(app, "src/xuanyuan-map-ui.js"), "utf8");
 const battleTheme = fs.readFileSync(path.join(app, "src/battle-ui-theme.js"), "utf8");
+assert.ok(battleTheme.includes('typeof G!=="undefined"&&G&&G.battle'), "battle UI must wait until the runtime state exists before reading battle data");
 const mapTheme = fs.readFileSync(path.join(app, "assets/css/app-theme.css"), "utf8");
+assert.match(mapTheme, /\.xu-route-map\{[^}]*pointer-events:auto/, "road pins must receive pointer events above the map art");
+assert.match(mapTheme, /\.xu-facility-map\{[^}]*pointer-events:auto/, "facility pins must receive pointer events above the map art");
 const emptyRealmResult = {};
 const emptyRealmContext = {
   DB: {
@@ -270,7 +329,7 @@ const dialoguePortraitCode = fs.readFileSync(path.join(app, "src/event-portrait-
 const serviceWorker = fs.readFileSync(path.join(app, "sw.js"), "utf8");
 assert.match(battleArt, /dragon:\["monstersExpanded",0\].*golem:\["monstersExpanded",1\].*raider:\["monstersExpanded",2\].*elemental:\["monstersExpanded",3\]/);
 assert.match(dialoguePortraitCode, /guild:\{sheet:"npcs",index:0\}.*merchant:\{sheet:"npcs",index:1\}.*artisan:\{sheet:"npcs",index:2\}.*scholar:\{sheet:"npcs",index:3\}/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v51"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v56"/);
 assert.match(serviceWorker, /three-head\/npcs-three-head-v1\.webp/);
 assert.match(serviceWorker, /three-head\/monsters-expanded-three-head-v1\.webp/);
 
@@ -282,5 +341,5 @@ assert.equal(classCatalog.combat_classes.length, 100, "portrait coverage must tr
 const coveredClassTypes = new Set(classCatalog.combat_classes.map(entry => classPicker(entry.name)));
 assert.deepEqual([...coveredClassTypes].sort(), ["druid", "healer", "knight", "mage", "rogue", "scout", "spellblade", "warrior"]);
 assert.match(battleArt, /knight:\["classes",0\].*rogue:\["classes",1\].*druid:\["classes",2\].*spellblade:\["classes",3\]/);
-assert.match(serviceWorker, /CACHE_PREFIX\+"v51"/);
+assert.match(serviceWorker, /CACHE_PREFIX\+"v56"/);
 assert.match(serviceWorker, /three-head\/classes-three-head-v1\.webp/);
