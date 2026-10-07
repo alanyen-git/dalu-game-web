@@ -30,7 +30,7 @@ jobs:
       - name: Validate 異界旅人 and rebuild Android web bundle
         run: |
           npm run test:qunlu-app
-          npm run prepare:qunlu
+          npm run prepare:web
           npm run test:qunlu-bundle
       - name: Generate Android project and build debug APK
         run: |
