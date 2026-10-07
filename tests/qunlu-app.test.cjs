@@ -121,7 +121,7 @@ assert.ok(fs.readFileSync(path.join(app,"src/event-portrait-ui.js"),"utf8").incl
 assert.ok(battleTheme.includes("xuan-hit-fx"), "battle actions must show animated hit feedback");
 assert.ok(battleTheme.includes('document.getElementById("battleBack")'),"battle styling observes the bounded dynamic encounter surface");
 assert.ok(!battleTheme.includes('classList.add("xuan-unit-card",extra)'),"battle class tokens are applied individually");
-assert.equal(version.battle_ui_revision,"XUANYUAN-BATTLE-SD-1.8");
+assert.equal(version.battle_ui_revision,"BATTLE-REFERENCE-3.0");
 assert.ok(battleTheme.includes("xuan-stage-figures")&&battleTheme.includes("xuan-command-panel"),"battle scene arranges SD units and illustrated commands");
 assert.match(version.home_ui_revision,/^TOWN-MAP-HOME-\d+\.\d+$/,"home UI revision must remain versioned");
 assert.match(version.facility_shop_ui_revision,/^FACILITY-[A-Z-]+-\d+\.\d+$/,"facility UI revision must remain versioned");
