@@ -51,7 +51,10 @@
  #battleBack .xuan-battlebox .battlelog{font-size:10px;padding:5px}
 }
 @media(max-height:500px) and (orientation:landscape){
+ #battleBack .battlebox.xuan-battlebox{height:100dvh;max-height:100dvh;padding:4px}
+ #battleBack .xuan-battlebox #battleTitle{font-size:16px;padding:4px;margin-bottom:4px}
  #battleBack .xuan-battlebox #battleBody{grid-template-rows:minmax(125px,1fr) 75px 94px}
+ #battleBack .xuan-stage-figures{padding:2px 0}
  #battleBack .xuan-stage-figure .ij-atlas-art{width:90px}
  #battleBack .xuan-stage-figure.xuan-enemy-figure .ij-atlas-art{width:100px}
  #battleBack .battleactions>.xuan-command-button{min-height:50px;font-size:12px;flex-direction:row}
