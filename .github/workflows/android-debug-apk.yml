@@ -27,6 +27,19 @@ jobs:
           java-version: "21"
       - name: Install Capacitor
         run: npm install --no-audit --no-fund
+      - name: Install battle UI browser checks
+        run: |
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+      - name: Verify battle portraits and mobile commands
+        run: node tests/battle-reference-ui.browser.cjs
+      - name: Upload battle verification screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: battle-reference-screenshots
+          path: battle-screenshots/*.png
+          if-no-files-found: warn
       - name: Validate 異界旅人 and rebuild Android web bundle
         run: |
           npm run test:qunlu-app

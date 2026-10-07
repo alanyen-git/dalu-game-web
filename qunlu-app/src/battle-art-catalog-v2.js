@@ -1,29 +1,62 @@
 (()=>{"use strict";
-const VER="IJ-ART-CATALOG-2.0";
-const H=s=>{let h=2166136261;for(const c of String(s||"")){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
-const hue=(h,o=0)=>(h+o)%360,hs=(h,s,l)=>`hsl(${hue(h)} ${s}% ${l}%)`,uri=s=>"data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(s);
-const tier=t=>({F:"#a9b6c5",E:"#76bd7a",D:"#6aa7df",C:"#9b7ee2",B:"#e1b84d",A:"#ed8b57",S:"#ef6684"})[t]||"#d7dce5";
-const classType=c=>{const s=[c.name,c.category,c.combat_role,c.weapon_group].join(" ");if(/弓|弩|遊俠|獵|射/.test(s))return"ranger";if(/法|術|巫|魔導|咒|賢者|元素/.test(s))return"mage";if(/牧|神官|祭司|聖職|僧|治療/.test(s))return"priest";if(/盜|刺客|暗|匕首|忍/.test(s))return"rogue";if(/騎|盾|守護|重裝/.test(s))return"guardian";if(/槍|矛|長兵/.test(s))return"lancer";if(/斧|錘|鎚|狂戰/.test(s))return"brute";return"warrior"};
-function weapon(g,a,m){if(/弓/.test(g||""))return`<path d="M177 75q55 75 0 150M177 75l18 75-18 75M195 150h45" fill="none" stroke="${m}" stroke-width="7"/>`;if(/杖/.test(g||""))return`<path d="M190 66v174" stroke="${m}" stroke-width="9"/><circle cx="190" cy="50" r="19" fill="${a}" stroke="#fff0c6" stroke-width="4"/>`;if(/槍|矛|長兵/.test(g||""))return`<path d="M190 42v205" stroke="${m}" stroke-width="8"/><path d="M190 15l-15 35h30z" fill="${a}"/>`;if(/斧/.test(g||""))return`<path d="M190 72v170" stroke="${m}" stroke-width="9"/><path d="M190 70q42-25 52 5q-18 32-53 27z" fill="${a}" stroke="#e9eef5" stroke-width="3"/>`;if(/錘|鎚/.test(g||""))return`<path d="M190 83v158" stroke="${m}" stroke-width="9"/><rect x="164" y="50" width="56" height="40" rx="6" fill="${a}" stroke="#e9eef5" stroke-width="3"/>`;if(/匕首/.test(g||""))return`<path d="M190 105v112" stroke="${m}" stroke-width="7"/><path d="M190 66l-13 42h26z" fill="#eef3fa"/>`;return`<path d="M190 74v160" stroke="${m}" stroke-width="8"/><path d="M190 29l-13 48h26z" fill="#eef3fa" stroke="${a}" stroke-width="3"/>`}
-function classSvg(c){const h=H(c.id||c.name),t=classType(c),a=tier(c.tier),p=hs(h,55,38),p2=hs(h+38,48,24),skin=hs(26+h%15,45,76),hair=hs(h%55,35,22),metal=hs(210,15,70),robe=/mage|priest/.test(t),hood=t==="rogue",helm=t==="guardian";
-const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 300"><defs><filter id="s"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity=".45"/></filter></defs><g filter="url(#s)"><ellipse cx="125" cy="277" rx="65" ry="11" fill="#000" opacity=".25"/><path d="M85 217l-7 55q16 13 32-1l8-53zM151 217l8 55q-16 13-32-1l-3-53z" fill="${p2}" stroke="#19212c" stroke-width="4"/><path d="M77 143q48-25 95 0l-2 87q-47 23-99 0z" fill="${p}" stroke="${a}" stroke-width="5"/>${robe?`<path d="M81 184q45 24 84 0l14 61q-55 28-111 0z" fill="${p2}"/>`:""}<circle cx="123" cy="96" r="53" fill="${skin}" stroke="${a}" stroke-width="4"/>${hood?`<path d="M70 105q-1-69 53-75q55 8 52 79q-31-38-53-40q-26 3-52 36z" fill="${p2}" stroke="${a}" stroke-width="5"/>`:helm?`<path d="M70 91q8-58 53-61q46 4 52 61l-18-15-12-26q-24-16-48 0L84 76z" fill="${metal}" stroke="${a}" stroke-width="5"/>`:`<path d="M69 91q7-58 54-61q48 4 52 64q-28-33-43-35q-29 18-55 7z" fill="${hair}"/>`}<ellipse cx="103" cy="105" rx="7" ry="9" fill="#4da0bf"/><ellipse cx="143" cy="105" rx="7" ry="9" fill="#4da0bf"/><path d="M111 130q12 8 24 0" fill="none" stroke="#8e4f53" stroke-width="3"/><circle cx="123" cy="174" r="21" fill="${p2}" stroke="${a}" stroke-width="4"/><path d="M82 151q-30 18-24 62M164 151q31 17 25 62" fill="none" stroke="${skin}" stroke-width="16" stroke-linecap="round"/>${weapon(c.weapon_group,a,metal)}</g></svg>`;return uri(s)}
-const monType=m=>{const s=[m.name,m.category,(m.ecology_profile?.tags||[]).join(" ")].join(" ");if(/軟泥|史萊姆|黏液/.test(s))return"slime";if(/龍|飛龍|蜥蜴|蛇|爬蟲/.test(s))return"dragon";if(/不死|亡靈|骷髏|殭屍|幽靈/.test(s))return"undead";if(/惡魔|魔鬼|深淵|地獄/.test(s))return"demon";if(/元素|魔像|魔法生物/.test(s))return"arcane";if(/植物|樹|藤|蕈/.test(s))return"plant";if(/蟲|蛛|蠍|甲蟲|蜂/.test(s))return"insect";if(/哥布林|獸人|巨人|人型|盜匪/.test(s))return"humanoid";if(/鳥|鷹|鴉/.test(s))return"bird";return"beast"};
-function monsterSvg(m){const h=H(m.id||m.name),t=monType(m),a=tier(m.tier),b=hs(h,45,38),d=hs(h+25,38,22),l=hs(h-15,52,62),eye=/undead|demon/.test(t)?"#ff675a":"#ffe07a";let q="";
-if(t==="slime")q=`<path d="M45 225q0-70 58-102q4-45 31-52q34 12 22 52q56 27 49 102q-18 38-80 38q-62 0-80-38z" fill="${b}" stroke="${a}" stroke-width="7"/><circle cx="102" cy="177" r="10" fill="${eye}"/><circle cx="150" cy="177" r="10" fill="${eye}"/>`;
-else if(t==="dragon")q=`<path d="M58 216q-13-72 49-107q4-51 37-55q38 8 27 59q49 24 43 89q-24 55-83 58q-53 0-73-44z" fill="${b}" stroke="${a}" stroke-width="7"/><path d="M78 145L25 102q4 66 50 84M176 143l52-42q-5 67-48 85" fill="${d}" stroke="${a}" stroke-width="5"/><path d="M116 76L97 31l31 30M150 76l22-43l-6 51" fill="${l}" stroke="${a}" stroke-width="4"/><circle cx="124" cy="119" r="8" fill="${eye}"/><circle cx="153" cy="117" r="8" fill="${eye}"/>`;
-else if(t==="undead")q=`<circle cx="125" cy="102" r="48" fill="#d8d8c9" stroke="${a}" stroke-width="6"/><path d="M76 151q50-24 98 0l8 90q-55 28-113 0z" fill="${d}" stroke="${a}" stroke-width="6"/><ellipse cx="107" cy="102" rx="13" ry="16" fill="#15191d"/><ellipse cx="145" cy="102" rx="13" ry="16" fill="#15191d"/><circle cx="107" cy="102" r="5" fill="${eye}"/><circle cx="145" cy="102" r="5" fill="${eye}"/><path d="M92 181h68M97 201h58M103 222h46" stroke="#d8d8c9" stroke-width="8"/>`;
-else if(t==="humanoid")q=`<circle cx="125" cy="92" r="44" fill="${l}" stroke="${a}" stroke-width="6"/><path d="M72 145q53-27 105 0l7 96q-59 28-119 0z" fill="${b}" stroke="${a}" stroke-width="7"/><circle cx="109" cy="94" r="8" fill="${eye}"/><circle cx="143" cy="94" r="8" fill="${eye}"/><path d="M196 69v175" stroke="${d}" stroke-width="9"/><path d="M196 35l-15 38h30z" fill="${a}"/>`;
-else if(t==="arcane")q=`<circle cx="125" cy="160" r="76" fill="${b}" stroke="${a}" stroke-width="8"/><circle cx="125" cy="160" r="48" fill="none" stroke="${l}" stroke-width="5" stroke-dasharray="10 8"/><path d="M125 63l20 53l55 2l-45 31l15 55l-45-31l-44 31l14-55l-44-31l55-2z" fill="${d}" stroke="${a}" stroke-width="5"/><circle cx="125" cy="160" r="20" fill="${eye}"/>`;
-else if(t==="plant")q=`<path d="M99 115q24-61 48 0l19 115q-19 35-43 35q-28-2-48-35z" fill="${b}" stroke="${a}" stroke-width="7"/><path d="M118 104q-42-25-49-62q39 7 57 39q16-42 55-48q-5 45-39 72" fill="${l}" stroke="${a}" stroke-width="6"/><circle cx="106" cy="165" r="9" fill="${eye}"/><circle cx="144" cy="165" r="9" fill="${eye}"/>`;
-else if(t==="insect")q=`<ellipse cx="125" cy="177" rx="54" ry="78" fill="${b}" stroke="${a}" stroke-width="7"/><circle cx="125" cy="91" r="40" fill="${d}" stroke="${a}" stroke-width="6"/><path d="M84 151L32 111M80 184H25M87 216L40 253M166 151l51-40M171 184h56M164 216l47 37" stroke="${d}" stroke-width="11"/><circle cx="110" cy="91" r="8" fill="${eye}"/><circle cx="141" cy="91" r="8" fill="${eye}"/>`;
-else if(t==="bird")q=`<ellipse cx="125" cy="163" rx="52" ry="70" fill="${b}" stroke="${a}" stroke-width="7"/><circle cx="126" cy="89" r="39" fill="${l}" stroke="${a}" stroke-width="6"/><path d="M91 145q-55-21-63 43q39-10 72 14M160 145q55-21 64 43q-40-10-72 14" fill="${d}" stroke="${a}" stroke-width="5"/><path d="M126 104l33 12l-32 13z" fill="#e8b34d"/>`;
-else if(t==="demon")q=`<path d="M60 222q-17-76 27-111q-4-54 38-62q46 8 40 62q43 33 28 111q-22 42-68 42q-48 0-65-42z" fill="${b}" stroke="${a}" stroke-width="7"/><path d="M92 79Q59 27 45 61q8 39 45 47M159 79q32-52 48-18q-9 39-46 47" fill="${d}" stroke="${a}" stroke-width="5"/><circle cx="105" cy="129" r="9" fill="${eye}"/><circle cx="146" cy="129" r="9" fill="${eye}"/>`;
-else q=`<path d="M52 207q-4-64 38-91q13-44 49-42q35 3 40 45q37 28 19 91q-22 43-72 45q-55-2-74-48z" fill="${b}" stroke="${a}" stroke-width="7"/><path d="M86 116Q66 74 85 48l27 42M162 116q22-43 4-69l-24 43" fill="${d}" stroke="${a}" stroke-width="5"/><path d="M76 216l-21 54M108 225l-8 49M150 225l10 49M181 215l21 55" stroke="${d}" stroke-width="13" stroke-linecap="round"/><circle cx="111" cy="136" r="8" fill="${eye}"/><circle cx="151" cy="136" r="8" fill="${eye}"/>`;
-const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 300"><defs><filter id="s"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity=".5"/></filter></defs><ellipse cx="125" cy="278" rx="78" ry="12" fill="#000" opacity=".28"/><g filter="url(#s)">${q}</g></svg>`;return uri(s)}
-for(const c of (DB.combat_classes||[])){const u=classSvg(c);c.art_profile={version:VER,kind:"class",portrait_uri:u,battle_sprite_uri:u,seed:H(c.id)};c.portrait_uri=u;c.battle_sprite_uri=u}
-for(const m of (DB.monsters||[])){const u=monsterSvg(m);m.art_profile={version:VER,kind:"monster",portrait_uri:u,battle_sprite_uri:u,seed:H(m.id)};m.portrait_uri=u;m.battle_sprite_uri=u}
-DB.battle_art_system={version:VER,class_count:(DB.combat_classes||[]).length,monster_count:(DB.monsters||[]).length,unique_classes:new Set((DB.combat_classes||[]).map(x=>x.portrait_uri)).size,unique_monsters:new Set((DB.monsters||[]).map(x=>x.portrait_uri)).size,fields:["art_profile","portrait_uri","battle_sprite_uri"],style:"原創三頭身奇幻 JRPG 向量立繪；依職業武器/定位與怪物生態分類生成。"};
-DB.meta.battle_art_revision=VER;
+// IJ-ART-CATALOG-2.0 compatibility; v3 uses painted assets instead of generated SVG substitutes.
+const VER="IJ-ART-CATALOG-3.0";
+const heroes="heroes";
+const monsters="monsters";
+function classIndex(c){
+ const s=[c.name,c.category,c.combat_role,c.weapon_group].filter(Boolean).join(" ");
+ if(/鍊金|煉金/.test(s))return 14;
+ if(/工匠|工兵|鐵匠/.test(s))return 15;
+ if(/魔劍|奧術騎士|戰鬥法師/.test(s))return 0;
+ if(/聖騎|聖武|守誓|聖盾/.test(s))return 1;
+ if(/吟遊|詩人|舞者/.test(s))return 13;
+ if(/武僧|拳|格鬥/.test(s))return 12;
+ if(/召喚|馴獸|契約|精靈使/.test(s))return 10;
+ if(/牧師|祭司|神官|聖職|治療|德魯伊|薩滿/.test(s))return 9;
+ if(/巫|咒|死靈|血法|魔女/.test(s))return 11;
+ if(/法師|術士|賢者|魔導|元素/.test(s))return 8;
+ if(/刺客|盜賊|匕首|影|忍/.test(s))return 7;
+ if(/遊俠|巡林|獵人|斥候/.test(s))return 6;
+ if(/弓|弩|射手/.test(s))return 5;
+ if(/槍|矛|長兵/.test(s))return 4;
+ if(/斧|狂戰|錘|鎚/.test(s))return 3;
+ if(/戰士|重裝|守衛|騎士|盾/.test(s))return 2;
+ return 0;
+}
+function monsterIndex(m){
+ const s=[m.name,m.category,...(m.ecology_profile?.tags||[])].join(" ");
+ if(/鼠|rat|rodent/i.test(s))return 15;
+ if(/鳥|鷹|鴉|bird/i.test(s))return 14;
+ if(/蟲|蛛|蠍|蜂|甲蟲|insect/i.test(s))return 13;
+ if(/冰|霜|雪/.test(s)&&/元素|巨獸|巨魔/.test(s))return 11;
+ if(/火|炎|熔|焰/.test(s)&&/元素|精靈/.test(s))return 10;
+ if(/石|岩|構裝|魔像|傀儡/.test(s))return 9;
+ if(/龍|飛龍|蜥|蛇/.test(s))return 12;
+ if(/骷髏|亡靈|不死|殭屍|幽靈/.test(s))return 7;
+ if(/紅翼|炎魔/.test(s))return 5;
+ if(/惡魔|魔鬼|深淵|地獄/.test(s))return 4;
+ if(/哥布林|地精/.test(s))return /首領|王|酋長/.test(s)?8:1;
+ if(/人型|獸人|巨人|食人魔|盜匪/.test(s))return 6;
+ if(/軟泥|史萊姆|黏液/.test(s))return 0;
+ if(/野豬|豬|boar/i.test(s))return 3;
+ return 2;
+}
+const frame=(kind,index)=>({src:`./assets/art/three-head/battle-${kind}-${index}.webp`,index,columns:1,rows:1,column:0,row:0});
+function assign(record,kind,index){
+ const sprite=frame(kind==="class"?heroes:monsters,index);
+ record.art_profile={version:VER,kind,sprite,portrait_uri:sprite.src,battle_sprite_uri:sprite.src};
+ record.portrait_uri=sprite.src;record.battle_sprite_uri=sprite.src;
+ return sprite;
+}
+for(const c of DB.combat_classes||[])assign(c,"class",classIndex(c));
+for(const m of DB.monsters||[])assign(m,"monster",monsterIndex(m));
 const byName=(arr,text)=>arr.find(x=>String(text||"").includes(x.name));
-globalThis.QunluBattleArt={version:VER,classById:id=>(DB.combat_classes||[]).find(x=>x.id===id)?.portrait_uri||"",monsterById:id=>(DB.monsters||[]).find(x=>x.id===id)?.portrait_uri||"",classByText:text=>byName(DB.combat_classes||[],text)?.portrait_uri||"",monsterByText:text=>byName(DB.monsters||[],text)?.portrait_uri||"",audit:()=>({pass:(DB.combat_classes||[]).every(x=>x.portrait_uri)&&(DB.monsters||[]).every(x=>x.portrait_uri),classes:(DB.combat_classes||[]).length,monsters:(DB.monsters||[]).length,uniqueClasses:DB.battle_art_system.unique_classes,uniqueMonsters:DB.battle_art_system.unique_monsters})};
+DB.battle_art_system={version:VER,class_count:(DB.combat_classes||[]).length,monster_count:(DB.monsters||[]).length,fields:["art_profile","portrait_uri","battle_sprite_uri"],style:"精緻三頭身奇幻 JRPG 圖片立繪；16職業／16生態造型依資料對照。"};
+DB.meta.battle_art_revision=VER;
+globalThis.QunluBattleArt={version:VER,
+ classById:id=>(DB.combat_classes||[]).find(x=>x.id===id)?.art_profile.sprite,
+ monsterById:id=>(DB.monsters||[]).find(x=>x.id===id)?.art_profile.sprite,
+ classByText:text=>{const c=byName(DB.combat_classes||[],text);return c?.art_profile.sprite||frame(heroes,classIndex({name:text}))},
+ monsterByText:text=>{const m=byName(DB.monsters||[],text);return m?.art_profile.sprite||frame(monsters,monsterIndex({name:text}))},
+ audit:()=>({pass:[...(DB.combat_classes||[]),...(DB.monsters||[])].every(x=>x.art_profile?.sprite&&x.portrait_uri&&x.battle_sprite_uri),classes:(DB.combat_classes||[]).length,monsters:(DB.monsters||[]).length})};
 })();
