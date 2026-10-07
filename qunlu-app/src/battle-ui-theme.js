@@ -5,11 +5,12 @@ const pick=(text,fallback="warrior")=>{const s=String(text||"");if(/魔法|術�
 const highDetailSprite={warrior:["characters",0],healer:["characters",1],mage:["characters",2],scout:["characters",3],beast:["monsters",0],undead:["monsters",1],slime:["monsters",2],demon:["monsters",3],dragon:["monstersExpanded",0],golem:["monstersExpanded",1],raider:["monstersExpanded",2],elemental:["monstersExpanded",3],monster:["monsters",0],familiar:["monsters",0],knight:["classes",0],rogue:["classes",1],druid:["classes",2],spellblade:["classes",3]};
 const classPick=text=>{const s=String(text||"");if(/魔劍|魔劍騎士|奧術騎士|戰鬥法師|龍脈劍豪|龍法師|龍召喚士|戰鬥鍊金師|戰術學者/.test(s))return"spellblade";if(/重騎士|守誓騎士|聖盾騎士|聖武士|騎士|盾衛|重裝戰士|守衛者/.test(s))return"knight";if(/盜賊|刺客|影刃|影舞|雙刃|暗影|飛刀|rogue|assassin|shadow/i.test(s))return"rogue";if(/德魯伊|薩滿|精靈使|馴龍師|占星|先知|預言|元素使|自然|spirit/i.test(s))return"druid";if(/法師|術士|魔導|巫師|魔女|咒術|賢者|幻術|死靈|血法|召喚|符文|鍊金|mage|wizard|spell/i.test(s))return"mage";if(/治療|療術|牧師|祭司|僧侶|神官|司祭|聖職|聖者|驅魔|審判|healer|priest|cleric/i.test(s))return"healer";if(/遊俠|弓|斥候|獵人|巡林|吟遊|舞者|海盜|陷阱|archer|scout/i.test(s))return"scout";return"warrior"};
 function portrait(type){const box=make("span","xuan-sd-portrait");box.setAttribute("aria-hidden","true");const painted=highDetailSprite[type];if(painted){box.classList.add("xuan-painted-sprite");box.dataset.sheet=painted[0];box.dataset.index=String(painted[1]);return box}const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 128 160");svg.setAttribute("focusable","false");const use=document.createElementNS("http://www.w3.org/2000/svg","use");use.setAttribute("href",sprite+type);svg.appendChild(use);box.appendChild(svg);return box}
-function replacePortraitArt(unit,src){
- if(!unit||!src)return;
+function replacePortraitArt(unit,art){
+ if(!unit||!art?.src)return;
  const old=unit.querySelector(".xuan-sd-portrait");if(!old)return;
- const box=make("span","xuan-sd-portrait ij-db-art");
- const img=document.createElement("img");img.src=src;img.alt="";img.decoding="async";box.appendChild(img);old.replaceWith(box)
+ const box=make("span","xuan-sd-portrait ij-atlas-art");
+ box.dataset.artIndex=String(art.index);box.style.setProperty("--sprite-column",art.column);box.style.setProperty("--sprite-row",art.row);
+ const img=document.createElement("img");img.src=art.src;img.alt="";img.decoding="async";box.appendChild(img);old.replaceWith(box)
 }
 function wrapUnit(unit,type,extra=""){if(!unit||unit.querySelector(".xuan-sd-portrait"))return;unit.classList.add("xuan-unit-card");extra.split(/\s+/).filter(Boolean).forEach(token=>unit.classList.add(token));const avatar=portrait(type),info=make("div","xuan-unit-info");unit.insertBefore(avatar,unit.firstChild);while(unit.childNodes.length>1)info.appendChild(unit.childNodes[1]);unit.appendChild(info)}
 function miniPortrait(unit,type){if(unit&&!unit.querySelector(".xuan-sd-portrait"))unit.insertBefore(portrait(type),unit.firstChild)}
@@ -51,6 +52,7 @@ function decorate(){
    const info=player.querySelector(".xuan-unit-info"),name=info?.querySelector(":scope > b")?.textContent||"旅人";
    const stats=Array.from(info?.querySelectorAll(":scope > div")||[]).find(el=>!el.classList.contains("small")&&!el.classList.contains("hpbar"))?.textContent||"";
    playerMini=make("div","party-mini xuan-player-mini");playerMini.setAttribute("aria-label",name+" 隊伍狀態");miniPortrait(playerMini,classPick(role));
+   replacePortraitArt(playerMini,globalThis.QunluBattleArt?.classById?.(G?.character?.classId)||globalThis.QunluBattleArt?.classByText?.(role));
    const title=make("b");title.textContent=name;const subtitle=make("span");subtitle.textContent=role||"旅人";const status=make("div");status.textContent=stats;
    playerMini.append(title,subtitle,status);const bar=info?.querySelector(".hpbar");if(bar)playerMini.appendChild(bar.cloneNode(true));
    const figure=stageFigure(player,"xuan-player-figure");if(figure)allyFigures.appendChild(figure);
@@ -60,11 +62,13 @@ function decorate(){
    party.querySelectorAll(".party-mini").forEach((unit,index)=>{
     const role=unit.querySelector("span")?.textContent||["warrior","mage","scout","healer"][index%4];
     miniPortrait(unit,classPick(role));
+    replacePortraitArt(unit,globalThis.QunluBattleArt?.classByText?.(role));
     const figure=stageFigure(unit,"xuan-party-figure");if(figure)allyFigures.appendChild(figure);
    });
   }
   if(comp){
    wrapUnit(comp,"familiar","xuan-companion-unit");
+   replacePortraitArt(comp,globalThis.QunluBattleArt?.monsterByText?.(G?.battle?.companion?.name||comp.textContent));
    const figure=stageFigure(comp,"xuan-companion-figure");if(figure)allyFigures.appendChild(figure);
   }
   if(vs)vs.setAttribute("aria-hidden","true");
@@ -81,6 +85,7 @@ function decorate(){
   if(comp){
    const info=comp.querySelector(".xuan-unit-info"),name=info?.querySelector(":scope > b")?.textContent||"夥伴",role=info?.querySelector(".small")?.textContent||"同行夥伴",stats=Array.from(info?.querySelectorAll(":scope > div")||[]).find(el=>!el.classList.contains("small")&&!el.classList.contains("hpbar"))?.textContent||"";
    const pet=make("div","party-mini xuan-companion-mini");pet.setAttribute("aria-label",name+" 戰鬥狀態");miniPortrait(pet,"familiar");
+   replacePortraitArt(pet,globalThis.QunluBattleArt?.monsterByText?.(name));
    const title=make("b");title.textContent=name;const subtitle=make("span");subtitle.textContent=role;const status=make("div");status.textContent=stats;pet.append(title,subtitle,status);
    const bar=info?.querySelector(".hpbar");if(bar)pet.appendChild(bar.cloneNode(true));roster.appendChild(pet);
   }
@@ -92,16 +97,15 @@ function decorate(){
  }
  const actions=body.querySelector(".battleactions");
  if(actions&&!actions.parentElement?.classList.contains("xuan-command-panel")){
-  const panel=make("section","xuan-command-panel"),ornament=make("div","xuan-command-art");
-  ornament.setAttribute("aria-hidden","true");
-  ["mark","book","tool","armor"].forEach(function(id){const tile=make("span");tile.innerHTML='<svg viewBox="0 0 64 64"><use href="./assets/art/item-skill-icons.svg#'+id+'"></use></svg>';ornament.appendChild(tile)});
+  const panel=make("section","xuan-command-panel");
   const title=make("div","xuan-command-heading");title.textContent="戰鬥指令";
-  actions.parentNode.insertBefore(panel,actions);panel.append(ornament,title,actions);
+  actions.parentNode.insertBefore(panel,actions);panel.append(title,actions);
+  const secondary=body.querySelector(".battle-secondary-actions");if(secondary)panel.appendChild(secondary);
  }
  if(actions&&!actions.dataset.xuanStyled){
-  const names=["攻擊","技能","防禦","道具","撤退"],icons=["blade","scroll","shield","potion","wind"];
+  const names=["攻擊","魔法","技能","道具"],icons=["blade","crystal","book","potion"];
   actions.querySelectorAll("button").forEach(function(button,index){
-   const originalLabel=button.textContent.trim();button.classList.add("xuan-command-button");button.dataset.command=["attack","skill","defend","item","flee"][index]||"command";button.setAttribute("aria-label",originalLabel);
+   const originalLabel=button.textContent.trim();button.classList.add("xuan-command-button");button.dataset.command=["attack","magic","skill","item"][index]||"command";button.setAttribute("aria-label",originalLabel);
    button.innerHTML='<svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/art/item-skill-icons.svg#'+(icons[index]||"mark")+'"></use></svg><span>'+(names[index]||originalLabel)+'</span>';
   });
   actions.dataset.xuanStyled="true";

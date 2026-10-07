@@ -1,5 +1,5 @@
 
-const CURRENT_VERSION="CURRENT-1.126.0";
+const CURRENT_VERSION="CURRENT-1.127.0";
 const AUDIT_INTERVAL_TURNS=20;
 const HISTORY_RETENTION_LIMIT=500,HISTORY_DISPLAY_LIMIT=80;
 DB.meta.current_version=CURRENT_VERSION;
@@ -3312,9 +3312,11 @@ function renderBattle(sharedCombatStats=null){
  <div class="battlelog" role="log" aria-live="polite" aria-relevant="additions text">${b.log.map(x=>`<div>・${x}</div>`).join("")}</div>
  <div class="battleactions">
  <button class="good" onclick="battleGeneralAttack()">一般攻擊</button>
- <button onclick="battleSkillMenu()">技能</button>
- <button onclick="battleDefend()">防禦</button>
+ <button onclick="battleSkillMenu('magic')">魔法</button>
+ <button onclick="battleSkillMenu('skill')">技能</button>
  <button onclick="battleItemMenu()">使用道具</button>
+ </div><div class="battle-secondary-actions" aria-label="其他戰鬥行動">
+ <button onclick="battleDefend()">防禦</button>
  <button class="warn" onclick="battleFlee()">逃跑</button>
  </div><div id="battleChoice" class="battlechoice"></div>`);
  back.classList.remove("hide");document.body.classList.add("battle-open");
@@ -3344,9 +3346,10 @@ function battleGeneralAttack(){
 }
 function closeBattleSkillPopup(){const p=$("#battleSkillPopup"),wasOpen=p&&!p.classList.contains("hide");if(p)p.classList.add("hide");if(wasOpen&&battleSkillLastFocus?.isConnected)battleSkillLastFocus.focus({preventScroll:true});battleSkillLastFocus=null}
 function battleSkillPopupBackClose(e){if(e.target?.id==="battleSkillPopup")closeBattleSkillPopup()}
-function battleSkillMenu(){
+function battleSkillMenu(category="all"){
  if(!G.battle?.active)return;
- const usable=G.character.skills.map((s,i)=>[s,i]).filter(([s])=>s.kind!=="被動"&&s.manual_battle_use!==false),body=$("#battleSkillPopupBody");
+ const usable=G.character.skills.map((s,i)=>[s,i]).filter(([s])=>s.kind!=="被動"&&s.manual_battle_use!==false&&(category==="all"||(category==="magic"?skillUsesMana(s):!skillUsesMana(s)))),body=$("#battleSkillPopupBody");
+ $("#battleSkillPopupTitle").textContent=category==="magic"?"選擇魔法":category==="skill"?"選擇技能":"選擇技能／魔法";
  battleSkillLastFocus=document.activeElement;
  setUIHTML(body,usable.map(([s,i])=>{
    normalizeSkillXp(s);const mana=skillUsesMana(s),cost=skillResourceCost(s),res=mana?G.character.mana:G.character.stamina;
@@ -3357,7 +3360,7 @@ function battleSkillMenu(){
    <br><span class="small">${skillDescriptionText(s)}</span>
    <br><span class="small">命中${(s.accuracy||0)+skillLevelBonus(s,"accuracy_bonus")}｜${mana?"MP":"體力"}消耗${cost}</span></span>
    <button ${res<cost?"disabled":""} onclick="battleChooseSkill(${i})">使用</button></div>`
- }).join("")||"<div class='small'>沒有可主動使用的技能。</div>");
+ }).join("")||`<div class='small'>沒有可主動使用的${category==="magic"?"魔法":"技能"}。</div>`);
  $("#battleSkillPopup")?.classList.remove("hide");
  if(typeof requestAnimationFrame==="function")requestAnimationFrame(()=>body.querySelector("button:not([disabled])")?.focus({preventScroll:true}))
 }
