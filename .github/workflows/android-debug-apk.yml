@@ -1,16 +1,20 @@
 name: 異界旅人 Android Debug APK
 
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+
 permissions:
   contents: write
+
 
 concurrency:
   group: yijie-luren-apk-release
   cancel-in-progress: false
+
 
 jobs:
   build:
@@ -30,35 +34,7 @@ jobs:
       - name: Validate 異界旅人 and rebuild Android web bundle
         run: |
           npm run test:qunlu-app
-          npm run prepare:android
+          npm run prepare:qunlu
           npm run test:qunlu-bundle
       - name: Generate Android project and build debug APK
         run: |
-          npx cap add android
-          npx cap sync android
-          cd android
-          ./gradlew assembleDebug
-      - name: Upload installable debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: yijie-luren-android-debug-apk-${{ github.sha }}
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 30
-      - name: Publish direct APK download
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          APK_PATH=android/app/build/outputs/apk/debug/app-debug.apk
-          VERSION="$(node -e 'const value=require("./qunlu-app/version.json").version; if(!value.startsWith("CURRENT-")) process.exit(1); process.stdout.write(value.slice(8))')"
-          RELEASE_TAG=android-apk-latest
-          RELEASE_ASSET=yijie-luren-latest.apk
-          cp "$APK_PATH" "$RELEASE_ASSET"
-          RELEASE_TITLE="異界旅人 Android APK ${VERSION}"
-          RELEASE_NOTES="版本：CURRENT-${VERSION}；來源 commit：${GITHUB_SHA}；Android debug APK，可直接安裝。"
-          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "$RELEASE_ASSET" --clobber --repo "$GITHUB_REPOSITORY"
-            gh release edit "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --repo "$GITHUB_REPOSITORY"
-          else
-            gh release create "$RELEASE_TAG" "$RELEASE_ASSET" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --prerelease --repo "$GITHUB_REPOSITORY"
-          fi
