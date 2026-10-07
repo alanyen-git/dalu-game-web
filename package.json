@@ -1,11 +1,11 @@
 {
   "name": "dalu-game-web",
   "private": true,
-  "version": "1.126.0",
+  "version": "1.127.0",
   "description": "異界旅人 App 與全新 /app/ Web 1:1 鏡像建置專案",
   "scripts": {
     "test": "npm run test:qunlu-app",
-    "test:qunlu-app": "node tests/qunlu-app.test.cjs && node tests/history-retention.test.cjs && node tests/runtime-stability.test.cjs && node tests/facility-shop-ui.test.cjs",
+    "test:qunlu-app": "node tests/qunlu-app.test.cjs && node tests/history-retention.test.cjs && node tests/runtime-stability.test.cjs && node tests/facility-shop-ui.test.cjs && node tests/battle-reference.test.cjs",
     "prepare:web": "node scripts/prepare-web-game.cjs",
     "prepare:qunlu": "node scripts/prepare-qunlu-app.cjs",
     "prepare:android": "node scripts/prepare-qunlu-app.cjs",
